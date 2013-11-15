@@ -23,9 +23,59 @@ class DebugController extends AbstractActionController
     {
         $parser = new MovieParser();
         $result = $parser->parse('');
-        echo '<pre>';
+
+
+$NbreData = count($result);
+if ($NbreData != 0) {
+
+    echo '<table border="5">';
+    foreach ($result as $key => $value){
+           echo '<tr>';
+           echo '<td>';
+           echo '<th>';
+           echo $key;
+           echo '</th>';
+           echo '</td>';
+
+           if (is_array ($value)){
+                $k=0;
+                $Nbrelng = count($value);
+                for ($i=1; $i<=$Nbrelng; $i++) {
+                    echo '<td>';
+                      if (is_array ($value[$k])){
+                          echo '<pre>';
+                          var_dump($value[$k]);
+                          echo '</pre>';
+                          echo '</td>';
+                      }
+                      else{
+                           echo $value[$k];
+                           echo '</td>';
+                      }
+                      $k++;
+                }
+           }
+           else {
+                  echo '<td>';
+                  echo $value; //$value;
+           }
+    }
+    echo '</td>';
+    echo '</tr>';
+    echo '</table>';
+
+
+}
+else {
+
+    echo 'Error...';
+
+
+}
+      echo '<pre>';
         var_dump($result);
-        echo '</pre>';
+
+     echo '</pre>';
 
         $viewModel = new ViewModel();
         return $viewModel;
@@ -60,3 +110,4 @@ class DebugController extends AbstractActionController
 //        return $viewModel;
     }
 }
+
