@@ -1,0 +1,73 @@
+<?php
+namespace MediaMine\Entity\Video;
+
+use Doctrine\ORM\Mapping as ORM;
+use Zend\Stdlib\ArraySerializableInterface;
+
+/**
+ * Picture Entity.
+ *
+ * @ORM\Entity(repositoryClass="MediaMine\Entity\Video\PictureRepository")
+ * @ORM\Table(name="video_picture")
+ * @property int $id
+ * @property string $name
+ */
+class Picture implements ArraySerializableInterface
+{
+    protected $inputFilter;
+
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer");
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    protected $name;
+
+    /**
+     * Magic getter to expose protected properties.
+     *
+     * @param string $property
+     * @return mixed
+     */
+    public function __get($property)
+    {
+        return $this->$property;
+    }
+
+    /**
+     * Magic setter to save protected properties.
+     *
+     * @param string $property
+     * @param mixed $value
+     */
+    public function __set($property, $value)
+    {
+        $this->$property = $value;
+    }
+
+    /**
+     * Convert the object to an array.
+     *
+     * @return array
+     */
+    public function getArrayCopy()
+    {
+        return get_object_vars($this);
+    }
+
+    /**
+     * Populate from an array.
+     *
+     * @param array $data
+     */
+    public function exchangeArray(array $data) {
+        $this->id = (isset($data['id'])) ? $data['id'] : null;
+        $this->name = (isset($data['name'])) ? $data['name'] : null;
+        $this->summary = (isset($data['summary'])) ? $data['summary'] : null;
+    }
+}

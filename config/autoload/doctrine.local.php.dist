@@ -1,0 +1,41 @@
+<?php
+return array(
+    'doctrine' => array(
+        'connection' => array(
+            'orm_default' => array(
+                'driverClass' => 'Doctrine\DBAL\Driver\PDOPgSql\Driver',
+                'params' => array(
+                    'host'     => 'localhost',
+                    'port'     => '5432',
+                    'user'     => 'postgres',
+                    'password' => 'postgres',
+                    'dbname'   => 'mediamine',
+                    'charset'  => 'UTF8'
+                )
+            )
+        )
+    ),
+//    'doctrine' => array(
+//        'connection' => array(
+//            'orm_default' => array(
+//                'driverClass' => 'Doctrine\DBAL\Driver\PDOMySql\Driver',
+//                'params' => array(
+//                    'host'     => 'localhost',
+//                    'port'     => '3306',
+//                    'user'     => 'root',
+//                    'password' => 'root',
+//                    'dbname'   => 'mediamine',
+//                    'charset'  => 'UTF8'
+//                )
+//            )
+//        )
+//    ),
+
+//    'configuration' => array(
+//        'orm_default' => array(
+//            'metadata_cache'    => 'my_memcache',
+//            'query_cache'       => 'my_memcache',
+//            'result_cache'      => 'my_memcache',
+//        )
+//    )
+);

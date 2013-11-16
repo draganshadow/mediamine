@@ -1,0 +1,17 @@
+<div ng-show="serie" ng-cloak>
+    <div>
+        <h4>{{serie.data.name}}</h4>
+        <p>{{serie.data.summary}}</p>
+    </div>
+    <div>
+        <div class="col-sm-6 col-md-3 mb20" ng-repeat="season in serie.seasons">
+            <div class="thumbnail">
+                <div style="height:290px;overflow:hidden;"><img ng-src="image/{{season.images[0].id}}" alt="{{season.name}}" style="width:100%;"></div>
+                <div class="caption">
+                    <h4><a href="#/season/{{season.id}}">{{season.name}}</a></h4>
+                    <p class="h40px">{{season.summary}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

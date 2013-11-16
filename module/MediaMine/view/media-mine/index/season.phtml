@@ -1,0 +1,32 @@
+<div class="page-header">
+    <h1><?=$serie->name?> - <?=$season->name?></h1>
+    <p>
+        <img src="/image/<?=$season->image->id?>" class="img-thumbnail" width="224" alt="<?=$season->name?>" />
+        <?=$season->summary?>
+    </p>
+</div>
+
+<div class="clearfix">
+<?foreach($episodes as $episode):?>
+        <?
+            $videoFiles = $episode->files;
+//        foreach($videoFiles as $videoFile) {
+//            echo get_class($videoFile);
+//        }
+//        //var_dump(count($files));
+            $videoFile = $videoFiles[0];
+        $file = $videoFile->file;
+//        var_dump($file->name);
+        ?>
+    <div class="thumbnail pull-left" style="height:300px;width: 250px;">
+        <img src="/image/<?=$episode->image->id?>" class="img-thumbnail" width="224" alt="<?=$episode->name?>"/>
+        <div class="caption">
+            <h3><?=$episode->episode?> - <?=$episode->name?></h3>
+            <p><a href="/view/<?=$file->id?>" class="btn btn-primary">Lire</a></p>
+        </div>
+    </div>
+<?endforeach;?>
+</div>
+<script>
+    $('.jsVideo').popover();
+</script>

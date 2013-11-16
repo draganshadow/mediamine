@@ -1,0 +1,32 @@
+// Helpers
+// ==========================================================================
+
+//
+// These are single-entity styles that are hard to extract to modules, like
+// .clearfix, .pull-left and .hide-text in Twitter Bootstrap
+//
+
+.h100 {
+    height: 100%;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.ovfh {
+    overflow: hidden;
+}
+
+.oScrollY {
+    overflow-y: scroll;
+}
+
+.oHiddenY {
+    overflow-y: hidden;
+}
+
+.h40px {
+    height: 40px;
+    overflow-y: hidden;
+}
