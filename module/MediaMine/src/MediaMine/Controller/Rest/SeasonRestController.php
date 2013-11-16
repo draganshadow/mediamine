@@ -6,12 +6,37 @@ use MediaMine\Initializer\EntityManagerAware;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
+/**
+ * @SWG\Resource(
+ *      resourcePath="/season",
+ *      basePath="/api"
+ * )
+ */
 class SeasonRestController extends AbstractRestController implements EntityManagerAware
 {
     public function getList()
     {
     }
 
+    /**
+     *  @SWG\Api(
+     *      path="/season/{id}",
+     *      @SWG\Operation(
+     *          nickname="getSeason",
+     *          method="GET",
+     *          summary="This is a test",
+     *          @SWG\Parameters(
+     *              @SWG\Parameter(
+     *                  name="id",
+     *                  description="ID of pet that needs to be fetched",
+     *                  paramType="path",
+     *                  required="true",
+     *                  type="scalar"
+     *              )
+     *          )
+     *      )
+     *  )
+     */
     public function get($id)
     {
         $id = (int)$this->getEvent()->getRouteMatch()->getParam('id');

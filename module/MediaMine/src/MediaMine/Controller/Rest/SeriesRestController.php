@@ -10,7 +10,7 @@ use Zend\View\Model\JsonModel;
 /**
  * @SWG\Resource(
  *      resourcePath="/series",
- *      basePath="/rest"
+ *      basePath="/api"
  * )
  */
 class SeriesRestController extends AbstractRestController implements EntityManagerAware
