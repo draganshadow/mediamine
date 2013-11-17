@@ -14,8 +14,43 @@ use Zend\View\Model\JsonModel;
  */
 class SeasonRestController extends AbstractRestController implements EntityManagerAware
 {
+    /**
+     *  @SWG\Api(
+     *      path="/season",
+     *      @SWG\Operation(
+     *          nickname="listSeason",
+     *          method="GET",
+     *          summary="This is a test",
+     *          @SWG\Parameters(
+     *              @SWG\Parameter(
+     *                  name="serie",
+     *                  description="The Serie ID",
+     *                  paramType="query",
+     *                  required="false",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     *  )
+     */
     public function getList()
     {
+        $params = array();
+        $qb = $this->getEm()->createQueryBuilder();
+        $qb->select('Season', 'g', 'i')
+            ->from('MediaMine\Entity\Video\Season','Season');
+
+        $serie = (int) $this->params()->fromQuery('serie', null);
+        if ($serie != null) {
+            $qb->innerJoin('Season.group', 'g', 'WITH', 'g.id = :serie');
+            $params['serie'] = $serie;
+        } else {
+            $qb->innerJoin('Season.group', 'g');
+        }
+        $qb->join('Season.images', 'i')
+            ->orderBy('Season.name', 'ASC');
+        $resultSet = $qb->setParameters($params)->getQuery()->getResult(Query::HYDRATE_ARRAY);
+        return new JsonModel($resultSet);
     }
 
     /**
@@ -43,19 +78,7 @@ class SeasonRestController extends AbstractRestController implements EntityManag
 
         $season = $this->getEm()->find('MediaMine\Entity\Video\Season', $id);
 
-        $qb = $this->getEm()->createQueryBuilder();
-        $qb->select('Video', 'i')
-            ->from('MediaMine\Entity\Video\Video','Video')
-            ->innerJoin('Video.season', 'season', 'WITH', 'season.id = :id')
-            ->join('Video.images', 'i')
-            ->setParameter('id', $id)
-            ->orderBy('Video.name', 'ASC');
-        $resultSet = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
-
-        return new JsonModel(array(
-            'data' => $season->getArrayCopy(),
-            'episodes' => $resultSet
-        ));
+        return new JsonModel($season->getArrayCopy());
     }
 
     public function create($data)

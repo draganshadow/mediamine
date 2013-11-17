@@ -71,22 +71,8 @@ class SeriesRestController extends AbstractRestController implements EntityManag
     public function get($id)
     {
         $id = (int)$this->getEvent()->getRouteMatch()->getParam('id');
-
         $serie = $this->getEm()->find('MediaMine\Entity\Video\Group', $id);
-
-        $qb = $this->getEm()->createQueryBuilder();
-        $qb->select('Season', 'g', 'i')
-            ->from('MediaMine\Entity\Video\Season','Season')
-            ->innerJoin('Season.group', 'g', 'WITH', 'g.id = :id')
-            ->join('Season.images', 'i')
-            ->setParameter('id', $id)
-            ->orderBy('Season.name', 'ASC');
-        $resultSet = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
-
-        return new JsonModel(array(
-            'data' => $serie->getArrayCopy(),
-            'seasons' => $resultSet
-        ));
+        return new JsonModel($serie->getArrayCopy());
     }
 
     public function create($data)

@@ -14,8 +14,43 @@ use Zend\View\Model\JsonModel;
  */
 class VideoRestController extends AbstractRestController implements EntityManagerAware
 {
+    /**
+     *  @SWG\Api(
+     *      path="/video",
+     *      @SWG\Operation(
+     *          nickname="listVideos",
+     *          method="GET",
+     *          summary="This is a test",
+     *          @SWG\Parameters(
+     *              @SWG\Parameter(
+     *                  name="season",
+     *                  description="The Order",
+     *                  paramType="query",
+     *                  required="false",
+     *                  type="string"
+     *              )
+     *          )
+     *      )
+     *  )
+     */
     public function getList()
     {
+        $params = array();
+        $qb = $this->getEm()->createQueryBuilder();
+        $qb->select('Video', 'i')
+            ->from('MediaMine\Entity\Video\Video','Video')
+            ->join('Video.images', 'i');
+
+        $season = (int) $this->params()->fromQuery('season', null);
+        if ($season != null) {
+            $qb->innerJoin('Video.season', 'season', 'WITH', 'season.id = :season');
+            $params['season'] = $season;
+        }
+
+        $qb->orderBy('Video.name', 'ASC');
+        $resultSet = $qb->setParameters($params)->getQuery()->getResult(Query::HYDRATE_ARRAY);
+
+        return new JsonModel($resultSet);
     }
 
     /**
