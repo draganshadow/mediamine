@@ -8,23 +8,23 @@ use Zend\View\Model\JsonModel;
 
 /**
  * @SWG\Resource(
- *      resourcePath="/season",
+ *      resourcePath="/directory",
  *      basePath="/api"
  * )
  */
-class SeasonRestController extends AbstractRestController implements EntityManagerAware
+class DirectoryRestController extends AbstractRestController implements EntityManagerAware
 {
     /**
      *  @SWG\Api(
-     *      path="/season",
+     *      path="/directory",
      *      @SWG\Operation(
-     *          nickname="listSeason",
+     *          nickname="listDirectories",
      *          method="GET",
      *          summary="This is a test",
      *          @SWG\Parameters(
      *              @SWG\Parameter(
-     *                  name="serie",
-     *                  description="The Serie ID",
+     *                  name="parent",
+     *                  description="The Order",
      *                  paramType="query",
      *                  required="false",
      *                  type="string"
@@ -35,41 +35,22 @@ class SeasonRestController extends AbstractRestController implements EntityManag
      */
     public function getList()
     {
-        $params = array();
-        $qb = $this->getEm()->createQueryBuilder();
-        $qb->select('Season', 'g', 'i')
-            ->from('MediaMine\Entity\Video\Season','Season');
-
-        $serie = (int) $this->params()->fromQuery('serie', null);
-        if ($serie != null) {
-            $qb->innerJoin('Season.group', 'g', 'WITH', 'g.id = :serie');
-            $params['serie'] = $serie;
+        $parent = (int) $this->params()->fromQuery('parent', null);
+        $options = array('hydrate' => Query::HYDRATE_ARRAY);
+        if ($parent) {
+            $options['parent'] = $parent;
         } else {
-            $qb->innerJoin('Season.group', 'g');
+            $options['root'] = true;
         }
-        $qb->join('Season.images', 'i');
-
-        $o = 'ASC';
-        $order = $this->params()->fromQuery('order', null);
-        if ($order == 'DESC') {
-            $o = 'DESC';
-        }
-        $by = 'number';
-        $orderBy = $this->params()->fromQuery('orderBy', null);
-        if ($orderBy != null) {
-            $by = $orderBy;
-        }
-
-        $qb->orderBy('Video.' . $by, $o);
-        $resultSet = $qb->setParameters($params)->getQuery()->getResult(Query::HYDRATE_ARRAY);
-        return new JsonModel($resultSet);
+        $directories = $this->getRepository('File\Directory')->findFullBy($options);
+        return new JsonModel($directories);
     }
 
     /**
      *  @SWG\Api(
-     *      path="/season/{id}",
+     *      path="/directory/{id}",
      *      @SWG\Operation(
-     *          nickname="getSeason",
+     *          nickname="getDirectory",
      *          method="GET",
      *          summary="This is a test",
      *          @SWG\Parameters(
@@ -88,9 +69,8 @@ class SeasonRestController extends AbstractRestController implements EntityManag
     {
         $id = (int)$this->getEvent()->getRouteMatch()->getParam('id');
 
-        $season = $this->getEm()->find('MediaMine\Entity\Video\Season', $id);
-
-        return new JsonModel($season->getArrayCopy());
+        $directories = $this->getRepository('File\Directory')->findFullBy($parent);
+        return new JsonModel($video);
     }
 
     public function create($data)

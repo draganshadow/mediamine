@@ -40,7 +40,7 @@ class Season implements ArraySerializableInterface
 
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $summary;
 

@@ -66,6 +66,18 @@ class ConsoleController extends AbstractController implements EntityManagerAware
         return "Done!\n";
     }
 
+    public function searchMoviesAction()
+    {
+        $request = $this->getRequest();
+        // Make sure that we are running in a console and the user has not tricked our
+        // application into running this action from a public web server.
+        if (get_class($request) != 'Zend\Console\Request'){
+            throw new \RuntimeException('You can only use this action from a console!');
+        }
+        $this->getXMLSearchService()->searchMovies();
+        return "Done!\n";
+    }
+
     public function testAction()
     {
         $request = $this->getRequest();

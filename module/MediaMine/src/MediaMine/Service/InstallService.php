@@ -2,6 +2,7 @@
 namespace MediaMine\Service;
 
 use MediaMine\Entity\Video\StaffRole;
+use MediaMine\Entity\Video\Type;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use MediaMine\Entity\File\Extension,
     Doctrine\ORM\Query;
@@ -18,7 +19,11 @@ class InstallService extends AbstractService implements ServiceLocatorAwareInter
     protected $defaultRoles = array(
         'actor', 'writer', 'director', 'guest'
     );
-    
+
+    protected $defaultTypes = array(
+        'series', 'movie'
+    );
+
     /**
      * @param $path
      * @param \MediaMine\Entity\Directory $parentDirectory
@@ -36,6 +41,11 @@ class InstallService extends AbstractService implements ServiceLocatorAwareInter
             $staffRole = new StaffRole();
             $staffRole->name = $role;
             $this->getEntityManager()->persist($staffRole);
+        }
+        foreach ($this->defaultTypes as $t) {
+            $type = new Type();
+            $type->name = $t;
+            $this->getEntityManager()->persist($type);
         }
         $this->flush(true);
     }

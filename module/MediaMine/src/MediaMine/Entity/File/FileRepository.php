@@ -29,11 +29,13 @@ class FileRepository extends EntityRepository
     public function findFullBy($directory = null, $name = null, $extension = null, $type = null, $status = null, $id = null) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $params = array();
-        $qb->select('File')
+        $qb->select('File', 'Directory')
             ->from('MediaMine\Entity\File\File','File');
         if ($directory != null) {
             $qb->innerJoin('File.directory', 'Directory', 'WITH', 'Directory.id = :directory');
             $params['directory'] = $directory->id;
+        } else {
+            $qb->innerJoin('File.directory', 'Directory');
         }
         if ($name != null) {
             $qb->where('File.name = :name');

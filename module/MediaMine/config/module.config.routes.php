@@ -33,6 +33,15 @@ return array(
                         )
                     )
                 ),
+                'searchMovies' => array(
+                    'options' => array(
+                        'route'    => 'searchMovies [--verbose|-v]',
+                        'defaults' => array(
+                            'controller' => 'Console',
+                            'action'     => 'searchMovies'
+                        )
+                    )
+                ),
                 'test' => array(
                     'options' => array(
                         'route'    => 'test [--verbose|-v]',
@@ -163,6 +172,30 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Rest\Video'
+                    ),
+                ),
+            ),
+            'api-directory' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route'    => '/api/directory[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Rest\Directory'
+                    ),
+                ),
+            ),
+            'api-file' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route'    => '/api/file[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Rest\File'
                     ),
                 ),
             ),

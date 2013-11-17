@@ -5,7 +5,7 @@ use Doctrine\ORM\EntityRepository;
 
 class VideoRepository extends EntityRepository
 {
-    public function createVideo($name, $summary, $image, $season, $episode) {
+    public function createVideo($name, $summary, $image, $season, $episode, $type) {
         $video = new Video();
         $video->name = $name;
         $video->summary = $summary;
@@ -14,6 +14,7 @@ class VideoRepository extends EntityRepository
         }
         $video->season = $season;
         $video->episode = $episode;
+        $video->type = $type;
         $this->getEntityManager()->persist($video);
         return $video;
     }

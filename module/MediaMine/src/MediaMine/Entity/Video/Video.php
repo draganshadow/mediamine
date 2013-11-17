@@ -34,18 +34,18 @@ class Video implements ArraySerializableInterface
     protected $name;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $summary;
 
     /**
-     * @ORM\Column(name="episode", type="integer")
+     * @ORM\Column(name="episode", type="integer", nullable=true)
      */
     protected $episode;
 
     /**
      * @ORM\ManyToOne(targetEntity="MediaMine\Entity\Video\Season")
-     * @ORM\JoinColumn(name="season_ref", referencedColumnName="id", onDelete="CASCADE", unique=false)
+     * @ORM\JoinColumn(name="season_ref", referencedColumnName="id", onDelete="CASCADE", unique=false, nullable=true)
      */
     protected $season;
 

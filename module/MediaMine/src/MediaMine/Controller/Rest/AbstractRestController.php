@@ -9,6 +9,7 @@ class AbstractRestController extends AbstractRestfulController implements Entity
 {
     private $em;
     private $es;
+    protected $baseNameSpace = 'MediaMine\Entity\\';
 
     public function getEm()
     {
@@ -28,5 +29,9 @@ class AbstractRestController extends AbstractRestfulController implements Entity
     public function getEs()
     {
         return $this->es;
+    }
+
+    protected function getRepository($entity) {
+        return $this->getEm()->getRepository($this->baseNameSpace . $entity);
     }
 }

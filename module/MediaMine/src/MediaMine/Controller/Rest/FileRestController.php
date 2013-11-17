@@ -8,44 +8,23 @@ use Zend\View\Model\JsonModel;
 
 /**
  * @SWG\Resource(
- *      resourcePath="/video",
+ *      resourcePath="/file",
  *      basePath="/api"
  * )
  */
-class VideoRestController extends AbstractRestController implements EntityManagerAware
+class FileRestController extends AbstractRestController implements EntityManagerAware
 {
     /**
      *  @SWG\Api(
-     *      path="/video",
+     *      path="/file",
      *      @SWG\Operation(
-     *          nickname="listVideos",
+     *          nickname="listFiles",
      *          method="GET",
      *          summary="This is a test",
      *          @SWG\Parameters(
      *              @SWG\Parameter(
      *                  name="season",
      *                  description="The Order",
-     *                  paramType="query",
-     *                  required="false",
-     *                  type="string"
-     *              ),
-     *              @SWG\Parameter(
-     *                  name="type",
-     *                  description="The type",
-     *                  paramType="query",
-     *                  required="false",
-     *                  type="string"
-     *              ),
-     *              @SWG\Parameter(
-     *                  name="orderBy",
-     *                  description="The type",
-     *                  paramType="query",
-     *                  required="false",
-     *                  type="string"
-     *              ),
-     *              @SWG\Parameter(
-     *                  name="order",
-     *                  description="The type",
      *                  paramType="query",
      *                  required="false",
      *                  type="string"
@@ -57,8 +36,6 @@ class VideoRestController extends AbstractRestController implements EntityManage
     public function getList()
     {
         $params = array();
-        $limit = 20;
-        $page = 0;
         $qb = $this->getEm()->createQueryBuilder();
         $qb->select('Video', 'i')
             ->from('MediaMine\Entity\Video\Video','Video')
@@ -70,31 +47,8 @@ class VideoRestController extends AbstractRestController implements EntityManage
             $params['season'] = $season;
         }
 
-        $type = $this->params()->fromQuery('type', null);
-        if ($type != null) {
-            $qb->innerJoin('Video.type', 'type', 'WITH', 'type.name = :type');
-            $params['type'] = $type;
-        }
-        $o = 'ASC';
-        $order = $this->params()->fromQuery('order', null);
-        if ($order == 'DESC') {
-            $o = 'DESC';
-        }
-        $by = 'name';
-        $orderBy = $this->params()->fromQuery('orderBy', null);
-        if ($orderBy != null) {
-            $by = $orderBy;
-        }
-
-        $pageP = (int) $this->params()->fromQuery('page', null);
-        if ($pageP != null) {
-            $page = $pageP;
-        }
-
-        $qb->orderBy('Video.' . $by, $o);
-        $resultSet = $qb->setParameters($params)
-            ->setFirstResult($page * $limit)
-            ->setMaxResults($limit)->getQuery()->getResult(Query::HYDRATE_ARRAY);
+        $qb->orderBy('Video.name', 'ASC');
+        $resultSet = $qb->setParameters($params)->getQuery()->getResult(Query::HYDRATE_ARRAY);
 
         return new JsonModel($resultSet);
     }
@@ -132,6 +86,15 @@ class VideoRestController extends AbstractRestController implements EntityManage
             ->setParameter('id', $id);
         $videos = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);
         $video = $videos[0];
+//        $files = array();
+//        foreach ($video->files as $f){
+//            $files[] = $f->file->id;
+//        }
+//        $images = array();
+//        foreach ($video->images as $i){
+//            $images[] = $i->file->id;
+//        }
+
         return new JsonModel($video);
     }
 

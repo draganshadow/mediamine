@@ -29,7 +29,7 @@ class Type implements ArraySerializableInterface
     protected $name;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="text", nullable=true)
      */
     protected $summary;
 

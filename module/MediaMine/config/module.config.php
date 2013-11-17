@@ -43,6 +43,8 @@ return array(
             'Rest\Series' => 'MediaMine\Controller\Rest\SeriesRestController',
             'Rest\Season' => 'MediaMine\Controller\Rest\SeasonRestController',
             'Rest\video' => 'MediaMine\Controller\Rest\VideoRestController',
+            'Rest\Directory' => 'MediaMine\Controller\Rest\DirectoryRestController',
+            'Rest\File' => 'MediaMine\Controller\Rest\FileRestController',
         ),
         'initializers' => array(
             'em' => function ($instance, $serviceLocator) {

@@ -1,0 +1,67 @@
+<div class="col-md-1 h100 oHiddenY">
+    <ul id="list-shortcut" class="nav nav-pills nav-stacked">
+        <li class="active"><a href="#A">A</a></li>
+        <li><a href="#">B</a></li>
+        <li><a href="#">C</a></li>
+        <li><a href="#D">D</a></li>
+        <li><a href="#E">E</a></li>
+        <li><a href="#">F</a></li>
+        <li><a href="#">G</a></li>
+        <li><a href="#">H</a></li>
+        <li><a href="#I">I</a></li>
+        <li><a href="#J">J</a></li>
+        <li><a href="#">E</a></li>
+        <li><a href="#">F</a></li>
+        <li><a href="#">G</a></li>
+        <li><a href="#">H</a></li>
+        <li><a href="#">I</a></li>
+        <li><a href="#">D</a></li>
+        <li><a href="#">E</a></li>
+        <li><a href="#">F</a></li>
+        <li><a href="#">G</a></li>
+        <li><a href="#">H</a></li>
+        <li><a href="#">I</a></li>
+        <li><a href="#">D</a></li>
+        <li><a href="#">E</a></li>
+        <li><a href="#">F</a></li>
+        <li><a href="#">G</a></li>
+        <li><a href="#">H</a></li>
+        <li><a href="#">I</a></li>
+        <li><a href="#">D</a></li>
+        <li><a href="#">E</a></li>
+        <li><a href="#">F</a></li>
+        <li><a href="#">G</a></li>
+        <li><a href="#">H</a></li>
+        <li><a href="#">I</a></li>
+    </ul>
+</div>
+
+<div data-spy="scroll" class="col-md-11 h100 oScrollY" data-target="#list-shortcut">
+    <div class="mbm">
+        <input type="search" ng-model="videoFilter" placeholder="filter" />
+        <a href="#/movies/1">1</a> -
+        <a href="#/movies/2">2</a> -
+        <a href="#/movies/3">3</a> -
+        <a href="#/movies/4">4</a> -
+        <a href="#/movies/5">5</a> -
+        <a href="#/movies/6">6</a> -
+        <a href="#/movies/7">7</a> -
+        <a href="#/movies/8">8</a> -
+        <a href="#/movies/9">9</a> -
+        <a href="#/movies/10">10</a> -
+        <a href="#/movies/11">11</a> -
+        <a href="#/movies/12">12</a>
+    </div>
+    <div class="col-sm-6 col-md-3 mbm" ng-repeat="video in videos | filter:videoFilter">
+        <div class="thumbnail">
+            <div style="height:290px;overflow:hidden;"><img ng-src="image/{{video.images[0].id}}" alt="{{video.name}}" style="width:100%;"></div>
+            <div class="caption">
+                <h4 class="nowrap ovfh"><a href="#/video/{{video.id}}">{{video.name}}</a></h4>
+                <p class="h40px">{{video.summary}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+</div>

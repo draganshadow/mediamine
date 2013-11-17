@@ -2,6 +2,7 @@
 namespace MediaMine\Entity\File;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 
 class DirectoryRepository extends EntityRepository
 {
@@ -29,28 +30,43 @@ class DirectoryRepository extends EntityRepository
      * @param String $name
      * @return array
      */
-    public function findFullBy($parent = null, $name = null, $path = null, $status = null) {
+    public function findFullBy($options) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $params = array();
         $qb->select('Directory')
             ->from('MediaMine\Entity\File\Directory','Directory');
-        if ($parent != null) {
-            $qb->andWhere('Directory.parentDirectory = :id');
-            $params['id'] = $parent->id;
+
+        if (array_key_exists('parent', $options)) {
+            $qb->andWhere('Directory.parentDirectory = :parent');
+            if (is_object($options['parent'])) {
+                $params['parent'] = $options['parent']->id;
+            } else {
+                $params['parent'] = $options['parent'];
+            }
+        } else if (array_key_exists('root', $options)) {
+            $qb->andWhere('Directory.parentDirectory IS NULL');
         }
-        if ($name != null) {
+        if (array_key_exists('name', $options)) {
             $qb->andWhere('Directory.name = :name');
-            $params['name'] = $name;
+            $params['name'] = $options['name'];
         }
-        if ($path != null) {
+        if (array_key_exists('path', $options)) {
             $qb->andWhere('Directory.path = :path');
-            $params['path'] = $path;
+            $params['path'] = $options['path'];
         }
-        if ($status != null) {
+        if (array_key_exists('status', $options)) {
             $qb->andwhere('Directory.status IN (:status)');
-            $params['status'] = $status;
+            $params['status'] = $options['status'];
         }
-        $directories = $qb->setParameters($params)->getQuery()->getResult();
+        $order = 'ASC';
+        if (array_key_exists('order', $options)) {
+            if ($options['status'] == 'DESC') {
+                $order = $options['status'];
+            }
+        }
+        $qb->orderBy('Directory.name', $order);
+        $hydrate = array_key_exists('hydrate', $options) ? $options['hydrate'] : Query::HYDRATE_OBJECT;
+        $directories = $qb->setParameters($params)->getQuery()->getResult($hydrate);
         return $directories;
     }
 }

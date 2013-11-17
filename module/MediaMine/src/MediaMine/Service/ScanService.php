@@ -15,7 +15,7 @@ class ScanService extends AbstractService implements ServiceLocatorAwareInterfac
      */
     public function scan($path) {
         $path = realpath($path);
-        $directory = $this->getRepository('File\Directory')->findFullBy(null, null, $path);
+        $directory = $this->getRepository('File\Directory')->findFullBy(array('path' => $path));
         if (empty($directory)) {
             $this->add($path);
         } else {
@@ -29,8 +29,7 @@ class ScanService extends AbstractService implements ServiceLocatorAwareInterfac
      * @param \MediaMine\Entity\Directory $parentDirectory
      */
     protected function add($path, $parentDirectory = null) {
-        $parentDirectory = $this->getRepository('File\Directory')
-                                ->createDirectory($path, $parentDirectory);
+        $parentDirectory = $this->getRepository('File\Directory')->createDirectory($path, $parentDirectory);
         $this->flush();
         $content = $this->getFSContent($path);
         foreach ($content['directories'] as $entry) {
@@ -125,7 +124,7 @@ class ScanService extends AbstractService implements ServiceLocatorAwareInterfac
     }
 
     protected function getDBContent($parentDirectory) {
-        $directories = $this->getRepository('File\Directory')->findFullBy($parentDirectory);
+        $directories = $this->getRepository('File\Directory')->findFullBy(array('parent' => $parentDirectory));
         $files = $this->getRepository('File\File')->findFullBy($parentDirectory);
         $content['directories'] = array();
         $content['files'] = array();

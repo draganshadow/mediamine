@@ -7,5 +7,6 @@ define([
     'controllers/series/list-ctrl',
     'controllers/series/detail-ctrl',
     'controllers/season/detail-ctrl',
-    'controllers/video/detail-ctrl'
+    'controllers/video/detail-ctrl',
+    'controllers/video/list-ctrl'
 ], function () {});

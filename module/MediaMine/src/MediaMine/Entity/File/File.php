@@ -70,7 +70,9 @@ class File implements ArraySerializableInterface
      */
     public function __get($property)
     {
-        return $this->$property;
+        if (property_exists($this, $property)) {
+            return $this->$property;
+        }
     }
 
     /**
@@ -81,7 +83,9 @@ class File implements ArraySerializableInterface
      */
     public function __set($property, $value)
     {
-        $this->$property = $value;
+        if (property_exists($this, $property)) {
+            $this->$property = $value;
+        }
     }
 
     public function getFullName()

@@ -12,6 +12,11 @@ define(['./app', './config'], function (app) {
             controller: 'SeriesList'
         });
 
+        $routeProvider.when('/series', {
+            templateUrl: 'partials/series/list.html',
+            controller: 'SeriesList'
+        });
+
         $routeProvider.when('/series/:id', {
             templateUrl: 'partials/series/detail.html',
             controller: 'SeriesDetail'
@@ -25,6 +30,16 @@ define(['./app', './config'], function (app) {
         $routeProvider.when('/video/:id', {
             templateUrl: 'partials/video/detail.html',
             controller: 'VideoDetail'
+        });
+
+        $routeProvider.when('/movies', {
+            templateUrl: 'partials/video/list.html',
+            controller: 'VideoList'
+        });
+
+        $routeProvider.when('/movies/:page', {
+            templateUrl: 'partials/video/list.html',
+            controller: 'VideoList'
         });
 
         $routeProvider.otherwise({
