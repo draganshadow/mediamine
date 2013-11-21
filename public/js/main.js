@@ -24,7 +24,7 @@ require.config({
         'bootstrap3': './libs/bootstrap/dist/js/bootstrap',
         'lodash': './libs/lodash/dist/lodash',
         'jquery': './libs/jquery/jquery',
-        'videojs': './libs/video-js/video'
+        'projekktor': './libs/projekktor/projekktor-1.3.03'
     },
 
     /**
@@ -46,6 +46,9 @@ require.config({
         },
         'restangular': {
             deps: ['angular', 'lodash']
+        },
+        'projekktor': {
+            deps: ['jquery']
         }
     }
 });

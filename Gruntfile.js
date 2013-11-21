@@ -5,7 +5,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
         requirejs: {
             compile: {
-                options: grunt.file.readJSON('public/js/build-config.json')
+                options: grunt.file.readJSON('build-config.json')
             }
         },
         copy: {

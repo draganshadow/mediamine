@@ -1,13 +1,20 @@
-define(['./../index'], function (controllers) {
+define(['./../index', './../../directives/whenScrolled'], function (controllers) {
     'use strict';
     controllers.controller('VideoList', function ($scope, $routeParams, Restangular) {
         var params = {type : 'movie'};
+        var page = 1;
         if (typeof $routeParams.page !== 'undefined') {
-            params.page = $routeParams.page;
+            page = $routeParams.page;
         }
-        Restangular.all('video').getList(params)
-            .then(function(result) {
-                $scope.videos = result;
-            });
+        $scope.videos = [];
+        $scope.loadMore = function() {
+            params.page = page;
+            Restangular.all('video').getList(params)
+                .then(function(result) {
+                    $scope.videos = $scope.videos.concat(result);
+                });
+            page++;
+        };
+        $scope.loadMore();
     });
 });

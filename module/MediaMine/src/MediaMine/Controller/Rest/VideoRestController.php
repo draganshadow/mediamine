@@ -88,7 +88,7 @@ class VideoRestController extends AbstractRestController implements EntityManage
 
         $pageP = (int) $this->params()->fromQuery('page', null);
         if ($pageP != null) {
-            $page = $pageP;
+            $page = $pageP - 1;
         }
 
         $qb->orderBy('Video.' . $by, $o);

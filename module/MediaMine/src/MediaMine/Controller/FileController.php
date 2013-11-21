@@ -49,11 +49,13 @@ class FileController extends AbstractController implements EntityManagerAware
         $file='/tmp/' . $tmpName . '.' . $type;
         if ($type == 'mp4') {
             header('Content-Type: video/mp4');
+            header('Content-type: video/mpeg');
         } else {
             header('Content-Type: video/x-flv');
         }
-//        header('Content-Disposition: inline; filename=' . $tmpName);
-        header ( "Content-Disposition: attachment; filename=\"" . $tmpName . "\";" );
+        header('Content-Disposition: inline; filename=' . $tmpName);
+//        header('Content-disposition: inline');
+//        header('Content-Disposition: attachment; filename="' . $tmpName . '";' );
         header('Content-Transfer-Encoding: binary');
 //        header('Accept-Ranges: bytes');
 //        header ( "Pragma: public" );
@@ -81,7 +83,7 @@ class FileController extends AbstractController implements EntityManagerAware
          -threads : nb de cpu par processus
         **/
         if (!file_exists($file)) {
-            $cmd = 'ffmpeg -ss 0 -i "' . $infile . '" -async 1 -b 1000k -s 640x352 -ar 44100 -ac 2 -v 0 -f ' . $type . ' -vcodec libx264 -preset superfast -threads 0 ' . $file . ' >/dev/null 2>/dev/null &';
+            $cmd = 'ffmpeg -ss 0 -i "' . $infile . '" -async 1 -b 500k -s 640x352 -ar 44100 -ac 2 -v 0 -f ' . $type . ' -vcodec libx264 -preset superfast -threads 0 ' . $file . ' >/dev/null 2>/dev/null &';
 //            $cmd = 'ffmpeg -ss 0 -i "' . $infile . '" -async 1 -b 1000k -s 640x352 -ar 44100 -ac 2 -v 0 -vcodec mpeg4 -preset superfast -threads 0 ' . $file . ' >/dev/null 2>/dev/null &';
             shell_exec($cmd);
         }

@@ -66,6 +66,16 @@ return array(
                     ),
                 ),
             ),
+            'debug' => array(
+                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route'    => '/debug',
+                    'defaults' => array(
+                        'controller' => 'Debug',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
             'serie' => array(
                 'type' => 'segment',
                 'options' => array(
