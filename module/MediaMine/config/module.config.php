@@ -18,7 +18,8 @@ return array(
         'invokables' => array(
             'install-service' => 'MediaMine\Service\InstallService',
             'scan-service' => 'MediaMine\Service\ScanService',
-            'xml-meta-search-service' => 'MediaMine\Service\XMLMetaSearchService'
+            'xml-meta-search-service' => 'MediaMine\Service\XMLMetaSearchService',
+            'imagine-service' => 'Imagine\Gd\Imagine'
         ),
         'aliases' => array(
             'translator' => 'MvcTranslator',

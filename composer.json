@@ -15,6 +15,7 @@
         "zendframework/zend-developer-tools": "dev-master",
         "widmogrod/zf2-assetic-module": "1.*",
         "zircote/swagger-php": "0.8.0",
-        "outeredge/swagger-module": "dev-master"
+        "outeredge/swagger-module": "dev-master",
+        "imagine/Imagine": "~0.5.0"
     }
 }

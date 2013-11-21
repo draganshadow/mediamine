@@ -22,12 +22,41 @@ class DebugController extends AbstractActionController
     public function indexAction()
     {
         $parser = new MovieParser();
-        $result = $parser->parse('/opt/data/02 - FILMS/MCM_DIVX_OK/1001 Pattes (1998)/movie.xml');
+        $result = $parser->parse('');
         echo '<pre>';
         var_dump($result);
         echo '</pre>';
+
         $viewModel = new ViewModel();
-        $viewModel->setTerminal(true);
         return $viewModel;
+    }
+
+    public function imageAction()
+    {
+        $file    = $this->params('file', ''); // @todo: apply STRICT validation!
+        $width   = $this->params('width', 150); // @todo: apply validation!
+        $height  = $this->params('height', 150); // @todo: apply validation!
+        $imagine = $this->getServiceLocator()->get('imagine-service');
+        $image   = $imagine->open($file);
+
+        $path = 'public/images';
+//        $transformation = new \Imagine\Filter\Transformation();
+
+//        $transformation->thumbnail(new \Imagine\Image\Box($width, $height));
+//        $transformation->apply($image);
+
+        $response = $this->getResponse();
+        $response->setContent($image->thumbnail(new \Imagine\Image\Box($width, $height))->get('jpg'));
+        $response
+            ->getHeaders()
+            ->addHeaderLine('Content-Transfer-Encoding', 'binary')
+            ->addHeaderLine('Content-Type', 'image/png');
+            //->addHeaderLine('Content-Length', mb_strlen($imageContent));
+
+        return $response;
+
+//        $viewModel = new ViewModel();
+//        $viewModel->setTerminal(true);
+//        return $viewModel;
     }
 }

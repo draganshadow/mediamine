@@ -67,9 +67,13 @@ return array(
                 ),
             ),
             'debug' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => 'segment',
                 'options' => array(
-                    'route'    => '/debug',
+                    'route'    => '/debug[/:action][/:id]',
+                    'constraints' => array(
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        'id'     => '[0-9]+',
+                    ),
                     'defaults' => array(
                         'controller' => 'Debug',
                         'action'     => 'index',
