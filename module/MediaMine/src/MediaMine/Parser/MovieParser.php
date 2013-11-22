@@ -10,6 +10,7 @@ class MovieParser extends AbstractParser
         $name = ($name->length) ? $name->item(0)->nodeValue : null;
         $summary = $dom->getElementsByTagName('Description');
         $summary = ($summary->length) ? $summary->item(0)->nodeValue : null;
+        
 //        $guests = $dom->getElementsByTagName('GuestStars');
 //        $guests = array_filter(array_filter(explode('|', ($guests->length) ? $guests->item(0)->nodeValue : ''), 'trim'), 'strlen');
 //        $directors = $dom->getElementsByTagName('Directors');

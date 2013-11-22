@@ -1,17 +1,11 @@
 <div class="h100 oScrollY" when-scrolled="loadMore()">
-    <div class="mbm">
-        <input type="search" ng-model="videoFilter" placeholder="filter" />
-    </div>
-    <div class="col-sm-6 col-md-3 mbm" ng-repeat="video in videos | filter:videoFilter">
+    <div class="col-xs-6 col-sm-6 col-md-3 mbm" ng-repeat="video in videos | filter:videoFilter">
         <div class="thumbnail">
-            <div style="height:290px;overflow:hidden;"><img ng-src="image/{{video.images[0].id}}" alt="{{video.name}}" style="width:100%;"></div>
+            <div style="height:290px;overflow:hidden;"><img ng-src="images/400-400-{{video.images[0].pathKey}}.jpg" alt="{{video.name}}" style="width:100%;"></div>
             <div class="caption">
                 <h4 class="nowrap ovfh"><a href="#/video/{{video.id}}">{{video.name}}</a></h4>
                 <p class="h40px">{{video.summary}}</p>
             </div>
         </div>
     </div>
-</div>
-
-<div class="row">
 </div>

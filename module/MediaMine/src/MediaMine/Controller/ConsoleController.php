@@ -27,6 +27,7 @@ class ConsoleController extends AbstractController implements EntityManagerAware
 
     public function installAction()
     {
+        echo 'Install DB...';
         $request = $this->getRequest();
         // Make sure that we are running in a console and the user has not tricked our
         // application into running this action from a public web server.
@@ -49,14 +50,15 @@ class ConsoleController extends AbstractController implements EntityManagerAware
         if (!$path) {
             throw new \RuntimeException('You must specify a path to add');
         }
-        echo realpath($path), PHP_EOL;
+        echo 'Add files from: ' . realpath($path), PHP_EOL;
         $this->getScanService()->scan($path);
         return "Done!\n";
     }
 
     public function searchSeriesAction()
     {
-        $request = $this->getRequest();
+        echo 'Search for series', PHP_EOL;
+            $request = $this->getRequest();
         // Make sure that we are running in a console and the user has not tricked our
         // application into running this action from a public web server.
         if (get_class($request) != 'Zend\Console\Request'){
@@ -68,6 +70,7 @@ class ConsoleController extends AbstractController implements EntityManagerAware
 
     public function searchMoviesAction()
     {
+        echo 'Search for movies', PHP_EOL;
         $request = $this->getRequest();
         // Make sure that we are running in a console and the user has not tricked our
         // application into running this action from a public web server.

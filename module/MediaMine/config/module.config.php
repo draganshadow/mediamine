@@ -40,6 +40,7 @@ return array(
             'Index' => 'MediaMine\Controller\IndexController',
             'Console' => 'MediaMine\Controller\ConsoleController',
             'File' => 'MediaMine\Controller\FileController',
+            'Image' => 'MediaMine\Controller\ImageController',
             'Api' => 'MediaMine\Controller\ApiController',
             'Debug' => 'MediaMine\Controller\DebugController',
             'Rest\Series' => 'MediaMine\Controller\Rest\SeriesRestController',

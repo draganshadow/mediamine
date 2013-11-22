@@ -43,6 +43,13 @@ class Video implements ArraySerializableInterface
      */
     protected $episode;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="MediaMine\Entity\Video\Group")
+     * @ORM\JoinColumn(name="group_ref", referencedColumnName="id", onDelete="CASCADE", unique=false)
+     */
+    protected $group;
+
     /**
      * @ORM\ManyToOne(targetEntity="MediaMine\Entity\Video\Season")
      * @ORM\JoinColumn(name="season_ref", referencedColumnName="id", onDelete="CASCADE", unique=false, nullable=true)

@@ -22,11 +22,12 @@ class FileRepository extends EntityRepository
         $file->extension = array_key_exists('extension', $pathinfo) ? $pathinfo['extension'] : '';
         $file->size = filesize($path);
         $file->status = 'new';
+        $file->pathKey = md5($path);
         $this->getEntityManager()->persist($file);
         return $file;
     }
 
-    public function findFullBy($directory = null, $name = null, $extension = null, $type = null, $status = null, $id = null) {
+    public function findFullBy($directory = null, $name = null, $extension = null, $type = null, $status = null, $id = null, $pathKey = null) {
         $qb = $this->getEntityManager()->createQueryBuilder();
         $params = array();
         $qb->select('File', 'Directory')
@@ -59,6 +60,10 @@ class FileRepository extends EntityRepository
         if ($id != null) {
             $qb->andwhere('File.id IN (:id)');
             $params['id'] = $id;
+        }
+        if ($pathKey != null) {
+            $qb->andwhere('File.pathKey IN (:pathKey)');
+            $params['pathKey'] = $pathKey;
         }
         $files = $qb->setParameters($params)->getQuery()->getResult();
         return $files;

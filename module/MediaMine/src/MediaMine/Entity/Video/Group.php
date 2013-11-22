@@ -52,6 +52,12 @@ class Group implements ArraySerializableInterface
     protected $images;
 
     /**
+     * @ORM\ManyToOne(targetEntity="MediaMine\Entity\Video\Genre")
+     * @ORM\JoinColumn(name="genre_ref", referencedColumnName="id", onDelete="SET NULL", unique=false)
+     */
+    protected $genre;
+
+    /**
      * Magic getter to expose protected properties.
      *
      * @param string $property

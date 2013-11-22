@@ -37,6 +37,11 @@ class File implements ArraySerializableInterface
     protected $name;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    protected $pathKey;
+
+    /**
      * @ManyToOne(targetEntity="Directory")
      * @JoinColumn(name="directory_ref", referencedColumnName="id", onDelete="CASCADE")
      */

@@ -110,14 +110,18 @@ return array(
                     ),
                 ),
             ),
-            'image' => array(
-                'type' => 'segment',
+            'images' => array(
+                'type' => 'regex',
                 'options' => array(
-                    'route'    => '/image[/:id]',
+                    'regex'    => '/images/((?<transformations>[a-zA-Z_]+)-)?((?<width>[0-9]+)-(?<height>[0-9]+)-)?(?<pathKey>[a-zA-Z0-9]+)(\.(?<format>(jpg|png|gif)))?',
                     'defaults' => array(
-                        'controller' => 'File',
+                        'controller' => 'Image',
                         'action'     => 'index',
+                        'width'     => 0,
+                        'height'     => 0,
+                        'format'     => 'jpg',
                     ),
+                    'spec' => '/image/%transformations%-%width%-%height%-%pathKey%.%format%',
                 ),
             ),
             'stream' => array(

@@ -7,10 +7,7 @@ define(['./app', './config'], function (app) {
     'use strict';
     app.config(function ($routeProvider) {
 
-        $routeProvider.when('/', {
-            templateUrl: 'partials/series/list.html',
-            controller: 'SeriesList'
-        });
+        $routeProvider.when('/', {redirectTo: '/movies'});
 
         $routeProvider.when('/series', {
             templateUrl: 'partials/series/list.html',
