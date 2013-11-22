@@ -49,6 +49,13 @@ class VideoRestController extends AbstractRestController implements EntityManage
      *                  paramType="query",
      *                  required="false",
      *                  type="string"
+     *              ),
+     *              @SWG\Parameter(
+     *                  name="text",
+     *                  description="Text",
+     *                  paramType="query",
+     *                  required="false",
+     *                  type="string"
      *              )
      *          )
      *      )
@@ -75,6 +82,13 @@ class VideoRestController extends AbstractRestController implements EntityManage
             $qb->innerJoin('Video.type', 'type', 'WITH', 'type.name = :type');
             $params['type'] = $type;
         }
+
+        $text = $this->params()->fromQuery('text', null);
+        if ($text != null) {
+            $qb->where('Video.name LIKE :text');
+            $params['text'] = '%' . $text . '%';
+        }
+
         $o = 'ASC';
         $order = $this->params()->fromQuery('order', null);
         if ($order == 'DESC') {

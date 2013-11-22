@@ -1,7 +1,7 @@
 <div class="h100 oScrollY">
     <div class="col-sm-6 col-md-3 mbm" ng-repeat="serie in series | filter:serieFilter">
         <div class="thumbnail">
-            <div style="height:290px;overflow:hidden;"><img ng-src="images/400-400-{{video.images[0].pathKey}}.jpg" alt="{{serie.name}}" style="width:100%;"></div>
+            <div style="height:290px;overflow:hidden;"><img ng-src="images/400-400-{{serie.images[0].pathKey}}.jpg" alt="{{serie.name}}" style="width:100%;"></div>
             <div class="caption">
                 <h4 class="nowrap ovfh"><a href="#/series/{{serie.id}}">{{serie.name}}</a></h4>
                 <p class="h40px">{{serie.summary}}</p>

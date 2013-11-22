@@ -60,7 +60,7 @@ class SeasonRestController extends AbstractRestController implements EntityManag
             $by = $orderBy;
         }
 
-        $qb->orderBy('Video.' . $by, $o);
+        $qb->orderBy('Season.' . $by, $o);
         $resultSet = $qb->setParameters($params)->getQuery()->getResult(Query::HYDRATE_ARRAY);
         return new JsonModel($resultSet);
     }

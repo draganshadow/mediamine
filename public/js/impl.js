@@ -8,5 +8,6 @@ define([
     'controllers/series/detail-ctrl',
     'controllers/season/detail-ctrl',
     'controllers/video/detail-ctrl',
-    'controllers/video/list-ctrl'
+    'controllers/video/list-ctrl',
+    'directives/activeLink'
 ], function () {});

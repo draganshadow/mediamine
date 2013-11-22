@@ -6,7 +6,7 @@
     <div>
         <div class="col-sm-6 col-md-3 mb20" ng-repeat="season in serie.seasons">
             <div class="thumbnail">
-                <div style="height:290px;overflow:hidden;"><img ng-src="images/400-400-{{video.images[0].pathKey}}.jpg" alt="{{season.name}}" style="width:100%;"></div>
+                <div style="height:290px;overflow:hidden;"><img ng-src="images/400-400-{{season.images[0].pathKey}}.jpg" alt="{{season.name}}" style="width:100%;"></div>
                 <div class="caption">
                     <h4><a href="#/season/{{season.id}}">{{season.name}}</a></h4>
                     <p class="h40px">{{season.summary}}</p>
