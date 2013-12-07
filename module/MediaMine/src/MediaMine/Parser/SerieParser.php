@@ -24,7 +24,9 @@ class SerieParser extends AbstractParser
             'actors' => $actors,
             'genre' => $genres,
             'runtime' => $runtime,
-            'rating' => $rating
+            'rating' => $rating,
+            'originalName' => $runtime,
+            'productionYear' => $rating
         );
     }
 }

@@ -16,5 +16,18 @@ define(['./../index', './../../directives/whenScrolled'], function (controllers)
             page++;
         };
         $scope.loadMore();
+
+        $scope.$watch("search.click", function () {
+            if ($scope.search.text && $scope.search.click) {
+                params.page = 1;
+                params.text = $scope.search.text;
+                Restangular.all('video').getList(params)
+                    .then(function(result) {
+                        $scope.videos = result;
+                    });
+
+            }
+        });
     });
 });
+

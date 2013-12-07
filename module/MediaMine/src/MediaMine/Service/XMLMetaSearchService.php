@@ -31,7 +31,10 @@ class XMLMetaSearchService extends AbstractService implements ServiceLocatorAwar
 
     protected $mode;
 
+    protected $es;
+
     public function searchSeries() {
+        $this->getEs()->getIndex('mediamine')->delete();
         $this->getRoles();
         $series = $this->getRepository('File\File')->findFullBy(null, 'series', 'xml', null);
         foreach ($series as $serie) {
@@ -147,12 +150,17 @@ class XMLMetaSearchService extends AbstractService implements ServiceLocatorAwar
                 $video->name = $videoMeta['name'];
                 $video->summary = $videoMeta['summary'];
                 $video->number = $videoMeta['number'];
+                $video->originalName = $videoMeta['originalName'];
+                $video->year = $videoMeta['productionYear'];
+
                 $this->getEntityManager()->persist($video);
+                $this->index($video);
                 $this->flush();
             } else {
                 $number = array_key_exists('number', $videoMeta) ? $videoMeta['number'] : null;
                 $summary = array_key_exists('summary', $videoMeta) ? $videoMeta['summary'] : null;
-                $video = $this->getRepository('Video\Video')->createVideo($videoMeta['name'], $summary, $image, $season, $number,$type);
+                $video = $this->getRepository('Video\Video')->createVideo($videoMeta['name'], $summary, $image, $season, $number,$type, $videoMeta['originalName'], $videoMeta['productionYear']);
+                $this->index($video);
                 $this->flush();
                 $this->getRepository('Video\VideoFile')->createVideoFile($video, $videoFile);
                 $this->flush();
@@ -180,6 +188,24 @@ class XMLMetaSearchService extends AbstractService implements ServiceLocatorAwar
         }
 
         return $video;
+    }
+
+    /**
+     * @param \MediaMine\Entity\Video\Video $video
+     */
+    protected function index($video)
+    {
+        $doc = new \Elastica\Document(
+            $video->id,
+            array(
+                'id' => $video->id,
+                'year' => $video->year,
+                'title' => $this->replaceAccents($video->name) . ' ' . $this->replaceAccents($video->originalName),
+                'description' => $this->replaceAccents($video->summary)
+            )
+        );
+        $this->getEs()->getIndex('mediamine')->getType('video')->addDocument($doc);
+        $this->getEs()->getIndex('mediamine')->refresh();
     }
 
     /**
@@ -245,6 +271,13 @@ class XMLMetaSearchService extends AbstractService implements ServiceLocatorAwar
         return $this->movieParser;
     }
 
+    protected function getEs() {
+        if (null === $this->es) {
+            $this->es = $this->getServiceLocator()->get('elasticsearch');
+        }
+        return $this->es;
+    }
+
     protected function getMode() {
         if (null === $this->mode) {
             $this->mode = 'DEBUG';
@@ -258,5 +291,13 @@ class XMLMetaSearchService extends AbstractService implements ServiceLocatorAwar
 
     protected function export($values) {
         echo implode(self::SEP, $values) . PHP_EOL;
+    }
+
+    protected function replaceAccents($string)
+    {
+        return str_replace(
+            array('à','á','â','ã','ä', 'ç', 'è','é','ê','ë', 'ì','í','î','ï', 'ñ', 'ò','ó','ô','õ','ö', 'ù','ú','û','ü', 'ý','ÿ', 'À','Á','Â','Ã','Ä', 'Ç', 'È','É','Ê','Ë', 'Ì','Í','Î','Ï', 'Ñ', 'Ò','Ó','Ô','Õ','Ö', 'Ù','Ú','Û','Ü', 'Ý'),
+            array('a','a','a','a','a', 'c', 'e','e','e','e', 'i','i','i','i', 'n', 'o','o','o','o','o', 'u','u','u','u', 'y','y', 'A','A','A','A','A', 'C', 'E','E','E','E', 'I','I','I','I', 'N', 'O','O','O','O','O', 'U','U','U','U', 'Y'),
+            $string);
     }
 }

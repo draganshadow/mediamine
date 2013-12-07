@@ -6,7 +6,7 @@ define(['./../index', 'projekktor'], function (controllers) {
                 $scope.video = result;
                 projekktor('#player_a', {
                         platforms: ['browser', 'flash'],
-                        poster: 'image/' + $scope.video.images[0].id,
+                        poster: 'images/400-400-' + $scope.video.images[0].pathKey + '.jpg',
                         title: $scope.video.name,
                         playerFlashMP4: './js/libs/projekktor/swf/StrobeMediaPlayback/StrobeMediaPlayback.swf',
                         playerFlashMP3: './js/libs/projekktor/swf/swf/StrobeMediaPlayback/StrobeMediaPlayback.swf',

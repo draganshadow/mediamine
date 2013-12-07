@@ -34,9 +34,18 @@ class Video implements ArraySerializableInterface
     protected $name;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    protected $originalName;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     protected $summary;
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $year;
 
     /**
      * @ORM\Column(name="episode", type="integer", nullable=true)

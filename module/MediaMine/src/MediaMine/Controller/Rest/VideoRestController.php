@@ -2,6 +2,7 @@
 namespace MediaMine\Controller\Rest;
 
 use Doctrine\ORM\Query;
+use MediaMine\Initializer\ElasticsearchAware;
 use MediaMine\Initializer\EntityManagerAware;
 use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
@@ -12,8 +13,13 @@ use Zend\View\Model\JsonModel;
  *      basePath="/api"
  * )
  */
-class VideoRestController extends AbstractRestController implements EntityManagerAware
+class VideoRestController extends AbstractRestController implements EntityManagerAware, ElasticsearchAware
 {
+    /**
+     * @var
+     */
+    private $es;
+
     /**
      *  @SWG\Api(
      *      path="/video",
@@ -71,6 +77,26 @@ class VideoRestController extends AbstractRestController implements EntityManage
             ->from('MediaMine\Entity\Video\Video','Video')
             ->join('Video.images', 'i');
 
+        $text = $this->params()->fromQuery('text', null);
+        if ($text != null) {
+            // Define a Query. We want a string query.
+            $elasticaQueryString = new \Elastica\Query\QueryString();
+            $elasticaQueryString->setQuery((string)$this->replaceAccents($text));
+
+            // Create the actual search object with some data.
+            $elasticaQuery = new \Elastica\Query();
+            $elasticaQuery->setQuery($elasticaQueryString);
+
+            $resultSet = $this->getEs()->getIndex('mediamine')->getType('video')->search($elasticaQuery);
+            // Get IDs
+            $ids = array();
+            foreach($resultSet as $result){
+                $ids[] = $result->getId();
+            }
+            $qb->where('Video.id IN (:ids)');
+            $params['ids'] = $ids;
+        }
+
         $season = (int) $this->params()->fromQuery('season', null);
         if ($season != null) {
             $qb->innerJoin('Video.season', 'season', 'WITH', 'season.id = :season');
@@ -81,12 +107,6 @@ class VideoRestController extends AbstractRestController implements EntityManage
         if ($type != null) {
             $qb->innerJoin('Video.type', 'type', 'WITH', 'type.name = :type');
             $params['type'] = $type;
-        }
-
-        $text = $this->params()->fromQuery('text', null);
-        if ($text != null) {
-            $qb->where('Video.name LIKE :text');
-            $params['text'] = '%' . $text . '%';
         }
 
         $o = 'ASC';
@@ -162,5 +182,23 @@ class VideoRestController extends AbstractRestController implements EntityManage
     public function delete($id)
     {
         # code...
+    }
+
+    public function setEs($es)
+    {
+        $this->es = $es;
+    }
+
+    public function getEs()
+    {
+        return $this->es;
+    }
+
+    protected function replaceAccents($string)
+    {
+        return str_replace(
+            array('à','á','â','ã','ä', 'ç', 'è','é','ê','ë', 'ì','í','î','ï', 'ñ', 'ò','ó','ô','õ','ö', 'ù','ú','û','ü', 'ý','ÿ', 'À','Á','Â','Ã','Ä', 'Ç', 'È','É','Ê','Ë', 'Ì','Í','Î','Ï', 'Ñ', 'Ò','Ó','Ô','Õ','Ö', 'Ù','Ú','Û','Ü', 'Ý'),
+            array('a','a','a','a','a', 'c', 'e','e','e','e', 'i','i','i','i', 'n', 'o','o','o','o','o', 'u','u','u','u', 'y','y', 'A','A','A','A','A', 'C', 'E','E','E','E', 'I','I','I','I', 'N', 'O','O','O','O','O', 'U','U','U','U', 'Y'),
+            $string);
     }
 }

@@ -41,28 +41,27 @@ class MovieParser extends AbstractParser
         $videoHasSubtitles = ($videoHasSubtitles->length) ? $videoHasSubtitles->item(0)->nodeValue : null;
 
 // IT WORK
-
+        $genres = array();
         $all_genres = $dom->getElementsByTagName('Genre');
         foreach($all_genres as $genre) {
             $genres[] = $genre->nodeValue;
         }
 
+        $studios = array();
         $all_studios = $dom->getElementsByTagName('Studio');
         foreach($all_studios as $studio) {
             $studios[] = $studio->nodeValue;
         }
 
-  //    $persons = array();
+        $persons = array();
         foreach ($dom->getElementsByTagName('Person') as $tmp) {
             $person = array (
                 'name' => $tmp->getElementsByTagName('Name')->item(0)->nodeValue,
                 'type' => $tmp->getElementsByTagName('Type')->item(0)->nodeValue,
                 'role' => $tmp->getElementsByTagName('Role')->item(0)->nodeValue,
             );
-         $persons[] = $person;
+            $persons[] = $person;
         }
-
-
         return array(
             'name' => $name,
             'summary' => $summary,
@@ -76,7 +75,6 @@ class MovieParser extends AbstractParser
             'runningtime' => $runningtime,
             'director' => $director,
             'writers' => $writers,
- //          'test' => $test,
             'studios' => $studios,
             'person' => $persons,
             'videoBitrate' => $videoBitrate,
@@ -84,13 +82,6 @@ class MovieParser extends AbstractParser
             'videoFileSize' => $videoFileSize,
             'videoHasSubtitles' => $videoHasSubtitles,
             'trailerURL' => $trailerURL,
-
-//            'season' => $season,
-//            'number' => $number,
-//            'guests' => $guests,
-//            'directors' => $directors,
-//            'writers' => $writers,
-//            'rating' => $rating
         );
     }
 }
