@@ -43,6 +43,7 @@ return array(
             'Image' => 'MediaMine\Controller\ImageController',
             'Api' => 'MediaMine\Controller\ApiController',
             'Debug' => 'MediaMine\Controller\DebugController',
+            'Rest\Genre' => 'MediaMine\Controller\Rest\GenreRestController',
             'Rest\Series' => 'MediaMine\Controller\Rest\SeriesRestController',
             'Rest\Season' => 'MediaMine\Controller\Rest\SeasonRestController',
             'Rest\video' => 'MediaMine\Controller\Rest\VideoRestController',

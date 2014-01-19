@@ -5,11 +5,6 @@
 // These are single-entity styles that are hard to extract to modules, like
 // .clearfix, .pull-left and .hide-text in Twitter Bootstrap
 //
-
-.h100 {
-    height: 100%;
-}
-
 .nowrap {
     white-space: nowrap;
 }
@@ -26,7 +21,14 @@
     overflow-y: hidden;
 }
 
-.h40px {
-    height: 40px;
-    overflow-y: hidden;
+.oScrollX {
+    overflow-x: scroll;
+}
+
+.oHiddenX {
+    overflow-x: hidden;
+}
+
+.vTop {
+    vertical-align: top;
 }

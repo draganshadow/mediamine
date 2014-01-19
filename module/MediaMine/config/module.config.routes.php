@@ -157,6 +157,18 @@ return array(
                 )
             ),
             // REST ROUTING
+            'api-genre' => array(
+                'type' => 'segment',
+                'options' => array(
+                    'route'    => '/api/genre[/:id]',
+                    'constraints' => array(
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Rest\Genre'
+                    ),
+                ),
+            ),
             'api-series' => array(
                 'type' => 'segment',
                 'options' => array(

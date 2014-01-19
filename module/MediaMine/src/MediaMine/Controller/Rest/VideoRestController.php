@@ -43,6 +43,13 @@ class VideoRestController extends AbstractRestController implements EntityManage
      *                  type="string"
      *              ),
      *              @SWG\Parameter(
+     *                  name="genre",
+     *                  description="The genre",
+     *                  paramType="query",
+     *                  required="false",
+     *                  type="string"
+     *              ),
+     *              @SWG\Parameter(
      *                  name="orderBy",
      *                  description="The type",
      *                  paramType="query",
@@ -109,6 +116,12 @@ class VideoRestController extends AbstractRestController implements EntityManage
             $params['type'] = $type;
         }
 
+        $genre = $this->params()->fromQuery('genre', null);
+        if ($genre != null) {
+            $qb->innerJoin('Video.genres', 'genre', 'WITH', 'genre.name LIKE :genre');
+            $params['genre'] = '%' . strtolower($genre) . '%';
+        }
+
         $o = 'ASC';
         $order = $this->params()->fromQuery('order', null);
         if ($order == 'DESC') {
@@ -157,11 +170,16 @@ class VideoRestController extends AbstractRestController implements EntityManage
         $id = (int)$this->getEvent()->getRouteMatch()->getParam('id');
 
         $qb = $this->getEm()->createQueryBuilder();
-        $qb->select('video', 'files','f', 'i')
+        $qb->select('video', 'files','f', 'i', 'g', 'staffs', 'r', 'p', 'c')
             ->from('MediaMine\Entity\Video\Video','video')
             ->join('video.files', 'files')
             ->join('files.file', 'f')
-            ->join('video.images', 'i')
+            ->leftJoin('video.images', 'i')
+            ->leftJoin('video.genres', 'g')
+            ->leftJoin('video.staffs', 'staffs')
+            ->leftJoin('staffs.role', 'r')
+            ->leftJoin('staffs.person', 'p')
+            ->leftJoin('staffs.character', 'c')
             ->where('video.id = :id')
             ->setParameter('id', $id);
         $videos = $qb->getQuery()->getResult(Query::HYDRATE_ARRAY);

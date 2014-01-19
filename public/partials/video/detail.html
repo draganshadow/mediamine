@@ -1,7 +1,73 @@
 <div ng-show="video" ng-cloak>
-    <div>
-        <h4>{{video.name}} ({{video.year}})</h4>
-        <p>{{video.summary}}</p>
-        <div id="player_a" class="projekktor"></div>
+    <div class="page-header">
+        <h1>{{video.name}} ({{video.year}})</h1>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-4 column"><img src="images/400-400-{{video.images[0].pathKey}}.jpg" class="thumbnail img-rounded"></div>
+        <div class="col-md-8 column">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Details
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li ng-repeat="staff in video.staffs | filter:{role.name:'!actor'}"><strong>{{staff.role.name}}: </strong>{{staff.person.name}}</li>
+                        <li>
+                            <strong>Genre: </strong><span ng-repeat="genre in video.genres"><span class="label label-default">{{genre.name}}</span>{{$last ? '' : ' '}}</span>
+                        </li>
+                    </ul>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" go-to="player"><span class="glyphicon glyphicon-play"></span> Play</a>
+                        <a class="btn btn-default" type="button"><span class="glyphicon glyphicon-download"></span> Download</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Summary
+                </div>
+                <div class="panel-body">
+                    {{video.summary}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Actors
+                </div>
+                <div class="panel-body pa2 oHiddenY oScrollX">
+                    <table><tr>
+                        <td class="pa2 vTop" ng-repeat="staff in video.staffs | filter:{role.name:'actor'}">
+                        <div class="thumbnail w200p">
+                            <img class="h200p" src="images/200-200-{{video.images[0].pathKey}}.jpg" alt="{{staff.person.name}}">
+                            <div class="caption">
+                                <h4>{{staff.person.name}}</h4>
+                                <h5>{{staff.character.name}}</h5>
+                            </div>
+                        </div>
+                        </td>
+                    </tr></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="panel panel-default">
+                <div id="player" class="panel-heading">
+                    Player
+                </div>
+                <div class="panel-body">
+                    <div id="player_a" class="projekktor center-block"></div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

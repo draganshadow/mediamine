@@ -1,0 +1,8 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        Search
+    </div>
+    <div class="panel-body">
+        <span ng-repeat="genre in genres"><span class="btn btn-primary btn-sm" ng-click="search.genre = genre.name">{{genre.name}}</span>{{$last ? '' : ' '}}</span>
+    </div>
+</div>

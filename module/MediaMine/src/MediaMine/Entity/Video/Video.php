@@ -104,19 +104,53 @@ class Video implements ArraySerializableInterface
     protected $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="MediaMine\Entity\Video\Genre")
-     * @ORM\JoinColumn(name="genre_ref", referencedColumnName="id", onDelete="SET NULL", unique=false)
+     * @ORM\OneToMany(targetEntity="MediaMine\Entity\Video\Genre", mappedBy="video")
      */
-    protected $genre;
 
     /**
-     * Add categories
+     * @ORM\ManyToMany(targetEntity="MediaMine\Entity\Video\Genre")
+     * @ORM\JoinTable(name="video_video_genre",
+     *      joinColumns={@ORM\JoinColumn(name="video_ref", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="genre_ref", referencedColumnName="id")}
+     *      )
+     */
+    protected $genres;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MediaMine\Entity\Video\Staff", mappedBy="video")
+     */
+    protected $staffs;
+
+    /**
+     * Add Image
      *
      * @param File $image
      */
     public function addImage(File $image)
     {
         $this->images[] = $image;
+    }
+
+    /**
+     * Add categories
+     *
+     * @param Genre $genre
+     */
+    public function addGenre(Genre $genre)
+    {
+        $this->genres[] = $genre;
+    }
+
+    /**
+     * Add categories
+     *
+     * @param array $genres
+     */
+    public function addAllGenre(array $genres)
+    {
+        foreach($genres as $genre) {
+            $this->genres[] = $genre;
+        }
     }
 
     /**

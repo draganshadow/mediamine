@@ -76,7 +76,7 @@ class MovieParser extends AbstractParser
             'director' => $director,
             'writers' => $writers,
             'studios' => $studios,
-            'person' => $persons,
+            'persons' => $persons,
             'videoBitrate' => $videoBitrate,
             'videoCodecType' => $videoCodecType,
             'videoFileSize' => $videoFileSize,

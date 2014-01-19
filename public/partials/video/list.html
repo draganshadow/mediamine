@@ -1,10 +1,14 @@
+
+<div ng-include="'partials/common/videoSearch.html'"></div>
 <div class="h100 oScrollY" when-scrolled="loadMore()">
     <div class="col-xs-6 col-sm-6 col-md-3 mbm" ng-repeat="video in videos | filter:videoFilter">
         <div class="thumbnail">
-            <div style="height:290px;overflow:hidden;"><img ng-src="images/400-400-{{video.images[0].pathKey}}.jpg" alt="{{video.name}}" style="width:100%;"></div>
+            <div class="h300p ovfh">
+                <img class="w100" ng-src="images/400-400-{{video.images[0].pathKey}}.jpg" alt="{{video.name}}">
+            </div>
             <div class="caption">
                 <h4 class="nowrap ovfh"><a href="#/video/{{video.id}}">{{video.name}}</a> ({{video.year}})</h4>
-                <p class="h40px">{{video.summary}}</p>
+                <p class="h50p ovfh">{{video.summary}}</p>
             </div>
         </div>
     </div>

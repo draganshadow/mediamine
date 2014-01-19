@@ -145,6 +145,7 @@ class XMLMetaSearchService extends AbstractService implements ServiceLocatorAwar
                 $image = (count($images)) ? $images[0] : null;
             }
 
+
             if (count($videos)) {
                 $video = $videos[0];
                 $video->name = $videoMeta['name'];
@@ -165,25 +166,20 @@ class XMLMetaSearchService extends AbstractService implements ServiceLocatorAwar
                 $this->getRepository('Video\VideoFile')->createVideoFile($video, $videoFile);
                 $this->flush();
             }
+
+            if (!empty($videoMeta['genres'])) {
+                $genres = $this->createGenres($videoMeta['genres']);
+                $video->addAllGenre($genres);
+                $this->getEntityManager()->persist($video);
+            }
         }
         $this->markAdded($videoFile);
 
         if ($video) {
             //Create staff
-            if (array_key_exists('actors', $videoMeta)) {
-                $this->createStaff($videoMeta['actors'], $video, 'actor');
-            }
-            //Create staff
-            if (array_key_exists('actors', $videoMeta)) {
-                $this->createStaff($videoMeta['guests'], $video, 'guest');
-            }
-            //Create staff
-            if (array_key_exists('actors', $videoMeta)) {
-                $this->createStaff($videoMeta['directors'], $video, 'director');
-            }
-            //Create staff
-            if (array_key_exists('actors', $videoMeta)) {
-                $this->createStaff($videoMeta['writers'], $video, 'writer');
+            //TODO handle update
+            if (array_key_exists('persons', $videoMeta)) {
+                $this->createStaff($videoMeta['persons'], $video);
             }
         }
 
@@ -211,18 +207,38 @@ class XMLMetaSearchService extends AbstractService implements ServiceLocatorAwar
     /**
      *
      */
-    protected function createStaff($names, $video, $role)
+    protected function createStaff($staffs, $video)
     {
-        foreach($names as $name) {
-            $persons = $this->getRepository('Common\Person')->findFullBy($name);
+        foreach($staffs as $staff) {
+            $persons = $this->getRepository('Common\Person')->findFullBy($staff['name']);
             if (count($persons)) {
                 $person = $persons[0];
             } else {
-                $person = $this->getRepository('Common\Person')->createPerson($name);
+                $person = $this->getRepository('Common\Person')->createPerson($staff['name']);
                 $this->flush();
             }
-            $staff = $this->getRepository('Video\Staff')->createStaff($video, $person, null, $this->rolesList[$role]);
+            $character = $this->getRepository('Video\Character')->createCharacter($video, $staff['role']);
+            $staff = $this->getRepository('Video\Staff')->createStaff($video, $person, $character, $this->rolesList[strtolower($staff['type'])]);
         }
+    }
+
+    /**
+     *
+     */
+    protected function createGenres($genreNames)
+    {
+        $videoGenres = array();
+        foreach($genreNames as $genreName) {
+            $genres = $this->getRepository('Video\Genre')->findFullBy($genreName);
+            if (count($genres)) {
+                $genre = $genres[0];
+            } else {
+                $genre = $this->getRepository('Video\Genre')->createGenre($genreName);
+                $this->flush(true);
+            }
+            $videoGenres[] = $genre;
+        }
+        return $videoGenres;
     }
 
     /**

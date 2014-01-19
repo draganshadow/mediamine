@@ -25,8 +25,8 @@ class SerieParser extends AbstractParser
             'genre' => $genres,
             'runtime' => $runtime,
             'rating' => $rating,
-            'originalName' => $runtime,
-            'productionYear' => $rating
+            'originalName' => $name,
+            'productionYear' => 1900
         );
     }
 }
