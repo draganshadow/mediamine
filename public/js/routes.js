@@ -24,6 +24,11 @@ define(['./app', './config'], function (app) {
             controller: 'SeasonDetail'
         });
 
+        $routeProvider.when('/person/:id', {
+            templateUrl: 'partials/person/detail.html',
+            controller: 'PersonDetail'
+        });
+
         $routeProvider.when('/video/:id', {
             templateUrl: 'partials/video/detail.html',
             controller: 'VideoDetail'

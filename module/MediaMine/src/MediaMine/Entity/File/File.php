@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 /**
  * File Entity.
  *
- * @ORM\Entity(repositoryClass="MediaMine\Entity\File\FileRepository")
+ * @ORM\Entity(repositoryClass="MediaMine\Repository\File\FileRepository")
  * @ORM\Table(name="file_file")
  * @property int $id
  * @property string $name

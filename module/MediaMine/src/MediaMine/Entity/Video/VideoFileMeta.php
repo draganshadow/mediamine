@@ -7,7 +7,7 @@ use Zend\Stdlib\ArraySerializableInterface;
 /**
  * VideoFileMeta Entity.
  *
- * @ORM\Entity(repositoryClass="MediaMine\Entity\Video\VideoFileMetaRepository")
+ * @ORM\Entity(repositoryClass="MediaMine\Repository\Video\VideoFileMetaRepository")
  * @ORM\Table(name="video_video_file_meta")
  * @property int $id
  * @property string $name

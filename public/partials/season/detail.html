@@ -1,15 +1,26 @@
 <div ng-show="season" ng-cloak>
-    <div>
-        <h4>{{season.name}}</h4>
-        <p>{{season.summary}}</p>
+    <div class="page-header">
+        <h1>{{season.name}}</h1>
     </div>
-    <div>
-        <div class="col-sm-6 col-md-3 mb20" ng-repeat="episode in season.episodes">
-            <div class="thumbnail">
-                <div style="height:150px;overflow:hidden;"><img ng-src="images/400-400-{{episode.images[0].pathKey}}.jpg" alt="{{episode.name}}" style="width:100%;"></div>
-                <div class="caption">
-                    <h4 class="nw"><a href="#/video/{{episode.id}}">{{episode.name}}</a></h4>
-                    <p class="h40px">{{episode.summary}}</p>
+    <p>{{season.summary}}</p>
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Episodes
+                </div>
+                <div class="panel-body">
+                    <div class="col-sm-6 col-md-3 mb20" ng-repeat="episode in season.episodes">
+                        <div class="thumbnail">
+                            <div class="h100p ovfh">
+                                <img class="w100" ng-src="images/400-400-{{episode.images[0].pathKey}}.jpg" alt="{{episode.name}}">
+                            </div>
+                            <div class="caption">
+                                <h4 class="nowrap ovfh"><a href="#/video/{{episode.id}}">{{episode.episode}} - {{episode.name}}</a></h4>
+                                <p class="h50p ovfh">{{episode.summary}}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

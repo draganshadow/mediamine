@@ -7,7 +7,7 @@ use Zend\Stdlib\ArraySerializableInterface;
 /**
  * Directory Entity.
  *
- * @ORM\Entity(repositoryClass="MediaMine\Entity\File\DirectoryRepository")
+ * @ORM\Entity(repositoryClass="MediaMine\Repository\File\DirectoryRepository")
  * @ORM\Table(name="file_directory")
  * @property int $id
  * @property string $path

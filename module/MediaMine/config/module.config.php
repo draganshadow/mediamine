@@ -10,21 +10,6 @@ namespace MediaMine;
  */
 
 return array(
-    'service_manager' => array(
-        'abstract_factories' => array(
-            'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
-            'Zend\Log\LoggerAbstractServiceFactory',
-        ),
-        'invokables' => array(
-            'install-service' => 'MediaMine\Service\InstallService',
-            'scan-service' => 'MediaMine\Service\ScanService',
-            'xml-meta-search-service' => 'MediaMine\Service\XMLMetaSearchService',
-            'imagine-service' => 'Imagine\Gd\Imagine'
-        ),
-        'aliases' => array(
-            'translator' => 'MvcTranslator',
-        ),
-    ),
     'translator' => array(
         'locale' => 'en_US',
         'translation_file_patterns' => array(
@@ -38,17 +23,6 @@ return array(
     'controllers' => array(
         'invokables' => array(
             'Index' => 'MediaMine\Controller\IndexController',
-            'Console' => 'MediaMine\Controller\ConsoleController',
-            'File' => 'MediaMine\Controller\FileController',
-            'Image' => 'MediaMine\Controller\ImageController',
-            'Api' => 'MediaMine\Controller\ApiController',
-            'Debug' => 'MediaMine\Controller\DebugController',
-            'Rest\Genre' => 'MediaMine\Controller\Rest\GenreRestController',
-            'Rest\Series' => 'MediaMine\Controller\Rest\SeriesRestController',
-            'Rest\Season' => 'MediaMine\Controller\Rest\SeasonRestController',
-            'Rest\video' => 'MediaMine\Controller\Rest\VideoRestController',
-            'Rest\Directory' => 'MediaMine\Controller\Rest\DirectoryRestController',
-            'Rest\File' => 'MediaMine\Controller\Rest\FileRestController',
         ),
         'initializers' => array(
             'em' => function ($instance, $serviceLocator) {

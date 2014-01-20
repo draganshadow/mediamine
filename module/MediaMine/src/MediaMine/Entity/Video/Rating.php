@@ -7,7 +7,7 @@ use Zend\Stdlib\ArraySerializableInterface;
 /**
  * Rating Entity.
  *
- * @ORM\Entity(repositoryClass="MediaMine\Entity\Video\RatingRepository")
+ * @ORM\Entity(repositoryClass="MediaMine\Repository\Video\RatingRepository")
  * @ORM\Table(name="video_rating")
  * @property int $id
  * @property int $localRate

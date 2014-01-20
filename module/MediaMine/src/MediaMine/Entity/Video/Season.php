@@ -8,7 +8,7 @@ use Zend\Stdlib\ArraySerializableInterface;
 /**
  * Season Entity.
  *
- * @ORM\Entity(repositoryClass="MediaMine\Entity\Video\SeasonRepository")
+ * @ORM\Entity(repositoryClass="MediaMine\Repository\Video\SeasonRepository")
  * @ORM\Table(name="video_season")
  * @property int $id
  * @property int $number

@@ -80,36 +80,7 @@ return array(
                     ),
                 ),
             ),
-            'serie' => array(
-                'type' => 'segment',
-                'options' => array(
-                    'route'    => '/serie[/:id]',
-                    'defaults' => array(
-                        'controller' => 'Index',
-                        'action'     => 'group',
-                    ),
-                ),
-            ),
-            'season' => array(
-                'type' => 'segment',
-                'options' => array(
-                    'route'    => '/season[/:id]',
-                    'defaults' => array(
-                        'controller' => 'Index',
-                        'action'     => 'season',
-                    ),
-                ),
-            ),
-            'view' => array(
-                'type' => 'segment',
-                'options' => array(
-                    'route'    => '/view[/:id]',
-                    'defaults' => array(
-                        'controller' => 'Index',
-                        'action'     => 'view',
-                    ),
-                ),
-            ),
+
             'images' => array(
                 'type' => 'regex',
                 'options' => array(
@@ -138,7 +109,7 @@ return array(
             'api-resources' => array(
                 'type'    => 'Literal',
                 'options' => array(
-                    'route'    => '/api/doc',
+                    'route'    => '/doc',
                     'defaults' => array(
                         'controller' => 'Api',
                         'action'     => 'display'
@@ -149,86 +120,29 @@ return array(
             'api-resource-detail' => array(
                 'type'    => 'Segment',
                 'options' => array(
-                    'route'    => '/api/doc/:resource',
+                    'route'    => '/doc/:resource',
                     'defaults' => array(
                         'controller' => 'Api',
                         'action'     => 'details'
                     )
                 )
             ),
-            // REST ROUTING
-            'api-genre' => array(
+            // REST API ROUTING
+            'api' => array(
                 'type' => 'segment',
                 'options' => array(
-                    'route'    => '/api/genre[/:id]',
+                    'route'    => '/api/:controller[/:id]',
                     'constraints' => array(
+                        'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'Rest\Genre'
+                        '__NAMESPACE__' => 'Rest',
+                        'controller' => 'Video'
                     ),
                 ),
             ),
-            'api-series' => array(
-                'type' => 'segment',
-                'options' => array(
-                    'route'    => '/api/series[/:id]',
-                    'constraints' => array(
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Rest\Series'
-                    ),
-                ),
-            ),
-            'api-season' => array(
-                'type' => 'segment',
-                'options' => array(
-                    'route'    => '/api/season[/:id]',
-                    'constraints' => array(
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Rest\Season'
-                    ),
-                ),
-            ),
-            'api-video' => array(
-                'type' => 'segment',
-                'options' => array(
-                    'route'    => '/api/video[/:id]',
-                    'constraints' => array(
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Rest\Video'
-                    ),
-                ),
-            ),
-            'api-directory' => array(
-                'type' => 'segment',
-                'options' => array(
-                    'route'    => '/api/directory[/:id]',
-                    'constraints' => array(
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Rest\Directory'
-                    ),
-                ),
-            ),
-            'api-file' => array(
-                'type' => 'segment',
-                'options' => array(
-                    'route'    => '/api/file[/:id]',
-                    'constraints' => array(
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Rest\File'
-                    ),
-                ),
-            ),
+
             // The following is a route to simplify getting started creating
             // new controllers and actions without needing to create a new
             // module. Simply drop new controllers in, and you can access them

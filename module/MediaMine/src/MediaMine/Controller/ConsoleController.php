@@ -11,19 +11,19 @@ class ConsoleController extends AbstractController implements EntityManagerAware
 {
 
     /**
-     * @var MediaMine\Service\ScanService
+     * @var \MediaMine\Service\ScanService
      */
     protected $scanService;
 
     /**
-     * @var MediaMine\Service\InstallService
+     * @var \MediaMine\Service\InstallService
      */
     protected $installService;
 
     /**
-     * @var MediaMine\Service\XMLSearchService
+     * @var \MediaMine\Service\TunnelService
      */
-    protected $xmlSearchService;
+    protected $tunnelService;
 
     public function installAction()
     {
@@ -64,7 +64,7 @@ class ConsoleController extends AbstractController implements EntityManagerAware
         if (get_class($request) != 'Zend\Console\Request'){
             throw new \RuntimeException('You can only use this action from a console!');
         }
-        $this->getXMLSearchService()->searchSeries();
+        $this->getTunnelService()->getXmlTunnel()->searchSeries();
         return "Done!\n";
     }
 
@@ -77,7 +77,7 @@ class ConsoleController extends AbstractController implements EntityManagerAware
         if (get_class($request) != 'Zend\Console\Request'){
             throw new \RuntimeException('You can only use this action from a console!');
         }
-        $this->getXMLSearchService()->searchMovies();
+        $this->getTunnelService()->getXmlTunnel()->searchMovies();
         return "Done!\n";
     }
 
@@ -96,35 +96,35 @@ class ConsoleController extends AbstractController implements EntityManagerAware
     }
 
     /**
-     * @return MediaMine\Service\InstallService
+     * @return \MediaMine\Service\InstallService
      */
     public function getInstallService()
     {
         if (null === $this->installService) {
-            $this->installService = $this->getServiceLocator()->get('install-service');
+            $this->installService = $this->getServiceLocator()->get('Install');
         }
         return $this->installService;
     }
 
     /**
-     * @return MediaMine\Service\ScanService
+     * @return \MediaMine\Service\ScanService
      */
     public function getScanService()
     {
         if (null === $this->scanService) {
-            $this->scanService = $this->getServiceLocator()->get('scan-service');
+            $this->scanService = $this->getServiceLocator()->get('File');
         }
         return $this->scanService;
     }
 
     /**
-     * @return MediaMine\Service\XMLSearchService
+     * @return \MediaMine\Service\TunnelService
      */
-    public function getXMLSearchService()
+    public function getTunnelService()
     {
-        if (null === $this->xmlSearchService) {
-            $this->xmlSearchService = $this->getServiceLocator()->get('xml-meta-search-service');
+        if (null === $this->tunnelService) {
+            $this->tunnelService = $this->getServiceLocator()->get('Tunnel');
         }
-        return $this->xmlSearchService;
+        return $this->tunnelService;
     }
 }

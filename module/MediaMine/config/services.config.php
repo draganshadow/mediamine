@@ -1,5 +1,16 @@
 <?php
 return array(
+    'abstract_factories' => array(
+        'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
+        'Zend\Log\LoggerAbstractServiceFactory',
+        'MediaMine\Factory\ServiceAbstractFactory',
+    ),
+    'invokables' => array(
+        'imagine-service' => 'Imagine\Gd\Imagine'
+    ),
+    'aliases' => array(
+        'translator' => 'MvcTranslator',
+    ),
     'factories' => array(
         'elasticsearch' => function ($sm) {
             $config = $sm->get('config');

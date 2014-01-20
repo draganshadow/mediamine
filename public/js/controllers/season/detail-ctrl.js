@@ -6,7 +6,10 @@ define(['./../index'], function (controllers) {
             .then(function(result) {
                 $scope.season = result;
             });
-        Restangular.all('video').getList({season: $routeParams.id})
+        Restangular.all('video').getList({
+            season: $routeParams.id,
+            orderBy: 'episode'
+        })
             .then(function(result) {
                 $scope.season.episodes = result;
             });

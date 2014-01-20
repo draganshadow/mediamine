@@ -7,7 +7,7 @@ use Zend\Stdlib\ArraySerializableInterface;
 /**
  * GroupType Entity.
  *
- * @ORM\Entity(repositoryClass="MediaMine\Entity\Video\GroupTypeRepository")
+ * @ORM\Entity(repositoryClass="MediaMine\Repository\Video\GroupTypeRepository")
  * @ORM\Table(name="video_group_type")
  * @property int $id
  * @property string $name

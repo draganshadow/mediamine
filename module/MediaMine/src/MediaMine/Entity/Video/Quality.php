@@ -7,7 +7,7 @@ use Zend\Stdlib\ArraySerializableInterface;
 /**
  * Quality Entity.
  *
- * @ORM\Entity(repositoryClass="MediaMine\Entity\Video\QualityRepository")
+ * @ORM\Entity(repositoryClass="MediaMine\Repository\Video\QualityRepository")
  * @ORM\Table(name="video_quality")
  * @property int $id
  * @property string $name

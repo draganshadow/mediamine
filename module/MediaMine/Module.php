@@ -85,4 +85,13 @@ class Module implements ConsoleBannerProviderInterface, ConsoleUsageProviderInte
 
         );
     }
+
+    public function getControllerConfig()
+    {
+        return array(
+            'abstract_factories' => array(
+                'MediaMine\Factory\ControllerAbstractFactory'
+            ),
+        );
+    }
 }
