@@ -6,6 +6,7 @@
         "doctrine/doctrine-orm-module": "0.8.*@dev",
         "hounddog/doctrine-data-fixture-module": "dev-master",
         "zendframework/zftool": "dev-master",
+        "zf-commons/zfc-user": "dev-master",
         "gedmo/doctrine-extensions": "2.3.*",
         "phploc/phploc": "*",
         "phpmd/phpmd": "dev-master",

@@ -1,6 +1,7 @@
 define(['./../index', 'projekktor'], function (controllers) {
     'use strict';
     controllers.controller('VideoDetail', function ($scope, $routeParams, Restangular) {
+        var bitrate = 300;
         Restangular.one('video', $routeParams.id).get()
             .then(function(result) {
                 $scope.video = result;
@@ -15,7 +16,7 @@ define(['./../index', 'projekktor'], function (controllers) {
                         enableFlashFallback:true,
                         playlist: [
                             {
-                                0: {src: 'stream/' + $scope.video.files[0].file.id + '.flv', type: 'video/flv'}
+                                0: {src: 'stream/' + bitrate + '-' + $scope.video.files[0].file.pathKey + '.flv', type: 'video/flv'}
 //                                1: {src: "media/intro.ogv", type: "video/ogg"},
 //                                2: {src: "media/intro.webm", type: "video/webm"}
                             }

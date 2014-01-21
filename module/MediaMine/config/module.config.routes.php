@@ -92,19 +92,25 @@ return array(
                         'height'     => 0,
                         'format'     => 'jpg',
                     ),
-                    'spec' => '/image/%transformations%-%width%-%height%-%pathKey%.%format%',
+                    'spec' => '/images/%transformations%-%width%-%height%-%pathKey%.%format%',
                 ),
             ),
+
             'stream' => array(
-                'type' => 'segment',
+                'type' => 'regex',
                 'options' => array(
-                    'route'    => '/stream[/:id].:type',
+                    'regex'    => '/stream/((?<bitrate>[0-9]+)-)?((?<width>[0-9]+)-(?<height>[0-9]+)-)?(?<pathKey>[a-zA-Z0-9]+)(\.(?<format>(flv|mp4)))?',
                     'defaults' => array(
-                        'controller' => 'File',
-                        'action'     => 'stream',
+                        'controller' => 'Stream',
+                        'action'     => 'index',
+                        'width'     => 0,
+                        'height'     => 0,
+                        'format'     => 'flv',
                     ),
+                    'spec' => '/stream/%bitrate%-%width%-%height%-%pathKey%.%format%',
                 ),
             ),
+
             // API Documentation
             'api-resources' => array(
                 'type'    => 'Literal',
