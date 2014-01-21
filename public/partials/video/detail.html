@@ -63,6 +63,13 @@
             <div class="panel panel-default">
                 <div id="player" class="panel-heading">
                     Player
+                    <div class="right">
+                        Bitrate:
+                        <select ng-model="player.bitrate">
+                            <option ng-repeat="bitrate in bitrates">{{bitrate}}</option>
+                        </select>
+                        <a href="stream/{{player.bitrate}}-{{video.files[0].file.pathKey}}.flv"><span class="glyphicon glyphicon-download"></span></a>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <div id="player_a" class="projekktor center-block"></div>

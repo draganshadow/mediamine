@@ -1,7 +1,10 @@
 define(['./../index', 'projekktor'], function (controllers) {
     'use strict';
     controllers.controller('VideoDetail', function ($scope, $routeParams, Restangular) {
-        var bitrate = 300;
+        var bitrates = [150,300,500,1000];
+        $scope.bitrates = bitrates;
+        $scope.player = {bitrate: 300};
+
         Restangular.one('video', $routeParams.id).get()
             .then(function(result) {
                 $scope.video = result;
@@ -16,13 +19,21 @@ define(['./../index', 'projekktor'], function (controllers) {
                         enableFlashFallback:true,
                         playlist: [
                             {
-                                0: {src: 'stream/' + bitrate + '-' + $scope.video.files[0].file.pathKey + '.flv', type: 'video/flv'}
+                                0: {src: 'stream/' + $scope.player.bitrate + '-' + $scope.video.files[0].file.pathKey + '.flv', type: 'video/flv'}
 //                                1: {src: "media/intro.ogv", type: "video/ogg"},
 //                                2: {src: "media/intro.webm", type: "video/webm"}
                             }
                         ]
                     }, function(player) {} // on ready
                 );
+
+                $scope.$watch("player.bitrate", function () {
+                    projekktor('#player_a').setFile([
+                        {
+                            0: {src: 'stream/' + $scope.player.bitrate + '-' + $scope.video.files[0].file.pathKey + '.flv', type: 'video/flv'}
+                        }
+                    ]);
+                });
             });
 //        videojs.options.flash.swf = './js/libs/video-js/video-js.swf';
 //        var baseUrl = './stream/';

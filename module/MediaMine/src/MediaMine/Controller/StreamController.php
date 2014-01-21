@@ -65,7 +65,7 @@ class StreamController extends AbstractController implements EntityManagerAware
             }
 
             $file= self::DEFAULT_SAVE_PATH . $cacheName;
-            $tmpFile= self::DEFAULT_SAVE_PATH . $cacheName . '.tmp.' . $format;
+            $tmpFile= self::DEFAULT_SAVE_PATH . 'tmp-' . $cacheName;
 
             header('Content-Type: ' . $this->mimeTypes[$format]);
             header('Content-Disposition: inline; filename=' . $cacheName);
@@ -78,12 +78,7 @@ class StreamController extends AbstractController implements EntityManagerAware
                 } else {
                     $ffmpeg = 'ffmpeg -ss 0 -i "' . $filePath . '" -async 1 -b ' . $bitrate . 'k -s 640x352 -ar 44100 -ac 2 -v 0 -f ' . $format . ' -vcodec libx264 -preset superfast -threads 0 ' . $tmpFile;
                 };
-//                $cmd = $cmd . ' >/dev/null 2>/dev/null';
-                $cmd = $cmd . ';';
                 $rename = ' mv ' . $tmpFile . ' ' . $file;
-//                $cmd = $cmd . ' >/dev/null 2>/dev/null &';
-//                var_dump($cmd);
-
                 shell_exec('(' . $ffmpeg . '&& ' . $rename . ') >/dev/null 2>/dev/null &');
             }
 
