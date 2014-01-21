@@ -72,7 +72,6 @@ class StreamController extends AbstractController implements EntityManagerAware
             header('Content-Transfer-Encoding: binary');
 
             if (!file_exists($tmpFile) && !file_exists($file)) {
-                $cmd = '(';
                 if ($format == 'mp4') {
                     $ffmpeg = 'ffmpeg -ss 0 -i "' . $filePath . '" -async 1 -b ' . $bitrate . 'k -s 640x352 -ar 44100 -ac 2 -v 0 -vcodec mpeg4 -preset superfast -threads 0 ' . $tmpFile;
                 } else {
