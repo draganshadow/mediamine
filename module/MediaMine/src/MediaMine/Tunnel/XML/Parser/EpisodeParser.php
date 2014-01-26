@@ -1,5 +1,5 @@
 <?php
-namespace MediaMine\Service\Tunnel\XML\Parser;
+namespace MediaMine\Tunnel\XML\Parser;
 
 class EpisodeParser
 {

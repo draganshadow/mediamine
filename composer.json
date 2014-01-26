@@ -7,16 +7,21 @@
         "hounddog/doctrine-data-fixture-module": "dev-master",
         "zendframework/zftool": "dev-master",
         "zf-commons/zfc-user": "dev-master",
+        "zf-commons/zfc-user-doctrine-orm": "dev-master",
         "gedmo/doctrine-extensions": "2.3.*",
         "phploc/phploc": "*",
         "phpmd/phpmd": "dev-master",
         "sebastian/phpcpd": "2.0.*@dev",
-        "pdepend/pdepend" : "1.1.1",
+        "pdepend/pdepend" : "dev-master",
         "ruflin/elastica": "0.20.5.*@dev",
         "zendframework/zend-developer-tools": "dev-master",
         "widmogrod/zf2-assetic-module": "1.*",
         "zircote/swagger-php": "0.8.0",
         "outeredge/swagger-module": "dev-master",
-        "imagine/Imagine": "~0.5.0"
+        "imagine/Imagine": "~0.5.0",
+        "heartsentwined/cron-expr-parser": "1.*"
+    },
+    "autoload": {
+        "psr-0": { "MediaMine\\Module\\Allocine\\": "module/MediaMineAllocine/src/" }
     }
 }

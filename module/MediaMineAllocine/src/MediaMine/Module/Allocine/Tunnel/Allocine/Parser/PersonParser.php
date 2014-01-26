@@ -1,5 +1,5 @@
 <?php
-namespace MediaMine\Service\Tunnel\Allocine\Parser;
+namespace MediaMine\Tunnel\Allocine\Parser;
 
 class PersonParser
 {

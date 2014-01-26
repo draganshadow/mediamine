@@ -24,7 +24,23 @@ class Module implements ConsoleBannerProviderInterface, ConsoleUsageProviderInte
     {
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($eventManager);
+        $moduleRouteListener->attach($eventManager); //handle the dispatch error (exception)
+        $eventManager->attach(\Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'handleError'));
+        //handle the view render error (exception)
+        $eventManager->attach(\Zend\Mvc\MvcEvent::EVENT_RENDER_ERROR, array($this, 'handleError'));
+
+    }
+
+    public function handleError(MvcEvent $e)
+    {
+        //get the exception
+        $errorService = $e->getApplication()->getServiceManager()->get('mediamine-error-handling');
+        $exception = $e->getParam('exception');
+        if ($exception) {
+            $errorService->logException($exception);
+        } else {
+            $errorService->logMessage($e->getError());
+        }
     }
 
     public function getConfig()

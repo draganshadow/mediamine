@@ -1,7 +1,7 @@
 <?php
 namespace MediaMine\Repository\File;
 
-use Doctrine\ORM\EntityRepository;
+use MediaMine\Repository\EntityRepository;
 use MediaMine\Entity\File\File;
 
 class FileRepository extends EntityRepository

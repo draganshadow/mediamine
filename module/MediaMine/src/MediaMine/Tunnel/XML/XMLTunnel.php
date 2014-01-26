@@ -1,9 +1,9 @@
 <?php
-namespace MediaMine\Service\Tunnel\XML;
+namespace MediaMine\Tunnel\XML;
 
 use MediaMine\Entity\Video\Staff;
-use MediaMine\Service\Tunnel\XML\Parser\MovieParser;
-use MediaMine\Service\Tunnel\AbstractTunnel;
+use MediaMine\Tunnel\XML\Parser\MovieParser;
+use MediaMine\Tunnel\AbstractTunnel;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use MediaMine\Entity\File\Directory,
     MediaMine\Entity\File\File,
@@ -12,13 +12,11 @@ use MediaMine\Entity\File\Directory,
     MediaMine\Entity\Video\Video,
     MediaMine\Entity\Video\VideoFile,
     Doctrine\ORM\Query,
-    MediaMine\Service\Tunnel\XML\Parser\SerieParser,
-    MediaMine\Service\Tunnel\XML\Parser\EpisodeParser;
+    MediaMine\Tunnel\XML\Parser\SerieParser,
+    MediaMine\Tunnel\XML\Parser\EpisodeParser;
 
 class XMLTunnel extends AbstractTunnel implements ServiceLocatorAwareInterface
 {
-
-
     protected $serieParser;
 
     protected $episodeParser;
@@ -103,4 +101,8 @@ class XMLTunnel extends AbstractTunnel implements ServiceLocatorAwareInterface
         return $this->movieParser;
     }
 
+    public static function searchSeriesCron() {
+        $xmlTunnel = new XMLTunnel();
+        $xmlTunnel->searchSeries();
+    }
 }

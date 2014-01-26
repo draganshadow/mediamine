@@ -3,11 +3,10 @@ namespace MediaMine\Service;
 
 use MediaMine\Entity\Video\StaffRole;
 use MediaMine\Entity\Video\Type;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use MediaMine\Entity\File\Extension,
     Doctrine\ORM\Query;
 
-class InstallService extends AbstractService implements ServiceLocatorAwareInterface
+class InstallService extends AbstractService
 {
     protected $defaultExtensions = array(
         'video' => array(

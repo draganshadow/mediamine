@@ -4,12 +4,39 @@ return array(
         'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
         'Zend\Log\LoggerAbstractServiceFactory',
         'MediaMine\Factory\ServiceAbstractFactory',
+        'MediaMine\Factory\TunnelAbstractFactory',
     ),
     'invokables' => array(
         'imagine-service' => 'Imagine\Gd\Imagine'
     ),
     'aliases' => array(
         'translator' => 'MvcTranslator',
+    ),
+    'initializers' => array(
+        'setObjectManager' => function ($instance, $sm) {
+                if ($instance instanceof \DoctrineModule\Persistence\ObjectManagerAwareInterface) {
+                    $instance->setObjectManager($sm->get('doctrine.entitymanager.orm_default'));
+                }
+            },
+        'setServiceLocator' => function ($instance, \Zend\ServiceManager\ServiceManager $sm) {
+                if ($instance instanceof \Zend\ServiceManager\ServiceLocatorAwareInterface) {
+                    $instance->setServiceLocator($sm);
+                }
+            },
+        'setLogger' => function ($instance, \Zend\ServiceManager\ServiceManager $sm) {
+                if ($instance instanceof \MediaMine\Tunnel\AbstractTunnel) {
+                    $logger = $sm->get('mediamine-tunnel-log');
+                    $instance->setLogger($logger);
+                } elseif ($instance instanceof \MediaMine\Initializer\LoggerAwareInterface) {
+                    $logger = $sm->get('mediamine-log');
+                    $instance->setLogger($logger);
+                }
+            },
+        'es' => function ($instance, $sm) {
+                if ($instance instanceof \MediaMine\Initializer\ElasticsearchAware) {
+                    $instance->setEs($sm->get('elasticsearch'));
+                }
+            },
     ),
     'factories' => array(
         'elasticsearch' => function ($sm) {
@@ -32,6 +59,37 @@ return array(
             );
             $cache->setMemcache($memcache);
             return $cache;
-        }
-    )
+        },
+        'mediamine-tunnel-log' => function ($sm) {
+                $filename = 'tunnel.log';
+                $log = new \Zend\Log\Logger();
+                $writer = new \Zend\Log\Writer\Stream('./data/log/' . $filename);
+                $log->addWriter($writer);
+                return $log;
+            },
+        'mediamine-cron-log' => function ($sm) {
+                $filename = 'cron.log';
+                $log = new \Zend\Log\Logger();
+                $writer = new \Zend\Log\Writer\Stream('./data/log/' . $filename);
+                $log->addWriter($writer);
+                return $log;
+            },
+        'mediamine-cron' =>  function($sm) {
+                $logger = $sm->get('mediamine-cron-log');
+                $service = new MediaMine\Service\CronService();
+                $service->setLogger($logger);
+                return $service;
+            },
+        'mediamine-log' => function ($sm) {
+                $filename = 'mediamine.log';
+                $log = new \Zend\Log\Logger();
+                $writer = new \Zend\Log\Writer\Stream('./data/log/' . $filename);
+                $log->addWriter($writer);
+                return $log;
+            },
+        'mediamine-error-handling' =>  function($sm) {
+            $service = new MediaMine\Service\ErrorHandlingService();
+            return $service;
+        },
+    ),
 );

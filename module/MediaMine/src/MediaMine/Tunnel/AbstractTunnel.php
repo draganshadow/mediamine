@@ -1,10 +1,9 @@
 <?php
-namespace MediaMine\Service\Tunnel;
+namespace MediaMine\Tunnel;
 
 use MediaMine\Service\AbstractService;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 
-abstract class AbstractTunnel extends AbstractService implements ServiceLocatorAwareInterface
+abstract class AbstractTunnel extends AbstractService
 {
     const SEP = ';';
     protected $statusList = array('new', 'modified');
@@ -28,6 +27,7 @@ abstract class AbstractTunnel extends AbstractService implements ServiceLocatorA
         $group = null;
         $action = 'add';
         if (!empty($serieMeta['name'])) {
+            $this->getLogger()->info($serieMeta['name']);
             if ($serie->status == 'new') {
                 $image = $this->getRepository('File\File')->findFullBy($serie->directory, 'folder', 'jpg');
                 $image = (count($image)) ? $image[0] : null;
@@ -79,6 +79,7 @@ abstract class AbstractTunnel extends AbstractService implements ServiceLocatorA
         $video = null;
         $videos = $this->getRepository('Video\Video')->findFullBy($videoFile);
         if (!empty($videoMeta['name'])) {
+            $this->getLogger()->info($videoMeta['name']);
             $image = null;
             if (!empty($videoMeta['image'])) {
                 $images = $this->getRepository('File\File')->findFullBy($imageFolder, substr($videoMeta['image'], 0, strrpos($videoMeta['image'], '.')));

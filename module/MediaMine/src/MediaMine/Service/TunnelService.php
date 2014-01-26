@@ -1,25 +1,23 @@
 <?php
 namespace MediaMine\Service;
 
-use MediaMine\Service\Tunnel\Allocine\AllocineTunnel;
-use MediaMine\Service\Tunnel\XML\XMLTunnel;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use MediaMine\Tunnel\XML\XMLTunnel;
+use MediaMine\Module\Allocine\Tunnel\Allocine\AllocineTunnel;
 
-class TunnelService extends AbstractService implements ServiceLocatorAwareInterface
+class TunnelService extends AbstractService
 {
-
     /**
      * @var \MediaMine\Service\Tunnel\XML\XMLTunnel
      */
     protected $xmlTunnel;
 
     /**
-     * @var \MediaMine\Service\Tunnel\Allocine\AllocineTunnel
+     * @var \MediaMineAllocine\Tunnel\Allocine\AllocineTunnel
      */
     protected $allocineTunnel;
 
     /**
-     * @return \MediaMine\Service\Tunnel\Allocine\AllocineTunnel
+     * @return \MediaMineAllocine\Tunnel\Allocine\AllocineTunnel
      */
     public function getAllocineTunnel()
     {
@@ -31,13 +29,14 @@ class TunnelService extends AbstractService implements ServiceLocatorAwareInterf
     }
 
     /**
-     * @return \MediaMine\Service\Tunnel\XML\XMLTunnel
+     * @return \MediaMine\Tunnel\XML\XMLTunnel
      */
     public function getXmlTunnel()
     {
         if (null === $this->xmlTunnel) {
-            $this->xmlTunnel = new XMLTunnel();
-            $this->xmlTunnel->setServiceLocator($this->getServiceLocator());
+            $this->xmlTunnel = $this->getServiceLocator()->get('XML');
+//            $this->xmlTunnel->setLogger($this->getServiceLocator()->get('mediamine-tunnel-log'));
+//            $this->xmlTunnel->setServiceLocator($this->getServiceLocator());
         }
         return $this->xmlTunnel;
     }

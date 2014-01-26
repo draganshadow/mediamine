@@ -1,7 +1,7 @@
 <?php
 namespace MediaMine\Repository\Common;
 
-use Doctrine\ORM\EntityRepository;
+use MediaMine\Repository\EntityRepository;
 use MediaMine\Entity\Common\Person;
 
 class PersonRepository extends EntityRepository

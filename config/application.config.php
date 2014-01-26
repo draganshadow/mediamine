@@ -2,6 +2,10 @@
 return array(
     // This should be an array of module namespaces used in the application.
     'modules' => array(
+        'ZfcBase',
+        'ZfcUser',
+        'ZfcUserDoctrineORM',
+        'MediaMine\Module\Allocine',
         'MediaMine',
         'DoctrineModule',
         'DoctrineORMModule',
@@ -21,6 +25,7 @@ return array(
         'module_paths' => array(
             './module',
             './vendor',
+            'MediaMine\Module\Allocine' => './module/MediaMineAllocine',
         ),
 
         // An array of paths from which to glob configuration files after

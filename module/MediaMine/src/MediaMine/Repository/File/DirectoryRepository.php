@@ -1,7 +1,7 @@
 <?php
 namespace MediaMine\Repository\File;
 
-use Doctrine\ORM\EntityRepository;
+use MediaMine\Repository\EntityRepository;
 use Doctrine\ORM\Query;
 use MediaMine\Entity\File\Directory;
 

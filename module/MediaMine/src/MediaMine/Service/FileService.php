@@ -1,12 +1,11 @@
 <?php
 namespace MediaMine\Service;
 
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use MediaMine\Entity\File\Directory,
     MediaMine\Entity\File\File,
     Doctrine\ORM\Query;
 
-class FileService extends AbstractService implements ServiceLocatorAwareInterface
+class FileService extends AbstractService
 {
 
     /**
