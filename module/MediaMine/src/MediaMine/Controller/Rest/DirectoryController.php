@@ -68,9 +68,8 @@ class DirectoryController extends AbstractRestController implements EntityManage
     public function get($id)
     {
         $id = (int)$this->getEvent()->getRouteMatch()->getParam('id');
-
-        $directories = $this->getRepository('File\Directory')->findFullBy($parent);
-        return new JsonModel($video);
+        $directories = $this->getRepository('File\Directory')->findFullBy($id);
+        return new JsonModel($directories);
     }
 
     public function create($data)

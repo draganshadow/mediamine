@@ -81,7 +81,23 @@ class ConsoleController extends AbstractController implements EntityManagerAware
         return "Done!\n";
     }
 
-    public function testAction()
+    public function executeAction()
+    {
+        $request = $this->getRequest();
+        $id = $request->getParam('id', false);
+        // Make sure that we are running in a console and the user has not tricked our
+        // application into running this action from a public web server.
+        if (get_class($request) != 'Zend\Console\Request'){
+            throw new \RuntimeException('You can only use this action from a console!');
+        }
+        if (!$id) {
+            throw new \RuntimeException('You must specify an id');
+        }
+        $result = $this->getServiceLocator()->get('mediamine-cron')->execute($id);
+        return $result;
+    }
+
+    public function cronAction()
     {
         $request = $this->getRequest();
         // Make sure that we are running in a console and the user has not tricked our
@@ -89,10 +105,8 @@ class ConsoleController extends AbstractController implements EntityManagerAware
         if (get_class($request) != 'Zend\Console\Request'){
             throw new \RuntimeException('You can only use this action from a console!');
         }
-        $seriesParser = new SerieParser();
-        $serie = $seriesParser->parse('/opt/data/03 - SERIES TV/Sherlock/series.xml');
-        var_dump($serie);
-        return "Done!\n";
+        $result = $this->getServiceLocator()->get('mediamine-cron')->cron();
+        return $result;
     }
 
     /**

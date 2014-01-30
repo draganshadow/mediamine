@@ -8,7 +8,7 @@ class TunnelAbstractFactory implements AbstractFactoryInterface
 {
     public function canCreateServiceWithName(ServiceLocatorInterface $locator, $name, $requestedName)
     {
-        if (class_exists('\MediaMine\Tunnel\\' . $requestedName . '\\' . $requestedName . 'Tunnel')){
+        if (class_exists('\MediaMine\Tunnel\\' . str_replace('Tunnel', '', $requestedName) . '\\' . $requestedName)){
             return true;
         }
         return false;
@@ -16,7 +16,7 @@ class TunnelAbstractFactory implements AbstractFactoryInterface
 
     public function createServiceWithName(ServiceLocatorInterface $locator, $name, $requestedName)
     {
-        $class = '\MediaMine\Tunnel\\' . $requestedName . '\\' . $requestedName .'Tunnel';
+        $class = '\MediaMine\Tunnel\\' . str_replace( 'Tunnel', '', $requestedName) . '\\' . $requestedName;
         $service = new $class;
         $service->setLogger($locator->get('mediamine-tunnel-log'));
         return $service;

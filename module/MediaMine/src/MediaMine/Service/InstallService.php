@@ -23,6 +23,24 @@ class InstallService extends AbstractService
         'series', 'movie'
     );
 
+    protected $defaultCrons = array(
+//        array('key' => 'scanFiles',
+//            'frequency' => '0 3 * * *',
+//            'service' => 'File',
+//            'callback' => 'scan',
+//            'arguments' => array()),
+        array('key' => 'searchSeries',
+            'frequency' => '0 */12 * * *',
+            'service' => 'XMLTunnel',
+            'callback' => 'searchSeries',
+            'arguments' => array()),
+        array('key' => 'searchMovies',
+            'frequency' => '0 */12 * * *',
+            'service' => 'XMLTunnel',
+            'callback' => 'searchMovies',
+            'arguments' => array()),
+    );
+
     /**
      * @param $path
      * @param \MediaMine\Entity\Directory $parentDirectory
@@ -45,6 +63,9 @@ class InstallService extends AbstractService
             $type = new Type();
             $type->name = $t;
             $this->getEntityManager()->persist($type);
+        }
+        foreach ($this->defaultCrons as $c) {
+            $this->getRepository('System\Cron')->create($c);
         }
         $this->flush(true);
     }

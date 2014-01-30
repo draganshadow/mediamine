@@ -34,9 +34,7 @@ class TunnelService extends AbstractService
     public function getXmlTunnel()
     {
         if (null === $this->xmlTunnel) {
-            $this->xmlTunnel = $this->getServiceLocator()->get('XML');
-//            $this->xmlTunnel->setLogger($this->getServiceLocator()->get('mediamine-tunnel-log'));
-//            $this->xmlTunnel->setServiceLocator($this->getServiceLocator());
+            $this->xmlTunnel = $this->getServiceLocator()->get('XMLTunnel');
         }
         return $this->xmlTunnel;
     }

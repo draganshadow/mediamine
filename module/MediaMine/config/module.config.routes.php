@@ -42,12 +42,21 @@ return array(
                         )
                     )
                 ),
-                'test' => array(
+                'execute' => array(
                     'options' => array(
-                        'route'    => 'test [--verbose|-v]',
+                        'route'    => 'execute <id>',
                         'defaults' => array(
                             'controller' => 'Console',
-                            'action'     => 'test'
+                            'action'     => 'execute'
+                        )
+                    )
+                ),
+                'cron' => array(
+                    'options' => array(
+                        'route'    => 'cron',
+                        'defaults' => array(
+                            'controller' => 'Console',
+                            'action'     => 'cron'
                         )
                     )
                 )

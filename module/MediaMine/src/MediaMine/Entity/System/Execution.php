@@ -1,23 +1,27 @@
 <?php
 namespace MediaMine\Entity\System;
 
-use Cron\CronExpression;
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Stdlib\ArraySerializableInterface;
 
 /**
  * Task Entity.
  *
- * @ORM\Entity(repositoryClass="MediaMine\Repository\System\CronRepository")
- * @ORM\Table(name="system_cron")
+ * @ORM\Entity(repositoryClass="MediaMine\Repository\System\ExecutionRepository")
+ * @ORM\Table(name="system_execution")
  * @property int $id
  * @property string $key
- * @property string $reference
- * @property string $frequency
+ * @property string $status
+ * @property \DateTime $createTime
+ * @property \DateTime $scheduleTime
  */
-class Cron implements ArraySerializableInterface
+class Execution implements ArraySerializableInterface
 {
-    protected $inputFilter;
+    const STATUS_PLANNED    = 'planned';
+    const STATUS_SKIPPED    = 'skipped';
+    const STATUS_RUNNING    = 'running';
+    const STATUS_DONE       = 'done';
+    const STATUS_ERROR      = 'error';
 
     /**
      * @ORM\Id
@@ -27,14 +31,9 @@ class Cron implements ArraySerializableInterface
     protected $id;
 
     /**
-     * @ORM\Column(type="text", unique=true)
+     * @ORM\Column(type="text")
      */
     protected $key;
-
-    /**
-     * @ORM\Column(type="string");
-     */
-    protected $frequency;
 
     /**
      * @ORM\Column(type="string");
@@ -50,6 +49,41 @@ class Cron implements ArraySerializableInterface
      * @ORM\Column(type="json_array");
      */
     protected $arguments;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $status;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $errorMsg;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    protected $stackTrace;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $createTime;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $scheduleTime;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $executeTime;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $finishTime;
 
     /**
      * Magic getter to expose protected properties.
@@ -91,20 +125,13 @@ class Cron implements ArraySerializableInterface
     public function exchangeArray(array $data) {
         $this->id = (isset($data['id'])) ? $data['id'] : null;
         $this->key = (isset($data['key'])) ? $data['key'] : null;
-        $this->frequency = (isset($data['frequency'])) ? $data['frequency'] : null;
         $this->service = (isset($data['service'])) ? $data['service'] : null;
         $this->callback = (isset($data['callback'])) ? $data['callback'] : null;
         $this->arguments = (isset($data['arguments'])) ? $data['arguments'] : null;
-    }
-
-    /**
-     * @param string $currentTime
-     * @param int $nth
-     * @param bool $allowCurrentDate
-     * @return \DateTime
-     */
-    public function getNextExecutionDate($currentTime = 'now', $nth = 0, $allowCurrentDate = false) {
-        $cronExpression = CronExpression::factory($this->frequency);
-        return $cronExpression->getNextRunDate($currentTime, $nth, $allowCurrentDate);
+        $this->status = (isset($data['status'])) ? $data['status'] : null;
+        $this->createTime = (isset($data['createTime'])) ? $data['createTime'] : null;
+        $this->scheduleTime = (isset($data['scheduleTime'])) ? $data['scheduleTime'] : null;
+        $this->executeTime = (isset($data['executeTime'])) ? $data['executeTime'] : null;
+        $this->finishTime = (isset($data['finishTime'])) ? $data['finishTime'] : null;
     }
 }

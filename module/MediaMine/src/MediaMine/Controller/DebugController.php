@@ -26,11 +26,6 @@ class DebugController extends AbstractController
     public function indexAction()
     {
         $viewModel = new ViewModel();
-        $sm     = $this->getServiceLocator();
-        $tunnel = $sm->get('Tunnel');
-        $tunnel->getAllocineTunnel();
-//        $cron   = $sm->get('mediamine-cron');
-//        $cron->createCron('searchSeries', '* */12 * * *', 'mediamine-xml-tunnel', 'searchSeries', array());
         return $viewModel;
     }
 }
