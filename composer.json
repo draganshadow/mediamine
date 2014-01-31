@@ -20,7 +20,8 @@
         "outeredge/swagger-module": "dev-master",
         "imagine/Imagine": "~0.5.0",
         "mtdowling/cron-expression": "1.0.*",
-        "raveren/kint": "dev-1.0.0-wip"
+        "raveren/kint": "dev-1.0.0-wip",
+        "api-allocine/api-allocine-helper": "dev-master"
     },
     "autoload": {
         "psr-0": { "MediaMine\\Module\\Allocine\\": "module/MediaMineAllocine/src/" }
