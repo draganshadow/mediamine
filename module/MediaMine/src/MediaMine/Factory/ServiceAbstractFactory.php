@@ -1,22 +1,13 @@
 <?php
 namespace MediaMine\Factory;
 
-use Zend\ServiceManager\AbstractFactoryInterface;
-use Zend\ServiceManager\ServiceLocatorInterface;
-
-class ServiceAbstractFactory implements AbstractFactoryInterface
+class ServiceAbstractFactory extends \Netsyos\Common\Factory\ServiceAbstractFactory
 {
-    public function canCreateServiceWithName(ServiceLocatorInterface $locator, $name, $requestedName)
+    /**
+     * @return string
+     */
+    public function getBaseNamespace()
     {
-        if (class_exists('\MediaMine\Service\\' . $requestedName . 'Service')){
-            return true;
-        }
-        return false;
-    }
-
-    public function createServiceWithName(ServiceLocatorInterface $locator, $name, $requestedName)
-    {
-        $class = '\MediaMine\Service\\' . $requestedName .'Service';
-        return new $class;
+        return 'MediaMine\Service\\';
     }
 }

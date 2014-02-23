@@ -2,7 +2,7 @@
 namespace MediaMine\Entity\File;
 
 use Doctrine\ORM\Mapping as ORM;
-use Zend\Stdlib\ArraySerializableInterface;
+use Netsyos\Common\Entity\AbstractEntity;
 
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -20,7 +20,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
  * @property string $size
  * @property string $status
  */
-class File implements ArraySerializableInterface
+class File extends AbstractEntity
 {
     protected $inputFilter;
 
@@ -67,32 +67,6 @@ class File implements ArraySerializableInterface
      */
     protected $modificationDate;
 
-    /**
-     * Magic getter to expose protected properties.
-     *
-     * @param string $property
-     * @return mixed
-     */
-    public function __get($property)
-    {
-        if (property_exists($this, $property)) {
-            return $this->$property;
-        }
-    }
-
-    /**
-     * Magic setter to save protected properties.
-     *
-     * @param string $property
-     * @param mixed $value
-     */
-    public function __set($property, $value)
-    {
-        if (property_exists($this, $property)) {
-            $this->$property = $value;
-        }
-    }
-
     public function getFullName()
     {
         return $this->name . '.' . $this->extension;
@@ -101,16 +75,6 @@ class File implements ArraySerializableInterface
     public function getPath()
     {
         return $this->directory->path . '/' . $this->name . '.' . $this->extension;
-    }
-
-    /**
-     * Convert the object to an array.
-     *
-     * @return array
-     */
-    public function getArrayCopy()
-    {
-        return get_object_vars($this);
     }
 
     /**

@@ -2,7 +2,7 @@
 namespace MediaMine\Entity\File;
 
 use Doctrine\ORM\Mapping as ORM;
-use Zend\Stdlib\ArraySerializableInterface;
+use Netsyos\Common\Entity\AbstractEntity;
 
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\JoinColumn;
@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
  * @property string $name
  * @property string $type
  */
-class Extension implements ArraySerializableInterface
+class Extension extends AbstractEntity
 {
     protected $inputFilter;
 
@@ -29,38 +29,6 @@ class Extension implements ArraySerializableInterface
      * @ORM\Column(type="string")
      */
     protected $type;
-
-    /**
-     * Magic getter to expose protected properties.
-     *
-     * @param string $property
-     * @return mixed
-     */
-    public function __get($property)
-    {
-        return $this->$property;
-    }
-
-    /**
-     * Magic setter to save protected properties.
-     *
-     * @param string $property
-     * @param mixed $value
-     */
-    public function __set($property, $value)
-    {
-        $this->$property = $value;
-    }
-
-    /**
-     * Convert the object to an array.
-     *
-     * @return array
-     */
-    public function getArrayCopy()
-    {
-        return get_object_vars($this);
-    }
 
     /**
      * Populate from an array.

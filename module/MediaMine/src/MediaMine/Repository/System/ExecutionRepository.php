@@ -1,6 +1,7 @@
 <?php
 namespace MediaMine\Repository\System;
-use MediaMine\Repository\EntityRepository;
+
+use Netsyos\Common\Repository\EntityRepository;
 
 class ExecutionRepository extends EntityRepository
 {

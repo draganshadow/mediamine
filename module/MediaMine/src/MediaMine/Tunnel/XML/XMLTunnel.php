@@ -4,7 +4,6 @@ namespace MediaMine\Tunnel\XML;
 use MediaMine\Entity\Video\Staff;
 use MediaMine\Tunnel\XML\Parser\MovieParser;
 use MediaMine\Tunnel\AbstractTunnel;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use MediaMine\Entity\File\Directory,
     MediaMine\Entity\File\File,
     MediaMine\Entity\Video\Group,
@@ -15,7 +14,7 @@ use MediaMine\Entity\File\Directory,
     MediaMine\Tunnel\XML\Parser\SerieParser,
     MediaMine\Tunnel\XML\Parser\EpisodeParser;
 
-class XMLTunnel extends AbstractTunnel implements ServiceLocatorAwareInterface
+class XMLTunnel extends AbstractTunnel
 {
     protected $serieParser;
 

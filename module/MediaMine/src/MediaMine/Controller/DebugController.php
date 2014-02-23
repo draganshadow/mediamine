@@ -8,18 +8,8 @@
  */
 
 namespace MediaMine\Controller;
-use Heartsentwined\Cron\Service\Cron;
-use Heartsentwined\Cron\Service\Registry;
-use Zend\Debug\Debug;
-use MediaMine\Parser\MovieParser;
-use Zend\Log\Logger;
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
-use Zend\Dom\Query;
-use MediaMine\Initializer\EntityManagerAware;
-use MediaMine\Initializer\ElasticsearchAware;
-use MediaMine\Entity\User;
 
+use Netsyos\Common\Controller\AbstractController;
 
 class DebugController extends AbstractController
 {

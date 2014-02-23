@@ -2,8 +2,6 @@
 namespace MediaMine\Controller\Rest;
 
 use Doctrine\ORM\Query;
-use MediaMine\Initializer\EntityManagerAware;
-use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
 /**
@@ -12,7 +10,7 @@ use Zend\View\Model\JsonModel;
  *      basePath="/api"
  * )
  */
-class SeasonController extends AbstractRestController implements EntityManagerAware
+class SeasonController extends AbstractRestController
 {
     /**
      *  @SWG\Api(

@@ -9,17 +9,12 @@
 
 namespace MediaMine\Controller;
 
-use MediaMine\Entity\Directory;
-use MediaMine\Controller\AbstractController;
-use MediaMine\Initializer\EntityManagerAware;
+use Netsyos\Common\Controller\AbstractController;
 use Zend\View\Model\ViewModel;
-use Zend\Http\Response\Stream;
 
-use MediaMine\Entity\File\File,
-    Doctrine\ORM\EntityManager,
-    Doctrine\ORM\Query;
+use Doctrine\ORM\Query;
 
-class StreamController extends AbstractController implements EntityManagerAware
+class StreamController extends AbstractController
 {
     const DEFAULT_FORMAT = 'flv';
     const DEFAULT_SAVE_PATH = 'public/stream/';

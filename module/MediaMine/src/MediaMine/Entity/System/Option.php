@@ -2,7 +2,7 @@
 namespace MediaMine\Entity\System;
 
 use Doctrine\ORM\Mapping as ORM;
-use Zend\Stdlib\ArraySerializableInterface;
+use Netsyos\Common\Entity\AbstractEntity;
 
 /**
  * Parameter Entity.
@@ -13,7 +13,7 @@ use Zend\Stdlib\ArraySerializableInterface;
  * @property string $key
  * @property string $reference
  */
-class Option implements ArraySerializableInterface
+class Option extends AbstractEntity
 {
     protected $inputFilter;
 
@@ -38,38 +38,6 @@ class Option implements ArraySerializableInterface
      * @ORM\Column(type="text");
      */
     protected $value;
-
-    /**
-     * Magic getter to expose protected properties.
-     *
-     * @param string $property
-     * @return mixed
-     */
-    public function __get($property)
-    {
-        return $this->$property;
-    }
-
-    /**
-     * Magic setter to save protected properties.
-     *
-     * @param string $property
-     * @param mixed $value
-     */
-    public function __set($property, $value)
-    {
-        $this->$property = $value;
-    }
-
-    /**
-     * Convert the object to an array.
-     *
-     * @return array
-     */
-    public function getArrayCopy()
-    {
-        return get_object_vars($this);
-    }
 
     /**
      * Populate from an array.

@@ -25,20 +25,19 @@ return array(
             'Index' => 'MediaMine\Controller\IndexController',
         ),
         'initializers' => array(
-            'em' => function ($instance, $serviceLocator) {
-                if ($instance instanceof \MediaMine\Initializer\EntityManagerAware) {
-                    $instance->setEm(
-                        $serviceLocator->getServiceLocator()->get('doctrine.entitymanager.orm_default')
-                    );
-                }
-            },
-            'es' => function ($instance, $serviceLocator) {
-                if ($instance instanceof \MediaMine\Initializer\ElasticsearchAware) {
-                    $instance->setEs(
-                        $serviceLocator->getServiceLocator()->get('elasticsearch')
-                    );
-                }
-            },
+            'setEntityManager' => function ($instance, $serviceLocator) {
+                    if ($instance instanceof \Netsyos\Common\Initializer\EntityManagerAwareInterface) {
+                        $instance->setBaseNameSpace();
+                        $instance->setEntityManager(
+                            $serviceLocator->getServiceLocator()->get('doctrine.entitymanager.orm_default')
+                        );
+                    }
+                },
+            'setElasticsearch' => function ($instance, $serviceLocator) {
+                    if ($instance instanceof \MediaMine\Initializer\ElasticsearchAwareInterface) {
+                        $instance->setElasticsearch($serviceLocator->getServiceLocator()->get('elasticsearch'));
+                    }
+                },
         )
     ),
     'view_manager' => array(

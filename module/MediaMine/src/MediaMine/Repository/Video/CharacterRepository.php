@@ -1,7 +1,7 @@
 <?php
 namespace MediaMine\Repository\Video;
 
-use MediaMine\Repository\EntityRepository;
+use Netsyos\Common\Repository\EntityRepository;
 use MediaMine\Entity\Video\Character;
 
 class CharacterRepository extends EntityRepository

@@ -13,9 +13,12 @@ return array(
         'translator' => 'MvcTranslator',
     ),
     'initializers' => array(
-        'setObjectManager' => function ($instance, $sm) {
-                if ($instance instanceof \DoctrineModule\Persistence\ObjectManagerAwareInterface) {
-                    $instance->setObjectManager($sm->get('doctrine.entitymanager.orm_default'));
+        'setEntityManager' => function ($instance, \Zend\ServiceManager\ServiceManager $sm) {
+                if ($instance instanceof \Netsyos\Common\Initializer\EntityManagerAwareInterface) {
+                    $instance->setBaseNameSpace();
+                    $instance->setEntityManager(
+                        $sm->get('doctrine.entitymanager.orm_default')
+                    );
                 }
             },
         'setServiceLocator' => function ($instance, \Zend\ServiceManager\ServiceManager $sm) {
@@ -27,14 +30,14 @@ return array(
                 if ($instance instanceof \MediaMine\Tunnel\AbstractTunnel) {
                     $logger = $sm->get('mediamine-tunnel-log');
                     $instance->setLogger($logger);
-                } elseif ($instance instanceof \MediaMine\Initializer\LoggerAwareInterface) {
+                } elseif ($instance instanceof \Netsyos\Common\Initializer\LoggerAwareInterface) {
                     $logger = $sm->get('mediamine-log');
                     $instance->setLogger($logger);
                 }
             },
-        'es' => function ($instance, $sm) {
-                if ($instance instanceof \MediaMine\Initializer\ElasticsearchAware) {
-                    $instance->setEs($sm->get('elasticsearch'));
+        'setElasticsearch' => function ($instance, $sm) {
+                if ($instance instanceof \MediaMine\Initializer\ElasticsearchAwareInterface) {
+                    $instance->setElasticsearch($sm->get('elasticsearch'));
                 }
             },
     ),

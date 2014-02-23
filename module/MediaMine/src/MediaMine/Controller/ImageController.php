@@ -9,16 +9,10 @@
 
 namespace MediaMine\Controller;
 
-use MediaMine\Entity\Directory;
-use MediaMine\Controller\AbstractController;
-use MediaMine\Initializer\EntityManagerAware;
-use Zend\View\Model\ViewModel;
+use Doctrine\ORM\Query;
+use Netsyos\Common\Controller\AbstractController;
 
-use MediaMine\Entity\File\File,
-    Doctrine\ORM\EntityManager,
-    Doctrine\ORM\Query;
-
-class ImageController extends AbstractController implements EntityManagerAware
+class ImageController extends AbstractController
 {
     const DEFAULT_FORMAT = 'jpg';
     const DEFAULT_SAVE_PATH = 'public/images/';

@@ -3,8 +3,6 @@ namespace MediaMine\Controller\Rest;
 
 use Swagger\Annotations as SWG;
 use Doctrine\ORM\Query;
-use MediaMine\Initializer\EntityManagerAware;
-use Zend\Mvc\Controller\AbstractRestfulController;
 use Zend\View\Model\JsonModel;
 
 /**
@@ -13,7 +11,7 @@ use Zend\View\Model\JsonModel;
  *      basePath="/api"
  * )
  */
-class SeriesController extends AbstractRestController implements EntityManagerAware
+class SeriesController extends AbstractRestController
 {
     /**
      *  @SWG\Api(

@@ -9,14 +9,10 @@
 
 namespace MediaMine\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
+use Netsyos\Common\Controller\AbstractController;
 use Zend\View\Model\ViewModel;
-use MediaMine\Initializer\EntityManagerAware;
-use MediaMine\Initializer\ElasticsearchAware;
-use MediaMine\Entity\User;
 
-
-class IndexController extends AbstractActionController
+class IndexController extends AbstractController
 {
     public function indexAction()
     {

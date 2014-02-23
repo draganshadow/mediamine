@@ -1,8 +1,33 @@
 {
+    "name": "mediamine",
+    "description": "Multimedia library",
+    "license": "Private",
+    "keywords": ["zf2", "doctrine", "video", "music"],
+    "homepage": "https://github.com/draganshadow/mediamine",
+
+    "authors": [
+        {
+            "name": "draganshadow",
+            "email": "draganshdow@netsyos.com"
+        }
+    ],
+
     "minimum-stability": "dev",
+
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/draganshadow/common"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/draganshadow/cron"
+        }
+    ],
+
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "2.2.2",
+        "zendframework/zendframework": "2.2.*",
         "doctrine/doctrine-orm-module": "0.8.*@dev",
         "hounddog/doctrine-data-fixture-module": "dev-master",
         "zendframework/zftool": "dev-master",
@@ -16,14 +41,20 @@
         "ruflin/elastica": "0.20.5.*@dev",
         "zendframework/zend-developer-tools": "dev-master",
         "widmogrod/zf2-assetic-module": "1.*",
-        "zircote/swagger-php": "0.8.0",
+        "zircote/swagger-php": "0.9.*",
         "outeredge/swagger-module": "dev-master",
         "imagine/Imagine": "~0.5.0",
-        "mtdowling/cron-expression": "1.0.*",
-        "raveren/kint": "dev-1.0.0-wip",
-        "api-allocine/api-allocine-helper": "dev-master"
+        "api-allocine/api-allocine-helper": "dev-master",
+        "netsyos/common": "dev-master",
+        "netsyos/cron": "dev-master"
     },
+
+    "require-dev": {
+        "raveren/kint": "dev-1.0.0-wip"
+    },
+
     "autoload": {
         "psr-0": { "MediaMine\\Module\\Allocine\\": "module/MediaMineAllocine/src/" }
     }
 }
+

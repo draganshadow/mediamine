@@ -1,7 +1,7 @@
 <?php
 namespace MediaMine\Service;
 
-use MediaMine\Initializer\LoggerAwareInterface;
+use Netsyos\Common\Initializer\LoggerAwareInterface;
 
 class ErrorHandlingService implements LoggerAwareInterface
 {

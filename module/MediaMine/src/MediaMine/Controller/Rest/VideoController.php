@@ -2,9 +2,7 @@
 namespace MediaMine\Controller\Rest;
 
 use Doctrine\ORM\Query;
-use MediaMine\Initializer\ElasticsearchAware;
-use MediaMine\Initializer\EntityManagerAware;
-use Zend\Mvc\Controller\AbstractRestfulController;
+use MediaMine\Initializer\ElasticsearchAwareInterface;
 use Zend\View\Model\JsonModel;
 
 /**
@@ -13,7 +11,7 @@ use Zend\View\Model\JsonModel;
  *      basePath="/api"
  * )
  */
-class VideoController extends AbstractRestController implements EntityManagerAware, ElasticsearchAware
+class VideoController extends AbstractRestController implements ElasticsearchAwareInterface
 {
     /**
      * @var
@@ -101,7 +99,7 @@ class VideoController extends AbstractRestController implements EntityManagerAwa
             $elasticaQuery = new \Elastica\Query();
             $elasticaQuery->setQuery($elasticaQueryString);
 
-            $resultSet = $this->getEs()->getIndex('mediamine')->getType('video')->search($elasticaQuery);
+            $resultSet = $this->getElasticsearch()->getIndex('mediamine')->getType('video')->search($elasticaQuery);
             // Get IDs
             $ids = array();
             foreach($resultSet as $result){
@@ -216,12 +214,15 @@ class VideoController extends AbstractRestController implements EntityManagerAwa
         # code...
     }
 
-    public function setEs($es)
+    public function setElasticsearch(\Elastica\Client $es)
     {
         $this->es = $es;
     }
 
-    public function getEs()
+    /**
+     * @return \Elastica\Client
+     */
+    public function getElasticsearch()
     {
         return $this->es;
     }

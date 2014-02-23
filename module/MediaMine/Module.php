@@ -49,8 +49,8 @@ class Module implements ConsoleBannerProviderInterface, ConsoleUsageProviderInte
 
         $configFiles = array(
             __DIR__ . '/config/module.config.php',
-            __DIR__ . '/config/module.config.assets.php', // Assets
-            __DIR__ . '/config/module.config.routes.php', // Routes
+            __DIR__ . '/config/routes.config.php',
+            __DIR__ . '/config/assets.config.php',
         );
 
         // Merge all module config options

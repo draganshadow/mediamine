@@ -1,19 +1,15 @@
 <?php
 namespace MediaMine\Controller;
 
-use MediaMine\Controller\AbstractController;
-use MediaMine\Initializer\EntityManagerAware;
-use MediaMine\Parser\SerieParser;
-use Zend\Mvc\Controller\AbstractActionController;
-use MediaMine\Service\ScanService;
+use Netsyos\Common\Controller\AbstractController;
 
-class ConsoleController extends AbstractController implements EntityManagerAware
+class ConsoleController extends AbstractController
 {
 
     /**
-     * @var \MediaMine\Service\ScanService
+     * @var \MediaMine\Service\FileService
      */
-    protected $scanService;
+    protected $fileService;
 
     /**
      * @var \MediaMine\Service\InstallService
@@ -51,7 +47,7 @@ class ConsoleController extends AbstractController implements EntityManagerAware
             throw new \RuntimeException('You must specify a path to add');
         }
         echo 'Add files from: ' . realpath($path), PHP_EOL;
-        $this->getScanService()->scan($path);
+        $this->getFileService()->scan($path);
         return "Done!\n";
     }
 
@@ -121,14 +117,14 @@ class ConsoleController extends AbstractController implements EntityManagerAware
     }
 
     /**
-     * @return \MediaMine\Service\ScanService
+     * @return \MediaMine\Service\FileService
      */
-    public function getScanService()
+    public function getFileService()
     {
-        if (null === $this->scanService) {
-            $this->scanService = $this->getServiceLocator()->get('File');
+        if (null === $this->fileService) {
+            $this->fileService = $this->getServiceLocator()->get('File');
         }
-        return $this->scanService;
+        return $this->fileService;
     }
 
     /**

@@ -1,8 +1,8 @@
 <?php
 namespace MediaMine\Repository\Common;
 
-use MediaMine\Repository\EntityRepository;
 use MediaMine\Entity\Common\Person;
+use Netsyos\Common\Repository\EntityRepository;
 
 class PersonRepository extends EntityRepository
 {

@@ -5,6 +5,7 @@ return array(
         'ZfcBase',
         'ZfcUser',
         'ZfcUserDoctrineORM',
+        'Netsyos\Cron',
         'MediaMine\Module\Allocine',
         'MediaMine',
         'DoctrineModule',
