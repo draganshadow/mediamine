@@ -19,3 +19,4 @@ public/assets
 atlassian-ide-plugin.xml
 .idea
 composer.lock
+Gemfile.lock
