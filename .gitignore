@@ -18,3 +18,4 @@ public/assets
 *.vagrant*
 atlassian-ide-plugin.xml
 .idea
+composer.lock
