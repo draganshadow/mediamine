@@ -9,6 +9,6 @@ class ControllerAbstractFactory extends \Netsyos\Common\Factory\ControllerAbstra
      */
     public function getBaseNamespace()
     {
-        return 'MediaMine\controller\\';
+        return 'MediaMine\Controller\\';
     }
 }

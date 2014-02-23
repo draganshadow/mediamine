@@ -37,7 +37,7 @@ class SeriesController extends AbstractRestController
     {
         $order = $this->params()->fromQuery('order', 'ASC');
 
-        $qb = $this->getEm()->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('g, i')
             ->from('MediaMine\Entity\Video\Group','g')
             ->join('g.images', 'i')
@@ -69,7 +69,7 @@ class SeriesController extends AbstractRestController
     public function get($id)
     {
         $id = (int)$this->getEvent()->getRouteMatch()->getParam('id');
-        $serie = $this->getEm()->find('MediaMine\Entity\Video\Group', $id);
+        $serie = $this->getEntityManager()->find('MediaMine\Entity\Video\Group', $id);
         return new JsonModel($serie->getArrayCopy());
     }
 

@@ -34,7 +34,7 @@ class SeasonController extends AbstractRestController
     public function getList()
     {
         $params = array();
-        $qb = $this->getEm()->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('Season', 'g', 'i')
             ->from('MediaMine\Entity\Video\Season','Season');
 
@@ -86,7 +86,7 @@ class SeasonController extends AbstractRestController
     {
         $id = (int)$this->getEvent()->getRouteMatch()->getParam('id');
 
-        $season = $this->getEm()->find('MediaMine\Entity\Video\Season', $id);
+        $season = $this->getEntityManager()->find('MediaMine\Entity\Video\Season', $id);
 
         return new JsonModel($season->getArrayCopy());
     }

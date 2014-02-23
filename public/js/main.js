@@ -24,7 +24,7 @@ require.config({
         'bootstrap3': './libs/bootstrap/dist/js/bootstrap',
         'lodash': './libs/lodash/dist/lodash',
         'jquery': './libs/jquery/jquery',
-        'projekktor': './libs/projekktor/projekktor-1.3.03'
+        'projekktor': './vendor/projekktor/projekktor-1.3.03'
     },
 
     /**

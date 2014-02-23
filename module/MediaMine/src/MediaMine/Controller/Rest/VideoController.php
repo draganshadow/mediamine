@@ -84,7 +84,7 @@ class VideoController extends AbstractRestController implements ElasticsearchAwa
         $params = array();
         $limit = 20;
         $page = 0;
-        $qb = $this->getEm()->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('Video', 'i')
             ->from('MediaMine\Entity\Video\Video','Video')
             ->join('Video.images', 'i');
@@ -181,7 +181,7 @@ class VideoController extends AbstractRestController implements ElasticsearchAwa
     {
         $id = (int)$this->getEvent()->getRouteMatch()->getParam('id');
 
-        $qb = $this->getEm()->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('video', 'files','f', 'i', 'g', 'staffs', 'r', 'p', 'c')
             ->from('MediaMine\Entity\Video\Video','video')
             ->join('video.files', 'files')

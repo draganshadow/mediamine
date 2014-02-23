@@ -37,7 +37,7 @@ class GenreController extends AbstractRestController
     {
         $order = $this->params()->fromQuery('order', 'ASC');
 
-        $qb = $this->getEm()->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('g')
             ->from('MediaMine\Entity\Video\Genre','g')
             ->orderBy('g.name', $order);

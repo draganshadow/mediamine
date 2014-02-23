@@ -10,6 +10,7 @@
 namespace MediaMine\Controller;
 
 use Netsyos\Common\Controller\AbstractController;
+use Zend\View\Model\ViewModel;
 
 class DebugController extends AbstractController
 {

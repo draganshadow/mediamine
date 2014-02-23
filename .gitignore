@@ -8,12 +8,14 @@ nbproject
 .project
 .settings
 *.lock
-vendor/bin
 .idea
 .vagrant
-vendor
+vendor/*
 data/php_depend
 public/assets
+public/js/libs
+node_modules
+build
 *.sass-cache*
 *.vagrant*
 atlassian-ide-plugin.xml

@@ -34,7 +34,7 @@ class PersonController extends AbstractRestController
     public function getList()
     {
         $params = array();
-        $qb = $this->getEm()->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('Person', 'i')
             ->from('MediaMine\Entity\Common\Person','Person');
 
@@ -84,7 +84,7 @@ class PersonController extends AbstractRestController
     {
         $id = (int)$this->getEvent()->getRouteMatch()->getParam('id');
 
-        $person = $this->getEm()->find('MediaMine\Entity\Common\Person', $id);
+        $person = $this->getEntityManager()->find('MediaMine\Entity\Common\Person', $id);
 
         return new JsonModel($person->getArrayCopy());
     }

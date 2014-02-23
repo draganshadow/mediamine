@@ -39,7 +39,7 @@ class Module implements ConsoleBannerProviderInterface, ConsoleUsageProviderInte
         if ($exception) {
             $errorService->logException($exception);
         } else {
-            $errorService->logMessage($e->getError());
+            $errorService->logMessage($e->getError() . '(' . $e->getControllerClass() . ')');
         }
     }
 

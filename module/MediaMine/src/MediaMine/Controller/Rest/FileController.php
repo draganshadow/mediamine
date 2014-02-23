@@ -34,7 +34,7 @@ class FileController extends AbstractRestController
     public function getList()
     {
         $params = array();
-        $qb = $this->getEm()->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('Video', 'i')
             ->from('MediaMine\Entity\Video\Video','Video')
             ->join('Video.images', 'i');
@@ -74,7 +74,7 @@ class FileController extends AbstractRestController
     {
         $id = (int)$this->getEvent()->getRouteMatch()->getParam('id');
 
-        $qb = $this->getEm()->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select('video', 'files','f', 'i')
             ->from('MediaMine\Entity\Video\Video','video')
             ->join('video.files', 'files')

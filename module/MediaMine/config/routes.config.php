@@ -68,7 +68,7 @@ return array(
             'home' => array(
                 'type' => 'Literal',
                 'options' => array(
-                    'route'    => '/',
+                    'route'    => '/i',
                     'defaults' => array(
                         'controller' => 'Index',
                         'action'     => 'index',
