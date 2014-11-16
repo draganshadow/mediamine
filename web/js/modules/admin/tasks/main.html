@@ -1,0 +1,33 @@
+<panel ng-cloak>
+    <panel-heading><h1>{{ 'ADMIN_TASKS_TITLE' | translate }}</h1></panel-heading>
+    <tabset>
+        <tab heading="{{ 'ADMIN_TASKS_RUNNING' | translate }}"></tab>
+    </tabset>
+    <p>
+        <button type="button" class="btn btn-primary btn-xs pull-right margin-top-xs" ng-click="refreshList()">{{ 'ADMIN_TASKS_REFRESH' | translate }}</button>
+    </p>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ 'ADMIN_TASKS_GROUP' | translate }}</th>
+            <th>{{ 'ADMIN_TASKS_KEY' | translate }}</th>
+            <th>{{ 'ADMIN_TASKS_PROGRESS' | translate }}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="task in tasks">
+            <td>{{task.groupKey}}</td>
+            <td>{{task.key}}</td>
+            <td>{{task.barLabel}}</td>
+            <td>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{task.percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{task.percent}}%;">
+                        {{task.percent}}%
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</panel>

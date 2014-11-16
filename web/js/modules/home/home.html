@@ -1,0 +1,15 @@
+<panel heading="{{ 'SEARCH' | translate }}">
+    <div ng-include="'js/modules/search/widget/search.html'"></div>
+</panel>
+<panel heading="{{ 'RECENTLY_ADDED' | translate }}">
+    <div class="panel-body width-100 scroll-x">
+        <table><tr>
+            <td class="valign-top" ng-repeat="video in recentVideos">
+                <div class="width-xl">
+                    <tile-video video="video"></tile-video>
+                </div>
+            </td>
+        </tr></table>
+    </div>
+</panel>
+<div ui-view></div>

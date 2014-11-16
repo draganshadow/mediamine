@@ -1,0 +1,60 @@
+<panel ng-show="video" ng-cloak>
+    <panel-heading><h1>{{video.name}}<span ng-if="video.year"> ({{video.year}})</span></h1></panel-heading>
+    <div class="row clearfix">
+        <div class="col-xs-4 col-sm-4 col-md-4 column overflow-hidden"><img ng-src="{{video.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'video': 'hrbox_ffffff'}}" class="thumbnail img-rounded"></div>
+        <div class="col-xs-8 col-sm-8 col-md-8 column">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ 'VIDEO_DETAILS' | translate }}
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        <li ng-repeat="staff in video.staffs | filter:{role:'!actor'}"><strong>{{ staff.role | translate }}: </strong>{{staff.person.name}}</li>
+                        <li>
+                            <strong>{{ 'VIDEO_GENRES' | translate }}</strong> <span ng-repeat="genre in video.genres"><span class="label label-default">{{genre.name}}</span>{{$last ? '' : ' '}}</span>
+                        </li>
+                    </ul>
+                    <a class="btn btn-primary" ng-click="$root.$emit('playlist.play', video)"><span class="glyphicon glyphicon-play"></span> {{ 'VIDEO_PLAY' | translate }}</a>
+
+                    <div class="btn-group" dropdown>
+                        <a class="btn btn-default" type="button" href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/300-' + video.files[0].file.pathKey + '.mp4'}}" download><span class="glyphicon glyphicon-download"></span> {{ 'VIDEO_DOWNLOAD' | translate }}</a>
+                        <button type="button" class="btn dropdown-toggle">
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/150-' + video.files[0].file.pathKey + '.mp4'}}" download>mp4 (150)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/300-' + video.files[0].file.pathKey + '.mp4'}}" download>mp4 (300)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/600-' + video.files[0].file.pathKey + '.mp4'}}" download>mp4 (600)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/150-' + video.files[0].file.pathKey + '.flv'}}" download>flv (150)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/300-' + video.files[0].file.pathKey + '.flv'}}" download>flv (300)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/600-' + video.files[0].file.pathKey + '.flv'}}" download>flv (600)</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{ 'VIDEO_SUMMARY' | translate }}
+        </div>
+        <div class="panel-body">
+            {{video.summary}}
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{ 'VIDEO_ACTORS' | translate }}
+        </div>
+        <div class="panel-body scroll-x">
+            <table><tr>
+                <td class="valign-top" ng-repeat="staff in video.staffs | filter:{role:'actor'}">
+                    <tile tile-class="width-xl margin-right-xs" image="{{person.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'portrait' : 'hrbox_ffffff'}}" image-height="xl" title="{{staff.person.name}}" index="$index">
+                        <h4 class="space-nowrap overflow-hidden"><a ui-sref="mediamine.videolib.person({id: staff.person.id})">{{staff.person.name}}</a></h4>
+                        <h5 class="space-nowrap overflow-hidden">{{staff.character.name || '-'}}</h5>
+                    </tile>
+                </td>
+            </tr></table>
+        </div>
+    </div>
+</panel>

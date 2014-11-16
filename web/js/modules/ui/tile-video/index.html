@@ -1,0 +1,13 @@
+<div ng-drag="true" ng-drag-data="video" ng-drag-resize="4">
+    <tile image="{{video.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'video': 'hrbox_ffffff'}}" title="{{video.name}}" index="$index">
+        <div class="btn-group btn-group-xs tile-control" ng-prevent-drag>
+            <a class="btn btn-xs btn-primary" ng-click="$root.$emit('playlist.play', video)"><span class="glyphicon glyphicon-play"></span></a>
+            <a class="btn btn-xs btn-primary" ng-click="$root.$emit('playlist.add', video)"><span class="glyphicon glyphicon-plus"></span></a>
+        </div>
+        <h4 class="space-nowrap overflow-hidden" ng-prevent-drag>
+            <span ng-if="video.episode">{{video.episode}} - </span>
+            <a ui-sref="mediamine.videolib.video({id: video.id})">{{video.name}}</a>
+            <span ng-if="video.year"> ({{video.year}})</span>
+        </h4>
+    </tile>
+</div>

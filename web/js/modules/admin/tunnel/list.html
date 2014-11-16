@@ -1,0 +1,30 @@
+<panel ng-cloak>
+    <panel-heading><h1>{{ 'ADMIN_TUNNEL_TITLE' | translate }}</h1></panel-heading>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>{{ 'ADMIN_TUNNEL_KEY' | translate }}</th>
+            <th>{{ 'ADMIN_TUNNEL_SERVICE' | translate }}</th>
+            <th>{{ 'ADMIN_TUNNEL_ENABLED' | translate }}</th>
+            <th>{{ 'ADMIN_TUNNEL_TITLE' | translate }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="tunnel in tunnels">
+            <td>{{tunnel.id}}</td>
+            <td>{{tunnel.key}}</td>
+            <td>{{tunnel.service}}</td>
+            <td>{{ 'ADMIN_TUNNEL_' + tunnel.enabled | translate }}</td>
+            <td>
+                <div ng-if="!tunnel.enabled">
+                    <button type="button" class="btn btn-primary btn-xs" ng-click="enable(tunnel)">{{ 'ADMIN_TUNNEL_ACTION_ENABLE' | translate }}</button>
+                </div>
+                <div ng-if="tunnel.enabled">
+                    <button type="button" class="btn btn-primary btn-xs" ng-click="disable(tunnel)">{{ 'ADMIN_TUNNEL_ACTION_DISABLE' | translate }}</button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</panel>

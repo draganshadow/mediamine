@@ -1,0 +1,36 @@
+media_mine_rest_action:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\ActionController
+media_mine_rest_directory:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\DirectoryController
+media_mine_rest_file:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\FileController
+media_mine_rest_genre:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\GenreController
+media_mine_rest_group:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\GroupController
+media_mine_rest_module:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\ModuleController
+media_mine_rest_person:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\PersonController
+media_mine_rest_season:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\SeasonController
+media_mine_rest_setting:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\SettingController
+media_mine_rest_tunnel:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\TunnelController
+media_mine_rest_video:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\VideoController
+media_mine_rest_video_type:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\VideoTypeController

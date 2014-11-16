@@ -1,0 +1,85 @@
+media_mine_core_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MediaMineCoreBundle:Default:index }
+media_mine_image_library_def:
+    path:     /images/resized/library/{transformations}-{pathKey}.{format}
+    requirements:
+      transformation: "[a-zA-Z_]+"
+      width: \d+
+      height: \d+
+      pathKey: "[a-zA-Z0-9]+"
+      format:  jpg|png|gif
+    defaults:
+      _controller: MediaMineCoreBundle:Image:library
+      width: 0
+      height: 0
+      format: jpg
+media_mine_image_library:
+    path:     /images/resized/library/{transformations}-{width}-{height}-{pathKey}.{format}
+    requirements:
+      transformation: "[a-zA-Z_]+"
+      width: \d+
+      height: \d+
+      pathKey: "[a-zA-Z0-9]+"
+      format:  jpg|png|gif
+    defaults:
+      _controller: MediaMineCoreBundle:Image:library
+      width: 0
+      height: 0
+      format: jpg
+media_mine_image_template_def:
+    path:     /images/resized/template/{transformations}-{pathKey}.{format}
+    requirements:
+      transformation: "[a-zA-Z_]+"
+      width: \d+
+      height: \d+
+      pathKey: "[a-zA-Z0-9]+"
+      format:  jpg|png|gif
+    defaults:
+      _controller: MediaMineCoreBundle:Image:template
+      width: 0
+      height: 0
+      format: jpg
+media_mine_image_template:
+    path:     /images/resized/template/{transformations}-{width}-{height}-{pathKey}.{format}
+    requirements:
+      transformation: "[a-zA-Z_]+"
+      width: \d+
+      height: \d+
+      pathKey: "[a-zA-Z0-9]+"
+      format:  jpg|png|gif
+    defaults:
+      _controller: MediaMineCoreBundle:Image:template
+      width: 0
+      height: 0
+      format: jpg
+
+media_mine_stream:
+    path:     /stream/{slug}/{bitrate}-{width}-{height}-{pathKey}.{format}
+    requirements:
+      bitrate: \d+
+      width: \d+
+      height: \d+
+      slug: "[a-zA-Z0-9]+"
+      pathKey: "[a-zA-Z0-9]+"
+      format:  flv|mp4|webm|m3u8
+    defaults:
+      _controller: MediaMineCoreBundle:Stream:index
+      width: 0
+      height: 0
+      format: flv
+
+media_mine_stream_default:
+    path:     /stream/{slug}/{bitrate}-{pathKey}.{format}
+    requirements:
+      bitrate: \d+
+      width: \d+
+      height: \d+
+      slug: "[a-zA-Z0-9]+"
+      pathKey: "[a-zA-Z0-9]+"
+      format:  flv|mp4|webm|m3u8
+    defaults:
+      _controller: MediaMineCoreBundle:Stream:index
+      width: 0
+      height: 0
+      format: flv

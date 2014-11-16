@@ -1,0 +1,18 @@
+<accordion close-others="{{false}}">
+    <accordion-group heading="{{ 'FILTER_TYPE' | translate }}">
+        <span ng-repeat="type in types track by $index"><span class="btn btn-primary btn-sm margin-bottom-xxs" ng-click="selectType(type)">{{type.name}}</span>{{$last ? '' : ' '}}</span>
+        <div class="clearfix"><a class="pull-right" ng-click="resetType()">{{ 'RESET' | translate }}</a></div>
+    </accordion-group>
+    <accordion-group heading="{{ 'FILTER_GENRE' | translate }}">
+        <span ng-repeat="genre in genres"><span class="btn btn-primary btn-sm margin-bottom-xxs" ng-click="selectGenre(genre)">{{genre.name}}</span>{{$last ? '' : ' '}}</span>
+        <div class="clearfix"><a class="pull-right" ng-click="resetGenre()">{{ 'RESET' | translate }}</a></div>
+    </accordion-group>
+    <accordion-group heading="{{ 'FILTER_YEAR' | translate }}">
+    </accordion-group>
+    <accordion-group heading="{{ 'FILTER_RATING' | translate }}">
+    </accordion-group>
+    <accordion-group heading="{{ 'FILTER_LIBRARY' | translate }}">
+    </accordion-group>
+    <accordion-group heading="{{ 'FILTER_VIEWED' | translate }}">
+    </accordion-group>
+</accordion>

@@ -1,0 +1,7 @@
+<div class="h100 oScrollY">
+    <div class="col-sm-6 col-md-3 mbm" ng-repeat="serie in series | filter:serieFilter">
+        <tile image="{{serie.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'placeholder': 'hrbox_ffffff'}}" title="{{serie.name}}" index="$index">
+            <h4 class="space-nowrap overflow-hidden"><a ui-sref="mediamine.videolib.serie({id: serie.id})">{{serie.name}}</a></h4>
+        </tile>
+    </div>
+</div>

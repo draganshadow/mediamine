@@ -1,0 +1,35 @@
+<panel ng-show="person" ng-cloak>
+    <panel-heading><h1>{{person.name}}</h1></panel-heading>
+    <div class="row clearfix">
+        <div class="col-md-4 column"><img ng-src="{{person.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'portrait'}}" class="thumbnail img-rounded"></div>
+        <div class="col-md-8 column">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    {{ 'PERSON_DETAILS' | translate }}
+                </div>
+                <div class="panel-body">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{ 'PERSON_SUMMARY' | translate }}
+        </div>
+        <div class="panel-body">
+            {{person.summary}}
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{ 'PERSON_VIDEOS' | translate }}
+        </div>
+        <div class="panel-body scroll-x">
+            <div class="col-sm-6 col-md-3 mb20" ng-repeat="video in person.videos">
+                <tile-video video="video"></tile-video>
+            </div>
+        </div>
+    </div>
+</panel>

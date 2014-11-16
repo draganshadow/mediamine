@@ -1,0 +1,80 @@
+<?php
+namespace MediaMine\CoreBundle\Entity\System;
+
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\ORM\Mapping as ORM;
+use MediaMine\CoreBundle\Entity\AbstractEntity;
+
+/**
+ * TaskPool Entity.
+ *
+ * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\System\TaskPoolRepository")
+ * @ORM\Table(name="system_task_pool")
+ * @property int $id
+ * @property string $groupKey
+ * @property string $key
+ * @property string $type
+ * @property string $status
+ * @property string $nbTasks
+ * @property string $nbRemainingTasks
+ */
+class TaskPool extends AbstractEntity
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer");
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $groupKey;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $key;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $type;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    protected $status;
+
+    /**
+     * @ORM\Column(type="integer");
+     */
+    protected $nbTasks;
+
+    /**
+     * @ORM\Column(type="integer");
+     */
+    protected $nbRemainingTasks;
+
+    /**
+     * @ORM\OneToMany(targetEntity="MediaMine\CoreBundle\Entity\System\Task", mappedBy="taskPool")
+     */
+    protected $tasks;
+
+    /**
+     * @var DateTime $createdAt
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @var Datetime $updatedAt
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
+}

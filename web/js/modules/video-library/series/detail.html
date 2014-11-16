@@ -1,0 +1,8 @@
+<panel heading="{{serie.name}}" ng-show="serie" ng-cloak>
+    <p>{{serie.summary}}</p>
+</panel>
+<div class="col-sm-6 col-md-3" ng-repeat="season in seasons">
+    <tile image="{{season.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'placeholder': 'hrbox_ffffff'}}" title="{{season.name}}" index="$index">
+        <h4 class="space-nowrap overflow-hidden"><a ui-sref="mediamine.videolib.season({id: season.id})">{{season.name}}</a></h4>
+    </tile>
+</div>

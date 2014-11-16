@@ -1,9 +1,0 @@
-{
-    "name": "mediamine/allocine",
-    "type": "library",
-    "version": "0.1.0",
-    "description": "Common Library for Doctrine projects",
-    "autoload": {
-        "psr-0": { "MediaMine\\Module\\Allocine\\": "module/MediaMineAllocine/src/" }
-    }
-}

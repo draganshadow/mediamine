@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>MediaMine</title>
+    <link rel="stylesheet" href="assets/css/main.css?bust=v0.4.0">
+</head>
+<body>
+<div>
+    <div ng-repeat="headerView in headerViews" ui-view="{{headerView.name}}" class="{{headerView.class}}"></div>
+</div>
+<div class="container-fluid height-100">
+    <div class="row height-100">
+        <div class="col-md-2 left-frame">
+            <div class="frame-content">
+                <div ng-repeat="leftView in leftViews" ui-view="{{leftView.name}}" class="{{leftView.class}}"></div>
+            </div>
+        </div>
+        <div class="col-md-8 main-frame">
+            <div class="col-md-12 frame-content" when-scrolled="$root.$emit('main.frame.scroll')">
+                <div ui-view></div>
+            </div>
+        </div>
+        <div class="col-md-2 right-frame">
+            <div ng-repeat="rightView in rightViews" ui-view="{{rightView.name}}" class="{{rightView.class}}"></div>
+        </div>
+    </div>
+</div>
+<div>
+    <div ng-repeat="footerView in footerViews" ui-view="{{footerView.name}}" class="{{footerView.class}}"></div>
+</div>
+<!-- Scripts -->
+<script src="vendor/requirejs/require.js"></script>
+<script>
+    // obtain requirejs config
+    require(['require', './js/config-require'], function (require, config) {
+
+        // set cache beater
+        config.urlArgs = 'bust=v0.4.0';
+
+        // update global require config
+        window.require.config(config);
+        window.mediamine = {
+            serverUrl: 'http://localhost:8080/',
+            apiUrl: 'http://localhost:8080/api'
+//            serverUrl: 'http://qg/mediamine/',
+//            apiUrl: 'http://qg/mediamine/api'
+//            serverUrl: '',
+//            apiUrl: 'api'
+        };
+        // load app
+        require(['./js/main.js']);
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<panel ng-cloak>
+    <panel-heading><h1>{{ 'ADMIN_MODULE_TITLE' | translate }}</h1></panel-heading>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>{{ 'ADMIN_MODULE_NAME' | translate }}</th>
+                <th>{{ 'ADMIN_MODULE_VERSION' | translate }}</th>
+                <th>{{ 'ADMIN_MODULE_INSTALLED' | translate }}</th>
+                <th>{{ 'ADMIN_MODULE_ENABLED' | translate }}</th>
+                <th>{{ 'ADMIN_MODULE_ACTION' | translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="module in modules">
+                <td>{{module.id}}</td>
+                <td>{{module.name}}</td>
+                <td>{{module.version}}</td>
+                <td>{{ 'ADMIN_MODULE_' + module.installed | translate }}</td>
+                <td>{{ 'ADMIN_MODULE_' + module.enabled | translate }}</td>
+                <td>
+                    <div ng-if="!module.installed">
+                        <button type="button" class="btn btn-primary btn-xs" ng-click="install(module)">{{ 'ADMIN_MODULE_ACTION_INSTALL' | translate }}</button>
+                    </div>
+                    <div ng-if="module.installed && !module.enabled">
+                        <button type="button" class="btn btn-primary btn-xs">{{ 'ADMIN_MODULE_ACTION_ENABLE' | translate }}</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</panel>

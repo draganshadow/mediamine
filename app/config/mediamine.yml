@@ -1,0 +1,53 @@
+media_mine_core:
+  system:
+    paths:
+      ffmpeg: /usr/bin/avconv
+      ffprobe: /usr/bin/avprobe
+  modules:
+    mediamine:
+      module:
+        key: mediamine
+        namespace: MediaMine\Core
+        name: MediaMine
+        version: 0.1
+        lock: true
+        installed: true
+        enabled: true
+      tunnels:
+        xml:
+          key : xml
+          service : mediamine.tunnel.xmltunnel
+          enabled : true
+      settings:
+        tunnel:
+          person : [xml]
+          video : [xml]
+          group : [xml]
+        paths:
+          video : ['/app/media/video']
+        video:
+          default-bitrate: [150,300,500,1000]
+      actions:
+        reset:
+          service: mediamine.job.reset
+        install:
+          service: mediamine.job.install
+        filescan:
+          service: mediamine.job.filescan
+        searchxmlvideo:
+          service: mediamine.job.searchxmlvideo
+        searchxmlgroup:
+          service: mediamine.job.searchxmlgroup
+        mergegroup:
+          service: mediamine.job.mergegroup
+        mergevideo:
+          service: mediamine.job.mergevideo
+        mergeperson:
+          service: mediamine.job.mergeperson
+        scan:
+          service: mediamine.job.scan
+      filetypes:
+          video: ['avi', 'mkv', 'mov', 'mpg', 'mpeg', '3gp', 'asf', 'mp2', 'vob', 'flv', 'divx', 'bin', 'mp4', 'h264', 'webm', 'wmv', 'xvid']
+      videotypes: ['series', 'movie']
+      grouptypes: ['series', 'movie']
+      staffroles: ['actor', 'writer', 'director', 'guest']

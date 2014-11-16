@@ -1,0 +1,73 @@
+# Acme/DemoBundle/Resources/config/admin.yml
+services:
+    media_mine_core.admin.setting:
+        class: MediaMine\CoreBundle\Admin\SettingAdmin
+        arguments: [~, MediaMine\CoreBundle\Entity\System\Setting, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: MediaMine, label: Setting}
+
+    media_mine_core.admin.genre:
+        class: MediaMine\CoreBundle\Admin\GenreAdmin
+        arguments: [~, MediaMine\CoreBundle\Entity\Video\Genre, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: MediaMine, label: Genre}
+
+    media_mine_core.admin.group:
+        class: MediaMine\CoreBundle\Admin\GroupAdmin
+        arguments: [~, MediaMine\CoreBundle\Entity\Video\Group, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: MediaMine, label: Group}
+
+    media_mine_core.admin.picture:
+        class: MediaMine\CoreBundle\Admin\PictureAdmin
+        arguments: [~, MediaMine\CoreBundle\Entity\Video\Picture, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: MediaMine, label: Picture}
+
+    media_mine_core.admin.quality:
+        class: MediaMine\CoreBundle\Admin\QualityAdmin
+        arguments: [~, MediaMine\CoreBundle\Entity\Video\Quality, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: MediaMine, label: Quality}
+
+    media_mine_core.admin.type:
+        class: MediaMine\CoreBundle\Admin\TypeAdmin
+        arguments: [~, MediaMine\CoreBundle\Entity\Video\Type, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: MediaMine, label: Type}
+
+    media_mine_core.admin.season:
+        class: MediaMine\CoreBundle\Admin\SeasonAdmin
+        arguments: [~, MediaMine\CoreBundle\Entity\Video\Season, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: MediaMine, label: Season}
+
+    media_mine_core.admin.video:
+        class: MediaMine\CoreBundle\Admin\VideoAdmin
+        arguments: [~, MediaMine\CoreBundle\Entity\Video\Video, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: MediaMine, label: Video}
+
+    media_mine_core.admin.group_type:
+        class: MediaMine\CoreBundle\Admin\GroupTypeAdmin
+        arguments: [~, MediaMine\CoreBundle\Entity\Video\GroupType, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: MediaMine, label: GroupType}
+
+    media_mine_core.admin.extension:
+        class: MediaMine\CoreBundle\Admin\ExtensionAdmin
+        arguments: [~, MediaMine\CoreBundle\Entity\File\Extension, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: MediaMine, label: Extension}
+
+    media_mine_core.admin.country:
+        class: MediaMine\CoreBundle\Admin\CountryAdmin
+        arguments: [~, MediaMine\CoreBundle\Entity\Common\Country, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: MediaMine, label: Country}
+
+    media_mine_core.admin.person:
+        class: MediaMine\CoreBundle\Admin\PersonAdmin
+        arguments: [~, MediaMine\CoreBundle\Entity\Common\Person, SonataAdminBundle:CRUD]
+        tags:
+            - {name: sonata.admin, manager_type: orm, group: MediaMine, label: Person}

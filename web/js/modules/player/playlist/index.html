@@ -1,0 +1,21 @@
+<div class="side-panel side-panel-right last-panel height-100">
+    <div class="panel-body playlist-body scroll-y">
+        <div class="playlist">
+            <div ng-repeat="item in playlist track by $index" ng-drop="true" ng-drop-success="onReorder($index, $data, $event)">
+                <div ng-drag="true" ng-drag-data="item" class="panel panel-default" ng-drag-success="onMoved($index, $data, $event)">
+                    <span>{{item.name}}</span> <a ng-prevent-drag class="pull-right" ng-click="$root.$emit('playlist.remove', $index)"><span class="glyphicon glyphicon-remove"></span></a>
+                </div>
+            </div>
+        </div>
+        <div class="playlist-drop" ng-drop="true" ng-drop-success="onDrop($data,$event)">
+            {{ 'PLAYER_DROP_HERE' | translate }}
+        </div>
+    </div>
+
+    <div class="playlist-footer">
+        <div class="btn-group">
+            <label ng-repeat="br in bitrates" class="btn btn-xs btn-default" ng-model="bitrate.value" btn-radio="br">{{br}}</label>
+        </div>
+        <a ng-click="$root.$emit('playlist.clear')" class="pull-right" title="{{ 'PLAYER_CLEAR_LIST' | translate }}"><span class="glyphicon glyphicon-trash"></span> </a>
+    </div>
+</div>

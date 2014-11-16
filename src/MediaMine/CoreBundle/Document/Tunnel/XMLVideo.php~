@@ -1,0 +1,51 @@
+<?php
+namespace MediaMine\CoreBundle\Document\Tunnel;
+
+use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+
+/**
+ * @MongoDB\Document()
+ */
+class XMLVideo {
+    /**
+     * @MongoDB\Id(strategy="UUID")
+     */
+    protected $id;
+
+    /**
+     * @MongoDB\String()
+     */
+    protected $name;
+
+    /**
+     * Get id
+     *
+     * @return custom_id $id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return self
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string $name
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+}

@@ -1,0 +1,52 @@
+<?php
+namespace MediaMine\CoreBundle\Consumer;
+
+use JMS\DiExtraBundle\Annotation\Inject;
+use JMS\DiExtraBundle\Annotation\Service;
+use MediaMine\CoreBundle\Entity\System\Job;
+use MediaMine\CoreBundle\Job\BaseJob;
+use MediaMine\CoreBundle\Message\System\Task;
+use MediaMine\CoreBundle\Shared\ContainerAware;
+use MediaMine\CoreBundle\Shared\LoggerAware;
+use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
+use PhpAmqpLib\Message\AMQPMessage;
+use Symfony\Component\DependencyInjection\Container;
+/**
+ * @Service("mediamine.consumer.task")
+ */
+class TaskConsumer implements ConsumerInterface
+{
+    use LoggerAware;
+
+    use ContainerAware;
+
+    /**
+     * @Inject("snc_redis.default")
+     * @var \Redis
+     */
+    public $redis;
+
+    public function execute(AMQPMessage $msg)
+    {
+        try {
+            $task = new Task();
+            $task->exchangeAMQP($msg);
+            if ($task->jobId) {
+                /**
+                 * @var $jobService BaseJob
+                 */
+                $jobService = $this->container->get($task->jobService);
+                if ($jobService->isRunning($task->jobId)) {
+                    $service = $this->container->get($task->service);
+                    call_user_func(array($service, $task->method), $task->parameters);
+                    $jobService->taskDone($task->jobId);
+                }
+            } else {
+                $service = $this->container->get($task->service);
+                call_user_func(array($service, $task->method), $task->parameters);
+            }
+        } catch (\Exception $e) {
+            $this->getLogger()->error($e->getMessage() . $e->getTraceAsString());
+        }
+    }
+}
