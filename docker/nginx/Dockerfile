@@ -2,7 +2,7 @@
 # sure you lock down to a specific version, not to `latest`!
 # See https://github.com/phusion/baseimage-docker/blob/master/Changelog.md for
 # a list of version numbers.
-FROM phusion/baseimage:0.9.13
+FROM phusion/baseimage:0.9.15
 
 # Set correct environment variables.
 ENV HOME /root
@@ -57,6 +57,14 @@ RUN chmod +x /etc/service/fpm/run
 RUN mkdir /etc/service/nginx
 ADD scripts/nginx.sh /etc/service/nginx/run
 RUN chmod +x /etc/service/nginx/run
+
+RUN mkdir /etc/service/job
+ADD scripts/job.sh /etc/service/job/run
+RUN chmod +x /etc/service/job/run
+
+RUN mkdir /etc/service/task
+ADD scripts/task.sh /etc/service/task/run
+RUN chmod +x /etc/service/task/run
 
 EXPOSE 80 443 8080
 

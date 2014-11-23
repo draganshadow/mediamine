@@ -18,10 +18,13 @@ class GroupMapper extends AbstractMapper {
             'hydrate' => Query::HYDRATE_ARRAY
         ];
         $iterableResult = $this->getRepository('Video\Group')->findFullBy($params, 2, false);
+        $nbTasks = 0;
         foreach ($iterableResult as $row) {
             $group = $row[0];
             $this->taskService->createTask($job, 'mediamine.mapper.group', 'mapGroupData', ['id' => $group['id']]);
+            $nbTasks++;
         }
+        return $nbTasks;
     }
 
     public function mapGroupData($param)

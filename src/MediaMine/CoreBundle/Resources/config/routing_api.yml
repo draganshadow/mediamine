@@ -28,6 +28,9 @@ media_mine_rest_setting:
 media_mine_rest_tunnel:
     type:     rest
     resource: MediaMine\CoreBundle\Controller\Rest\TunnelController
+media_mine_rest_job:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\JobController
 media_mine_rest_video:
     type:     rest
     resource: MediaMine\CoreBundle\Controller\Rest\VideoController

@@ -21,7 +21,10 @@ class MergeVideoDataJob extends BaseJob
     public function execute(Job $job)
     {
         $this->logger->debug('mediamine.job.mergevideo');
-        $this->videoMapper->mapAllVideoData($job);
+        $nbTask = $this->videoMapper->mapAllVideoData($job);
+        if (!$nbTask) {
+            $this->end($job->getId());
+        }
     }
 
     public function getServiceName()

@@ -110,7 +110,8 @@ class BaseJob {
         return false;
     }
 
-    public final function start($groupKey, $params = array(), $jobId = false, $parentJobId = false, $parentJobName = false) {
+    public final function start($groupKey, $key, $params = array(), $jobId = false, $parentJobId = false, $parentJobName = false) {
+        $this->logger->info($this->getServiceName() . ': START');
         $jobRepository = $this->getRepository('System\Job');
         /**
          * @var $job Job
@@ -124,32 +125,33 @@ class BaseJob {
         } else {
             $job = $jobRepository->create([
                 'groupKey' => $groupKey,
+                'key' => $key,
                 'service' => $this->getServiceName(),
                 'method' => 'execute',
                 'params' => $params,
                 'status' => Job::STATUS_RUNNING,
-                'nbTasks' => 0,
+                'nbTasks' => 100,
                 'nbTasksDone' => 0
             ]);
         }
 
         $jobRepository->flush();
 
-        $this->redis->set(self::getStatusKey($this->getServiceName(), $job->id), Job::STATUS_RUNNING, $this->getJobTimeout());
-        $this->redis->set(self::getNbTasksKey($this->getServiceName(), $job->id), 0, $this->getJobTimeout());
-        $this->redis->set(self::getNbTasksDoneKey($this->getServiceName(), $job->id), 0, $this->getJobTimeout());
+        $this->redis->set(self::getStatusKey($this->getServiceName(), $job->getId()), Job::STATUS_RUNNING, $this->getJobTimeout());
+        $this->redis->set(self::getNbTasksKey($this->getServiceName(), $job->getId()), 0, $this->getJobTimeout());
+        $this->redis->set(self::getNbTasksDoneKey($this->getServiceName(), $job->getId()), 0, $this->getJobTimeout());
         if ($parentJobName && $parentJobId) {
-            $this->redis->set(self::getParentJobNameKey($this->getServiceName(), $job->id), $parentJobName, $this->getJobTimeout());
-            $this->redis->set(self::getParentJobIdKey($this->getServiceName(), $job->id), $parentJobId, $this->getJobTimeout());
+            $this->redis->set(self::getParentJobNameKey($this->getServiceName(), $job->getId()), $parentJobName, $this->getJobTimeout());
+            $this->redis->set(self::getParentJobIdKey($this->getServiceName(), $job->getId()), $parentJobId, $this->getJobTimeout());
         }
         return $job;
     }
 
     public function execute(Job $job) {
-        $this->end($job->id);
+        $this->end($job->getId());
     }
 
-    public function createSubJob(Job $parentJob, $service, $parameters = []) {
+    public function createSubJob(Job $parentJob, $key, $service, $parameters = [], $previousJob = null) {
         $jobRepository = $this->getRepository('System\Job');
 
         /**
@@ -157,13 +159,17 @@ class BaseJob {
          */
         $job = $jobRepository->create([
             'groupKey' => 'sub',
+            'key' => $key,
             'service' => $service,
             'method' => 'execute',
             'params' => $parameters,
             'status' => Job::STATUS_NEW,
-            'nbTasks' => 0,
+            'previousJob' => $previousJob,
+            'parentJob' => $parentJob,
+            'nbTasks' => 100,
             'nbTasksDone' => 0
         ]);
+
         $jobRepository->flush();
         $nbTasks = $this->redis->incr(BaseJob::getNbTasksKey($this->getServiceName(), $parentJob->getId()));
         $jobMessage = new \MediaMine\CoreBundle\Message\System\Job();
@@ -185,6 +191,25 @@ class BaseJob {
     public final function taskDone($jobId) {
         $nbTasksDone = $this->redis->incr(BaseJob::getNbTasksDoneKey($this->getServiceName(), $jobId));
         $nbTasks = $this->redis->get(BaseJob::getNbTasksKey($this->getServiceName(), $jobId));
+        $seg = (int) ($nbTasks / 10);
+        if ($seg == 0) {
+            $seg = 1;
+        }
+
+        if (($nbTasksDone % $seg) == 0) {
+            $jobRepository = $this->getRepository('System\Job');
+            /**
+             * @var $job Job
+             */
+            $job = $jobRepository->findFullBy([
+                'id' => $jobId
+            ], true);
+            $job->setNbTasksDone($nbTasksDone);
+            $job->setNbTasks($nbTasks);
+            $jobRepository->persist($job);
+        }
+
+        $this->logger->info($this->getServiceName() . ': ' . $nbTasksDone . '/' . $nbTasks);
         if ($nbTasksDone >= $nbTasks) {
             $this->end($jobId);
         }
@@ -195,12 +220,25 @@ class BaseJob {
     }
 
     public function end($jobId) {
+        $this->logger->info($this->getServiceName() . ': END');
         $jobRepository = $this->getRepository('System\Job');
         /**
          * @var $job Job
          */
         $job = $jobRepository->find($jobId);
         $job->setStatus(Job::STATUS_DONE);
+        $nbTasksDone = $this->redis->get(BaseJob::getNbTasksDoneKey($this->getServiceName(), $jobId));
+        $nbTasks = $this->redis->get(BaseJob::getNbTasksKey($this->getServiceName(), $jobId));
+
+        if ($nbTasksDone == 0) {
+            $nbTasksDone = 1;
+        }
+        if ($nbTasks == 0) {
+            $nbTasks = $nbTasksDone;
+        }
+        $job->setNbTasksDone($nbTasksDone);
+        $job->setNbTasks($nbTasks);
+
         $jobRepository->persist($job);
         $jobRepository->flush();
         $parentName = $this->redis->get(BaseJob::getParentJobNameKey($this->getServiceName(), $jobId));

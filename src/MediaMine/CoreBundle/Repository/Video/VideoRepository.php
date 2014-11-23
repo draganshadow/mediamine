@@ -17,6 +17,11 @@ class VideoRepository extends AbstractRepository
             $params['file'] = $options['file'];
             unset($options['file']);
         }
+        if (array_key_exists('genres', $options)) {
+            $qb->innerJoin('Video.genres', 'Genre', 'WITH', 'Genre.slug IN (:genres)');
+            $params['genres'] = $options['genres'];
+            unset($options['genres']);
+        }
         if (array_key_exists('addFile', $options)) {
             if (!array_key_exists('file', $options)) {
                 $qb->leftJoin('Video.files', 'VideoFile');

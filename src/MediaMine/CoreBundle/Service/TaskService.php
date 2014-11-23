@@ -27,6 +27,7 @@ class TaskService extends AbstractService
     public $redis;
 
     public function createTask(Job $job, $service, $method, $parameters) {
+        $this->logger->debug('createTask: ' . $service);
         $task = new Task();
         $task->jobId = $job->getId();
         $task->jobService = $job->getService();
@@ -34,8 +35,8 @@ class TaskService extends AbstractService
         $task->method = $method;
         $task->parameters = $parameters;
 
-        $this->redis->incr(BaseJob::getNbTasksKey($job->getService(), $job->getId()));
-        $this-> execute($task);
+        $nbTask = $this->redis->incr(BaseJob::getNbTasksKey($job->getService(), $job->getId()));
+        $this->execute($task);
     }
 
 

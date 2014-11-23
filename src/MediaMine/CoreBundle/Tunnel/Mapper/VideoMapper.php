@@ -19,10 +19,13 @@ class VideoMapper extends AbstractMapper{
             'hydrate' => Query::HYDRATE_ARRAY
         ];
         $iterableResult = $this->getRepository('Video\Video')->findFullBy($params, 2, false);
+        $nbTasks = 0;
         foreach ($iterableResult as $row) {
             $video = $row[0];
             $this->taskService->createTask($job, 'mediamine.mapper.video', 'mapVideoData', ['id' => $video['id']]);
+            $nbTasks++;
         }
+        return $nbTasks;
     }
 
     public function mapVideoData($param)

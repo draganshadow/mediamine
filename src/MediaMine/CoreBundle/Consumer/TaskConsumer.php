@@ -1,6 +1,7 @@
 <?php
 namespace MediaMine\CoreBundle\Consumer;
 
+use Doctrine\ORM\ORMException;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\Service;
 use MediaMine\CoreBundle\Entity\System\Job;
@@ -38,12 +39,28 @@ class TaskConsumer implements ConsumerInterface
                 $jobService = $this->container->get($task->jobService);
                 if ($jobService->isRunning($task->jobId)) {
                     $service = $this->container->get($task->service);
-                    call_user_func(array($service, $task->method), $task->parameters);
+                    try {
+                        call_user_func(array($service, $task->method), $task->parameters);
+                    }
+                    catch (ORMException $e) {
+                        $this->getLogger()->error($e->getMessage());
+                        if ("The EntityManager is closed." == $e->getMessage()) {
+                            throw $e;
+                        }
+                    } catch (\Exception $e) {
+                        $this->logger->error($e->getMessage() . $e->getTraceAsString());
+                    }
                     $jobService->taskDone($task->jobId);
                 }
             } else {
                 $service = $this->container->get($task->service);
                 call_user_func(array($service, $task->method), $task->parameters);
+            }
+        }
+        catch (ORMException $e) {
+            $this->getLogger()->error($e->getMessage());
+            if ("The EntityManager is closed." == $e->getMessage()) {
+                throw $e;
             }
         } catch (\Exception $e) {
             $this->getLogger()->error($e->getMessage() . $e->getTraceAsString());

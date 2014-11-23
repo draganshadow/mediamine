@@ -23,7 +23,10 @@ class SearchXMLGroupJob extends BaseJob {
 
     public function execute(Job $job) {
         $this->logger->debug('mediamine.job.searchxmlgroup');
-        $this->xmlTunnel->checkGroups($job);
+        $nbTask = $this->xmlTunnel->checkGroups($job);
+        if (!$nbTask) {
+            $this->end($job->getId());
+        }
     }
 
     public function getServiceName() {

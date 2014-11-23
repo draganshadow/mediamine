@@ -7,6 +7,8 @@ class Job extends AbstractMessage {
 
     public $groupKey;
 
+    public $key;
+
     public $service;
 
     public $jobId;

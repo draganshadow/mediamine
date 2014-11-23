@@ -22,7 +22,10 @@ class MergePersonDataJob extends BaseJob
     public function execute(Job $job)
     {
         $this->logger->debug('mediamine.job.mergeperson');
-        $this->tunnelService->mapAllPersonData();
+        $nbTask = $this->tunnelService->mapAllPersonData();
+        if (!$nbTask) {
+            $this->end($job->getId());
+        }
     }
 
     public function getServiceName()

@@ -10,6 +10,7 @@ use FOS\RestBundle\Request\ParamFetcherInterface;
 use FOS\RestBundle\View\RouteRedirectView;
 use JMS\DiExtraBundle\Annotation\Inject;
 use MediaMine\CoreBundle\Message\System\Job;
+use MediaMine\CoreBundle\Service\InstallService;
 use MediaMine\CoreBundle\Shared\EntitityManagerAware;
 use MediaMine\CoreBundle\Shared\LoggerAware;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
@@ -34,6 +35,12 @@ class ActionController extends FOSRestController
      * @var Producer
      */
     public $jobProducer;
+
+    /**
+     * @Inject("mediamine.service.module.mediamine.install")
+     * @var InstallService
+     */
+    public $installService;
 
     /**
      * List all admin action.
@@ -88,11 +95,18 @@ class ActionController extends FOSRestController
         $a = $paramFetcher->get('action');
         if ($a && array_key_exists($a, $this->mediamine['actions'])) {
             $action = $this->mediamine['actions'][$a];
-            $job = new Job();
-            $job->service = $action['service'];
-            $job->groupKey = 'admin';
-            $job->parameters = [];
-            $this->jobProducer->publish($job->serialize());
+            if ( 'check' == $a) {
+                return $this->installService->check();
+            } elseif ( 'reset' == $a) {
+                return $this->installService->reset();
+            } else {
+                $job = new Job();
+                $job->service = $action['service'];
+                $job->groupKey = 'admin';
+                $job->key = $a;
+                $job->parameters = [];
+                $this->jobProducer->publish($job->serialize());
+            }
             return ['name' => $a];
         }
         return [];

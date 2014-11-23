@@ -33,6 +33,7 @@ class AppKernel extends Kernel
             new Sonata\BlockBundle\SonataBlockBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
             new Application\Sonata\UserBundle\ApplicationSonataUserBundle(),
+            new ColourStream\Bundle\CronBundle\ColourStreamCronBundle(),
             //...
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),

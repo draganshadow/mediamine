@@ -17,11 +17,24 @@ class InstallService extends AbstractService
      */
     public $moduleService;
 
+    public function check() {
+        $checks = [];
+        try {
+            $this->getEntityManager()->getConnection()->connect();
+            $checks['database'] = true;
+        } catch (\Exception $e) {
+            $checks['database'] = false;
+        }
+        return $checks;
+    }
+
     public function reset() {
+        $resets = [];
         $tool = new \Doctrine\ORM\Tools\SchemaTool($this->getEntityManager());
         $tool->dropDatabase();
         $meta = $this->getEntityManager()->getMetadataFactory()->getAllMetadata();
         $tool->createSchema($meta);
+        return $resets;
     }
 
     public function coreInstall() {

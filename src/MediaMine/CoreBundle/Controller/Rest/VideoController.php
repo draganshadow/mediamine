@@ -36,6 +36,7 @@ class VideoController extends FOSRestController
      *
      * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing videos.")
      * @Annotations\QueryParam(name="limit", requirements="\d+", default="20", description="How many videos to return.")
+     * @Annotations\QueryParam(name="type", requirements="\d+", default="20", description="videos type to return.")
      *
      * @Annotations\View()
      *
@@ -46,7 +47,23 @@ class VideoController extends FOSRestController
      */
     public function getVideosAction(Request $request, ParamFetcherInterface $paramFetcher)
     {
-        $options = $paramFetcher->all();
+        $options = [];
+        $type = $request->get('type', false);
+        if ($type) {
+            $options['type'] = $type;
+        }
+        $genre = $request->get('genre', false);
+        if ($genre) {
+            $options['genres'] = [$genre];
+        }
+        $limit = $request->get('limit', 20);
+        if ($limit) {
+            $options['limit'] = $limit;
+        }
+        $page = $request->get('page', 0);
+        if ($page) {
+            $options['page'] = $page - 1;
+        }
         $options['hydrate'] = Query::HYDRATE_ARRAY;
         $options['addFile'] = true;
         $options['addImages'] = true;

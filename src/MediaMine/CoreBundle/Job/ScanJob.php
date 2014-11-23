@@ -16,11 +16,11 @@ use MediaMine\CoreBundle\Shared\EntitityManagerAware;
 class ScanJob extends BaseJob {
 
     public function execute(Job $job) {
-        $fileScanJob = $this->createSubJob($job, 'mediamine.job.filescan');
-        $searchXMLJob = $this->createSubJob($job, 'mediamine.job.searchxmlvideo');
-        $mergeVideoJob = $this->createSubJob($job, 'mediamine.job.mergevideo');
-        $searchXMLJob = $this->createSubJob($job, 'mediamine.job.searchxmlgroup');
-        $mergeGroupJob = $this->createSubJob($job, 'mediamine.job.mergegroup');
+        $fileScanJob = $this->createSubJob($job, 'filescan', 'mediamine.job.filescan', []);
+        $searchXMLJob = $this->createSubJob($job, 'searchxmlvideo', 'mediamine.job.searchxmlvideo', [], $fileScanJob);
+        $mergeVideoJob = $this->createSubJob($job, 'mergevideo', 'mediamine.job.mergevideo', [], $searchXMLJob);
+        $searchXMLGroupJob = $this->createSubJob($job, 'searchxmlgroup', 'mediamine.job.searchxmlgroup', [], $mergeVideoJob);
+        $mergeGroupJob = $this->createSubJob($job, 'mergegroup', 'mediamine.job.mergegroup', [], $searchXMLGroupJob);
     }
 
     public function getServiceName() {

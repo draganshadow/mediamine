@@ -23,7 +23,10 @@ class SearchXMLVideoJob extends BaseJob {
 
     public function execute(Job $job) {
         $this->logger->debug('mediamine.job.searchxmlvideo');
-        $this->xmlTunnel->checkVideos($job);
+        $nbTask = $this->xmlTunnel->checkVideos($job);
+        if (!$nbTask) {
+            $this->end($job->getId());
+        }
     }
 
     public function getServiceName() {

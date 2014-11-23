@@ -23,7 +23,10 @@ class MergeGroupDataJob extends BaseJob
     public function execute(Job $job)
     {
         $this->logger->debug('mediamine.job.mergegroup');
-        $this->groupMapper->mapAllGroupData($job);
+        $nbTask = $this->groupMapper->mapAllGroupData($job);
+        if (!$nbTask) {
+            $this->end($job->getId());
+        }
     }
 
     public function getServiceName()

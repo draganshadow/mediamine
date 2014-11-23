@@ -1,6 +1,7 @@
 <?php
 namespace MediaMine\CoreBundle\Consumer;
 
+use Doctrine\ORM\ORMException;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\Service;
 use MediaMine\CoreBundle\Job\BaseJob;
@@ -32,7 +33,7 @@ class JobConsumer implements ConsumerInterface
             $service = $this->container->get($jobMsg->service);
             if ($service->canStart($jobMsg->parentJobId, $jobMsg->jobId)) {
                 $this->getLogger()->debug('Job ' . $jobMsg->service . ' start');
-                $job = $service->start($jobMsg->groupKey, $jobMsg->parameters, $jobMsg->jobId, $jobMsg->parentJobId, $jobMsg->parentJobService);
+                $job = $service->start($jobMsg->groupKey, $jobMsg->key, $jobMsg->parameters, $jobMsg->jobId, $jobMsg->parentJobId, $jobMsg->parentJobService);
 
                 if ($jobMsg->parentJobId) {
                     /**
@@ -51,7 +52,14 @@ class JobConsumer implements ConsumerInterface
                 sleep(30);
                 return false;
             }
-        } catch (\Exception $e) {
+        }
+        catch (ORMException $e) {
+            $this->getLogger()->error($e->getMessage());
+            if ("The EntityManager is closed." == $e->getMessage()) {
+                throw $e;
+            }
+        }
+        catch (\Exception $e) {
             $this->getLogger()->error($e->getMessage());
         }
     }
