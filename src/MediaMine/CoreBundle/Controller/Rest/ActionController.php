@@ -97,8 +97,8 @@ class ActionController extends FOSRestController
             $action = $this->mediamine['actions'][$a];
             if ( 'check' == $a) {
                 return $this->installService->check();
-            } elseif ( 'reset' == $a) {
-                return $this->installService->reset();
+            } elseif ( 'createdb' == $a) {
+                return $this->installService->createdb();
             } else {
                 $job = new Job();
                 $job->service = $action['service'];

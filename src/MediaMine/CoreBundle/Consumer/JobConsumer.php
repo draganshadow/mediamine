@@ -4,6 +4,7 @@ namespace MediaMine\CoreBundle\Consumer;
 use Doctrine\ORM\ORMException;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\Service;
+use JMS\DiExtraBundle\Annotation\Tag;
 use MediaMine\CoreBundle\Job\BaseJob;
 use MediaMine\CoreBundle\Message\System\Job;
 use MediaMine\CoreBundle\Shared\ContainerAware;
@@ -14,6 +15,7 @@ use Symfony\Component\DependencyInjection\Container;
 
 /**
  * @Service("mediamine.consumer.job")
+ * @Tag("monolog.logger", attributes = {"channel" = "JobConsumer"})
  */
 class JobConsumer implements ConsumerInterface
 {

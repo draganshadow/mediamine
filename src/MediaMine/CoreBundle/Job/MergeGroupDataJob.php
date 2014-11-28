@@ -4,12 +4,14 @@ namespace MediaMine\CoreBundle\Job;
 use Doctrine\ORM\Query;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\Service;
+use JMS\DiExtraBundle\Annotation\Tag;
 use MediaMine\CoreBundle\Entity\System\Job;
 use MediaMine\CoreBundle\Service\TunnelService;
 use MediaMine\CoreBundle\Tunnel\Mapper\GroupMapper;
 
 /**
  * @Service("mediamine.job.mergegroup")
+ * @Tag("monolog.logger", attributes = {"channel" = "MergeGroupDataJob"})
  */
 class MergeGroupDataJob extends BaseJob
 {

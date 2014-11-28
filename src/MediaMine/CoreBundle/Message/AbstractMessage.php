@@ -39,10 +39,12 @@ class AbstractMessage {
      */
     public function exchangeArray($array)
     {
-        foreach($array as $key => $value)
-        {
-            if (property_exists($this,$key)) {
-                $this->{$key} = $value;
+        if (is_array($array)) {
+            foreach($array as $key => $value)
+            {
+                if (property_exists($this,$key)) {
+                    $this->{$key} = $value;
+                }
             }
         }
     }

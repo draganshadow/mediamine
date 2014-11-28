@@ -4,6 +4,7 @@ namespace MediaMine\CoreBundle\Tunnel\Mapper;
 
 /**
  * @Service("mediamine.mapper.person")
+ * @Tag("monolog.logger", attributes = {"channel" = "PersonMapper"})
  */
 class PersonMapper extends AbstractMapper{
 
@@ -63,6 +64,7 @@ class PersonMapper extends AbstractMapper{
 
     protected function mapPersonData($person, $settings)
     {
+        $this->loadCountries();
         $tunnelPersons = $this->getRepository('Tunnel\Person')->findFullBy(array(
             'personRef' => $person->id,
             'addTunnel' => true

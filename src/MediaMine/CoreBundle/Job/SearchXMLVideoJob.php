@@ -4,6 +4,7 @@ namespace MediaMine\CoreBundle\Job;
 use Doctrine\ORM\Query;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\Service;
+use JMS\DiExtraBundle\Annotation\Tag;
 use MediaMine\CoreBundle\Entity\System\Job;
 use MediaMine\CoreBundle\Service\FileService;
 use MediaMine\CoreBundle\Shared\ContainerAware;
@@ -12,6 +13,7 @@ use MediaMine\CoreBundle\Tunnel\XML\XMLTunnel;
 
 /**
  * @Service("mediamine.job.searchxmlvideo")
+ * @Tag("monolog.logger", attributes = {"channel" = "SearchXMLVideoJob"})
  */
 class SearchXMLVideoJob extends BaseJob {
 

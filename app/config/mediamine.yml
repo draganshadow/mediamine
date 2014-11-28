@@ -30,8 +30,8 @@ media_mine_core:
       actions:
         check:
           service: mediamine.job.check
-        reset:
-          service: mediamine.job.reset
+        createdb:
+          service: mediamine.job.createdb
         install:
           service: mediamine.job.install
         filescan:

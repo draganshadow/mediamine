@@ -4,6 +4,7 @@ namespace MediaMine\CoreBundle\Consumer;
 use Doctrine\ORM\ORMException;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\Service;
+use JMS\DiExtraBundle\Annotation\Tag;
 use MediaMine\CoreBundle\Entity\System\Job;
 use MediaMine\CoreBundle\Job\BaseJob;
 use MediaMine\CoreBundle\Message\System\Task;
@@ -14,6 +15,7 @@ use PhpAmqpLib\Message\AMQPMessage;
 use Symfony\Component\DependencyInjection\Container;
 /**
  * @Service("mediamine.consumer.task")
+ * @Tag("monolog.logger", attributes = {"channel" = "TaskConsumer"})
  */
 class TaskConsumer implements ConsumerInterface
 {

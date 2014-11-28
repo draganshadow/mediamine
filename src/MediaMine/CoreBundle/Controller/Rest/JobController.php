@@ -134,6 +134,32 @@ class JobController extends FOSRestController
     }
 
     /**
+     * Removes all job.
+     *
+     * @ApiDoc(
+     * resource = true,
+     * statusCodes={
+     * 204="Returned when successful"
+     * }
+     * )
+     *
+     * @Annotations\Delete("/jobs/remove-all")
+     *
+     * @param Request $request the request object
+     *
+     * @return RouteRedirectView
+     */
+    public function removeAllJobAction(Request $request)
+    {
+        $jobs = $this->getRepository('System\Job')->findFullBy([]);
+        foreach ($jobs as $job) {
+            $this->getEntityManager()->remove($job);
+        }
+        $this->getEntityManager()->flush();
+        return $this->routeRedirectView('get_jobs', array(), Codes::HTTP_NO_CONTENT);
+    }
+
+    /**
      * Removes a job.
      *
      * @ApiDoc(
@@ -174,6 +200,5 @@ class JobController extends FOSRestController
         $this->getEntityManager()->flush();
 // There is a debate if this should be a 404 or a 204
 // see http://leedavis81.github.io/is-a-http-delete-requests-idempotent/
-        return $this->routeRedirectView('get_jobs', array(), Codes::HTTP_NO_CONTENT);
     }
 }

@@ -3,6 +3,7 @@
 namespace MediaMine\CoreBundle\Tunnel\Mapper;
 use Doctrine\ORM\Query;
 use JMS\DiExtraBundle\Annotation\Service;
+use JMS\DiExtraBundle\Annotation\Tag;
 use MediaMine\CoreBundle\Entity\System\Job;
 use MediaMine\CoreBundle\Entity\Video\StaffRole;
 use MediaMine\CoreBundle\Entity\Video\Video;
@@ -10,11 +11,13 @@ use MediaMine\CoreBundle\Entity\Video\Video;
 
 /**
  * @Service("mediamine.mapper.video")
+ * @Tag("monolog.logger", attributes = {"channel" = "VideoMapper"})
  */
 class VideoMapper extends AbstractMapper{
 
     public function mapAllVideoData(Job $job)
     {
+        $this->loadGenres();
         $params = [
             'hydrate' => Query::HYDRATE_ARRAY
         ];
@@ -28,6 +31,7 @@ class VideoMapper extends AbstractMapper{
         return $nbTasks;
     }
 
+
     public function mapVideoData($param)
     {
         $id = $param['id'];
@@ -36,14 +40,14 @@ class VideoMapper extends AbstractMapper{
             'id' => $id,
             'addFile'      => true,
             'addDirectory' => true,
+            'addStaffs' => true,
+
 //            'hydrate' => Query::HYDRATE_ARRAY
         ], true);
-
         /**
-         * @var $video \MediaMine\Core\Entity\Video\Video
+         * @var $video \MediaMine\CoreBundle\Entity\Video\Video
          */
         $name = $video->name;
-        $this->loadGenres();
         $this->loadCountries();
 
         $settings = $this->getSettingService()->getSetting('tunnel', 'video');
@@ -81,6 +85,7 @@ class VideoMapper extends AbstractMapper{
         }
         $this->clear();
     }
+
 
     protected function applyVideoTunnelData($data, Video $video, $override = false)
     {
@@ -136,6 +141,7 @@ class VideoMapper extends AbstractMapper{
         $characters = $this->getCreateCharacters($video, $characterNames);
         $staffs = $video->getStaffByRole();
 
+        var_dump(count($staffs));
         if (is_array($video->staffs)) {
             foreach ($video->staffs as $staff) {
                 if (!array_key_exists($staff->person->name, $persons)) {

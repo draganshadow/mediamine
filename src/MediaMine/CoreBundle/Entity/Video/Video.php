@@ -157,13 +157,11 @@ class Video extends AbstractEntity
     public function getStaffByRole()
     {
         $result = array();
-        if (is_array($this->staffs)) {
-            foreach ($this->staffs as $staff) {
-                if (!array_key_exists($staff->role, $result)) {
-                    $result[$staff->role] = array();
-                }
-                $result[$staff->role][$staff->person->name] = $staff;
+        foreach ($this->staffs as $staff) {
+            if (!array_key_exists($staff->role, $result)) {
+                $result[$staff->role] = array();
             }
+            $result[$staff->role][$staff->person->name] = $staff;
         }
         return $result;
     }

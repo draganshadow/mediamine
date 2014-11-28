@@ -17,6 +17,11 @@ class InstallService extends AbstractService
      */
     public $moduleService;
 
+    /**
+     * @Inject("%kernel.root_dir%")
+     */
+    public $rootDir;
+
     public function check() {
         $checks = [];
         try {
@@ -28,12 +33,21 @@ class InstallService extends AbstractService
         return $checks;
     }
 
-    public function reset() {
+    public function createdb() {
         $resets = [];
-        $tool = new \Doctrine\ORM\Tools\SchemaTool($this->getEntityManager());
-        $tool->dropDatabase();
-        $meta = $this->getEntityManager()->getMetadataFactory()->getAllMetadata();
-        $tool->createSchema($meta);
+        $commands = [
+            'php ' . $this->rootDir . '/console doctrine:schema:drop --force',
+            'php ' . $this->rootDir . '/console doctrine:mongodb:schema:drop'
+        ];
+        $exec = '(' . implode(' && ', $commands) . ') >> "' . $this->rootDir . '/logs/reset.log' . '" 2>&1';
+        shell_exec($exec);
+
+        $commands = [
+            'php ' . $this->rootDir . '/console doctrine:schema:create',
+            'php ' . $this->rootDir . '/console doctrine:mongodb:schema:create'
+        ];
+        $exec = '(' . implode(' && ', $commands) . ') >> "' . $this->rootDir . '/logs/reset.log' . '" 2>&1';
+        shell_exec($exec);
         return $resets;
     }
 

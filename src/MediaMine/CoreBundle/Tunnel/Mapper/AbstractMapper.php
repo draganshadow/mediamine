@@ -3,7 +3,10 @@
 namespace MediaMine\CoreBundle\Tunnel\Mapper;
 
 
+use Doctrine\ORM\Query;
+use Gedmo\Sluggable\Util\Urlizer;
 use JMS\DiExtraBundle\Annotation\Inject;
+use MediaMine\CoreBundle\Entity\Video\Genre;
 use MediaMine\CoreBundle\Entity\Video\Group;
 use MediaMine\CoreBundle\Service\SettingService;
 use MediaMine\CoreBundle\Service\TaskService;
@@ -17,7 +20,8 @@ class AbstractMapper {
     use EntitityManagerAware;
     use LoggerAware;
 
-    protected $genres = array();
+    const CACHE_TIMEOUT = 86400;
+
     protected $countries = array();
 
     /**
@@ -32,6 +36,18 @@ class AbstractMapper {
      */
     public $settingService;
 
+    /**
+     * @Inject("snc_redis.default")
+     * @var \Redis
+     */
+    public $redis;
+
+    protected $urlizer;
+
+    public function __construct() {
+        $this->urlizer = new Urlizer();
+    }
+
     public function clear() {
         unset($this->genres);
         $this->genres = [];
@@ -39,12 +55,28 @@ class AbstractMapper {
         $this->countries = [];
     }
 
+    protected function transliterate($text) {
+        return $this->urlizer->transliterate($text);
+    }
+
     protected function loadGenres()
     {
-        $genres = $this->getRepository('Video\Genre')->findAll();
+        $this->redis->eval("return redis.call('del', unpack(redis.call('keys', ARGV[1])))", ['mediamine.mapper.*']);
+        $allKeys = $this->redis->keys('*');
+        var_dump($allKeys);
+        $genres = $this->getRepository('Video\Genre')->findFullBy(['hydrate' => Query::HYDRATE_ARRAY]);
         foreach ($genres as $genre) {
-            $this->genres[strtolower($genre->name)] = $genre;
+            $this->setGenre($genre['name'], $genre['id']);
         }
+
+    }
+
+    protected function setGenre($name, $id) {
+        $this->redis->set('mediamine.mapper.' . $this->transliterate($name), $id, self::CACHE_TIMEOUT);
+    }
+
+    protected function getGenre($name) {
+        return $this->redis->get('mediamine.mapper.' . $this->transliterate($name));
     }
 
     protected function loadCountries()
@@ -64,16 +96,20 @@ class AbstractMapper {
 
     protected function getCreateGenres($genreNames)
     {
-        $videoGenres = array();
+        $videoGenres = [];
         if ($genreNames) {
             foreach ($genreNames as $genreName) {
-                $genreName = strtolower($genreName);
-                if (array_key_exists($genreName, $this->genres)) {
-                    $genre = $this->genres[$genreName];
+                $genreName = $this->transliterate($genreName);
+                $genreId = (int) $this->getGenre($genreName);
+                if ($genreId) {
+                    $genre = $this->getEntityManager()->getReference('MediaMine\CoreBundle\Entity\Video\Genre', $genreId);
                 } else {
-                    $genre = $this->getRepository('Video\Genre')->create(array('name' => strtolower($genreName)));
+                    /**
+                     * @var $genre Genre
+                     */
+                    $genre = $this->getRepository('Video\Genre')->create(['name' => $genreName]);
                     $this->getEntityManager()->flush();
-                    $this->genres[strtolower($genreName)] = $genre;
+                    $this->setGenre($genreName, $genre->getId());
                 }
                 $videoGenres[] = $genre;
             }
@@ -152,25 +188,21 @@ class AbstractMapper {
 
     protected function getCreateCharacters($video, $characterNames)
     {
-        $characters = $this->getRepository('Video\Character')->findFullBy(array('video' => $video, 'name' => $characterNames));
-        $result = array();
-        foreach ($characters as $c) {
-            $result[$c->name] = $c;
-        }
-        foreach ($characterNames as $cn) {
-            if ($cn && !array_key_exists($cn, $result)) {
-                $character = $this->getRepository('Video\Character')->create(array('video' => $video, 'name' => $cn));
-                $result[$character->name] = $character;
+        $result = [];
+        if (count($characterNames)) {
+            $characters = $this->getRepository('Video\Character')->findFullBy(array('video' => $video, 'name' => $characterNames));
+            foreach ($characters as $c) {
+                $result[$c->name] = $c;
             }
+            foreach ($characterNames as $cn) {
+                if ($cn && !array_key_exists($cn, $result)) {
+                    $character = $this->getRepository('Video\Character')->create(array('video' => $video, 'name' => $cn));
+                    $result[$character->name] = $character;
+                }
+            }
+            $this->getEntityManager()->flush();
         }
-        $this->getEntityManager()->flush();
         return $result;
-    }
-
-    protected function getGenre($name)
-    {
-        $name = strtolower($name);
-        return array_key_exists($name, $this->genres) ? $this->genres[$name] : null;
     }
 
     protected function getCreatePerson($personName)

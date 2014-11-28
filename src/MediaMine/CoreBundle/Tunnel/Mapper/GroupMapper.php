@@ -3,17 +3,20 @@ namespace MediaMine\CoreBundle\Tunnel\Mapper;
 
 use Doctrine\ORM\Query;
 use JMS\DiExtraBundle\Annotation\Service;
+use JMS\DiExtraBundle\Annotation\Tag;
 use MediaMine\CoreBundle\Entity\Video\Group;
 use MediaMine\CoreBundle\Entity\System\Job;
 
 
 /**
  * @Service("mediamine.mapper.group")
+ * @Tag("monolog.logger", attributes = {"channel" = "GroupMapper"})
  */
 class GroupMapper extends AbstractMapper {
 
     public function mapAllGroupData(Job $job)
     {
+        $this->loadGenres();
         $params = [
             'hydrate' => Query::HYDRATE_ARRAY
         ];
@@ -41,6 +44,7 @@ class GroupMapper extends AbstractMapper {
          * @var $group \MediaMine\Core\Entity\Video\Group
          */
         $name = $group->name;
+        $this->loadCountries();
 
         $settings = $this->getSettingService()->getSetting('tunnel', 'group');
 
