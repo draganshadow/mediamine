@@ -6,6 +6,13 @@ use Doctrine\ORM\Query;
 
 class SeasonRepository extends AbstractRepository
 {
+    public function getDiscrimitators() {
+        return [
+            ['id'],
+            ['group', 'number']
+        ];
+    }
+
     public function findFullBy($options = array(), $singleResult = false, $queryOnly = false, $qb = false, $params = array()) {
         if (!$qb) {
             $qb = $this->createQueryBuilder($this->getAlias());

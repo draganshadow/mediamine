@@ -106,7 +106,7 @@ class VideoMapper extends AbstractMapper{
 //            'rating'        => $data->rating,
 //            'review'        => $data->review,
             'type'         => array_key_exists('type', $data) ? $data['type'] : null,
-            'country'         => array_key_exists('country', $data) ? $this->getCountry($data['country']) : null,
+            'country'         => array_key_exists('country', $data) ? $this->getCreateCountry($data['country']) : null,
             'genres'         => array_key_exists('genres', $data) ? $this->getCreateGenres($data['genres']) : null,
         );
 
@@ -141,7 +141,6 @@ class VideoMapper extends AbstractMapper{
         $characters = $this->getCreateCharacters($video, $characterNames);
         $staffs = $video->getStaffByRole();
 
-        var_dump(count($staffs));
         if (is_array($video->staffs)) {
             foreach ($video->staffs as $staff) {
                 if (!array_key_exists($staff->person->name, $persons)) {
@@ -152,20 +151,12 @@ class VideoMapper extends AbstractMapper{
 
         foreach ($data['staffs']['directors'] as $name) {
             if (array_key_exists($name, $persons) && (!array_key_exists('director', $staffs) || !array_key_exists($name, $staffs['director']))) {
-                $this->getRepository('Video\Staff')->create(array(
-                    'video'  => $video,
-                    'person' => $persons[$name],
-                    'role'   => StaffRole::DIRECTOR
-                ));
+                $this->getCreateStaff($video, $persons[$name], StaffRole::DIRECTOR);
             }
         }
         foreach ($data['staffs']['writers'] as $name) {
             if (array_key_exists($name, $persons) && (!array_key_exists('writer', $staffs) || !array_key_exists($name, $staffs['writer']))) {
-                $this->getRepository('Video\Staff')->create(array(
-                    'video'  => $video,
-                    'person' => $persons[$name],
-                    'role'   => StaffRole::WRITER
-                ));
+                $this->getCreateStaff($video, $persons[$name], StaffRole::WRITER);
             }
         }
         foreach ($data['staffs']['actors'] as $actor) {
@@ -173,12 +164,7 @@ class VideoMapper extends AbstractMapper{
                 && array_key_exists('role', $actor) && !empty($actor['role'])
                 && (!array_key_exists('actor', $staffs) || !array_key_exists($actor['name'], $staffs['actor']))
             ) {
-                $this->getRepository('Video\Staff')->create(array(
-                    'video'     => $video,
-                    'person'    => $persons[$actor['name']],
-                    'character' => $characters[$actor['role']],
-                    'role'      => StaffRole::ACTOR
-                ));
+                $this->getCreateStaff($video, $persons[$actor['name']], $characters[$actor['role']], StaffRole::ACTOR);
             }
         }
 

@@ -2,13 +2,23 @@
 namespace MediaMine\CoreBundle\Repository;
 
 use Doctrine\ORM\Query;
+use JMS\DiExtraBundle\Annotation\Inject;
 use MediaMine\CoreBundle\Entity\AbstractEntity;
 
 abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
 {
+    const GLOBAL_CACHE_PREFIX = 'mediamine.';
     const QUERY_MULTIPLE_RESULT = 0;
     const QUERY_SINGLE_RESULT = 1;
     const QUERY_ITERABLE_RESULT = 2;
+    const DEFAULT_CACHE_TIME = 86400;
+
+    /**
+     * @Inject("snc_redis.default")
+     * @var \Redis
+     */
+    public $redis;
+
     /**
      * @var string
      */
@@ -27,6 +37,42 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
 
     public function getField($field) {
         return $this->getAlias() . '.' . $field;
+    }
+
+    public function getBaseCacheKey($context = false) {
+        return self::GLOBAL_CACHE_PREFIX . ($context ? $context . '.' : '') . $this->getAlias() . '.';
+    }
+
+    public function getDiscriminatorValue($discriminator, $values) {
+        $disValues = array_intersect_key($values, array_flip($discriminator));
+        foreach ($disValues as $k => $dv) {
+            if (is_array($dv)) {
+                if (array_key_exists('id', $dv)) {
+                    $disValues[$k] = $dv['id'];
+                } else {
+                    unset($disValues[$k]);
+                }
+            }
+        }
+        return $disValues;
+    }
+
+    public function getCacheKey($discriminator, $context = false) {
+        return $this->getBaseCacheKey($context) . md5(serialize($discriminator));
+    }
+
+    public function clearCache($discriminator = false, $context = false) {
+        if ($discriminator) {
+            $this->redis->del($this->getCacheKey($discriminator, $context));
+        } else {
+            $this->redis->eval("return redis.call('del', unpack(redis.call('keys', ARGV[1])))", [$this->getBaseCacheKey($context) . '*']);
+        }
+    }
+
+    public function getDiscrimitators() {
+        return [
+            ['id']
+        ];
     }
 
     /**
@@ -50,11 +96,73 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
      * @param $fields
      * @return AbstractEntity
      */
-    public function create($values) {
+    public function create($values, $cache = false, $context = false, $discriminator = false) {
+        /**
+         * @var $entity AbstractEntity
+         */
         $entity = new $this->_entityName;
         $entity->exchangeArray($values);
+        foreach($values as $key => $value)
+        {
+            if ($this->_class->hasAssociation($key) && is_scalar($value)) {
+                $entity->{$key} = $this->getEntityManager()->getReference($this->_class->associationMappings[$key]['targetEntity'], $value);
+            }
+        }
         $this->getEntityManager()->persist($entity);
+        if ($cache) {
+            $arrayCopy = $entity->getArrayCopy();
+            if ($discriminator) {
+                $disValues = $this->getDiscriminatorValue($discriminator, $arrayCopy);
+                $this->redis->set($this->getCacheKey($disValues, $context), $arrayCopy, self::DEFAULT_CACHE_TIME);
+            } else {
+                foreach ($this->getDiscrimitators() as $discriminator) {
+                    $disValues = $this->getDiscriminatorValue($discriminator, $arrayCopy);
+                    $this->redis->set($this->getCacheKey($disValues, $context), $arrayCopy, self::DEFAULT_CACHE_TIME);
+                }
+            }
+        }
         return $entity;
+    }
+
+    public function getCachedOrCreate($values, $discriminator = false, $context = false) {
+        if (!$discriminator) {
+            $discriminator = $this->getDiscrimitators()[0];
+        }
+        $disValues = $this->getDiscriminatorValue($discriminator, $values);
+        $cached = $this->redis->get($this->getCacheKey($disValues, $context));
+        /**
+         * @var $entity AbstractEntity
+         */
+        if ($cached) {
+            $entity = $this->getEntityManager()->getReference($this->_entityName, $cached['id']);
+            $entity->exchangeArray($cached);
+        } else {
+            $entity = $this->create($values, true, $context, $discriminator);
+            $this->getEntityManager()->flush();
+        }
+        return $entity;
+    }
+
+    public function getCachedOrFindFullBy($options = array(), $mode = false, $queryOnly = false, $qb = false, $params = array(), $context = false) {
+        $options['hydrate'] = Query::HYDRATE_ARRAY;
+        $cached = $this->redis->get($this->getCacheKey($options, $context));
+        if ($cached) {
+            $result = unserialize($cached);
+        } else {
+            $result = $this->findFullBy($options, $mode, $queryOnly, $qb, $params);
+            $this->redis->set($this->getCacheKey($options, $context), serialize($result), self::DEFAULT_CACHE_TIME);
+        }
+        return $result;
+    }
+
+    public function cacheAll(array $entities, $discriminator = false, $context = false) {
+        if (!$discriminator) {
+            $discriminator = $this->getDiscrimitators()[0];
+        }
+        foreach ($entities as $entity) {
+            $disValues = $this->getDiscriminatorValue($discriminator, $entity);
+            $this->redis->set($this->getCacheKey($disValues, $context), serialize($entity), self::DEFAULT_CACHE_TIME);
+        }
     }
 
     public function persist($entity) {
