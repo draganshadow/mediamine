@@ -11,26 +11,31 @@ class FileRepository extends AbstractRepository
      * @param null $parentDirectory
      * @return File
      */
-    public function create($fields = array()) {
-        $name = $fields['name'];
-        $parentDirectory = $fields['parentDirectory'];
+    public function create($values, $cache = false, $context = false, $discriminator = false) {
+
+        if (!array_key_exists('status', $values)) {
+            $values['status'] = 'new';
+        }
+        $name = $values['name'];
+        $parentDirectory = $values['parentDirectory'];
         $path = $parentDirectory->path . '/' . $name;
         $pathinfo = pathinfo($path);
 
-        $file = new File();
-        $file->name = $pathinfo['filename'];
-        $file->directory = $parentDirectory;
+        $values['name'] = $pathinfo['filename'];
+        $values['directory'] = $parentDirectory;
 
-        $dateModified =  new \DateTime();
-        $dateModified->setTimestamp(filemtime($path));
-        $file->modificationDate = $dateModified;
+        if (!array_key_exists('modificationDate', $values)) {
+            $dateModified =  new \DateTime();
+            $dateModified->setTimestamp(filemtime($values['path']));
+            $values['modificationDate'] = $dateModified;
+        }
 
-        $file->extension = array_key_exists('extension', $pathinfo) ? $pathinfo['extension'] : '';
-        $file->size = filesize($path);
-        $file->status = 'new';
-        $file->pathKey = md5($path);
-        $this->getEntityManager()->persist($file);
-        return $file;
+        $values['extension'] = array_key_exists('extension', $pathinfo) ? $pathinfo['extension'] : '';
+        $values['size'] = filesize($path);
+        $values['status'] = 'new';
+        $values['pathKey'] = md5($path);
+
+        return parent::create($values, $cache, $context, $discriminator);
     }
 
     public function findFullBy($options = array(), $singleResult = false, $queryOnly = false, $qb = false, $params = array()) {

@@ -12,20 +12,22 @@ class DirectoryRepository extends AbstractRepository
      * @param null $parentDirectory
      * @return Directory
      */
-    public function create($fields = array()) {
-        $directory = new Directory();
-        $directory->exchangeArray($fields);
-        $directory->status = 'new';
+    public function create($values, $cache = false, $context = false, $discriminator = false) {
+        if (!array_key_exists('status', $values)) {
+            $values['status'] = 'new';
+        }
+        if (!array_key_exists('name', $values)) {
+            $part = explode('/', $values['path']);
+            $values['name'] = $part[count($part)-1];
+        }
 
-        $part = explode('/', $directory->path);
-        $directory->name = $part[count($part)-1];
+        if (!array_key_exists('modificationDate', $values)) {
+            $dateModified =  new \DateTime();
+            $dateModified->setTimestamp(filemtime($values['path']));
+            $values['modificationDate'] = $dateModified;
+        }
 
-        $dateModified =  new \DateTime();
-        $dateModified->setTimestamp(filemtime($directory->path));
-        $directory->modificationDate = $dateModified;
-
-        $this->getEntityManager()->persist($directory);
-        return $directory;
+        return parent::create($values, $cache, $context, $discriminator);
     }
 
     public function findFullBy($options = array(), $singleResult = false, $queryOnly = false, $qb = false, $params = array()) {
