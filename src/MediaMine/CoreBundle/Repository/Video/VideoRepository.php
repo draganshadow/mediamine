@@ -1,6 +1,7 @@
 <?php
 namespace MediaMine\CoreBundle\Repository\Video;
 
+use JMS\DiExtraBundle\Annotation as DI;
 use MediaMine\CoreBundle\Repository\AbstractRepository;
 use Doctrine\ORM\Query;
 

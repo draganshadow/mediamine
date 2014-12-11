@@ -4,6 +4,7 @@ namespace MediaMine\CoreBundle\Repository\File;
 use MediaMine\CoreBundle\Repository\AbstractRepository;
 use Doctrine\ORM\Query;
 use MediaMine\CoreBundle\Entity\File\Directory;
+use JMS\DiExtraBundle\Annotation as DI;
 
 class DirectoryRepository extends AbstractRepository
 {

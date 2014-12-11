@@ -3,6 +3,7 @@
 namespace MediaMine\CoreBundle\Repository\Tunnel;
 
 use MediaMine\CoreBundle\Repository\AbstractRepository;
+use JMS\DiExtraBundle\Annotation as DI;
 
 /**
  * SeasonRepository

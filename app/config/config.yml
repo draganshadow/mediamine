@@ -107,6 +107,7 @@ sensio_framework_extra:
     security: { annotations: true }
 
 jms_di_extra:
+    doctrine_integration: true
     locations:
         all_bundles: false
         bundles: [MediaMineCoreBundle]
@@ -177,11 +178,22 @@ fos_rest:
 nelmio_api_doc: ~
 
 fos_elastica:
+    serializer: ~
     clients:
         default: { host: elasticsearch, port: 9200 }
     indexes:
-        search: ~
-
+        search:
+            types:
+                Video:
+                    serializer:
+                        groups: [elastica, Default]
+                    persistence:
+                        driver: orm
+                        model: \MediaMine\CoreBundle\Entity\Video\Video
+                        provider: ~
+                        listener:
+                            immediate: ~
+                        finder: ~
 sonata_user:
     security_acl: true
     manager_type: orm # can be orm or mongodb

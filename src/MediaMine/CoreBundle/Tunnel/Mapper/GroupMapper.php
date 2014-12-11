@@ -16,6 +16,8 @@ class GroupMapper extends AbstractMapper {
 
     public function mapAllGroupData(Job $job)
     {
+        $this->clear();
+
         $this->loadGenres();
         $params = [
             'hydrate' => Query::HYDRATE_ARRAY
@@ -41,7 +43,7 @@ class GroupMapper extends AbstractMapper {
             ), true);
 
         /**
-         * @var $group \MediaMine\Core\Entity\Video\Group
+         * @var $group \MediaMine\CoreBundle\Entity\Video\Group
          */
         $name = $group->name;
         $this->loadCountries();
@@ -101,7 +103,7 @@ class GroupMapper extends AbstractMapper {
             'genres'       => array_key_exists('genres', $data) ? $this->getCreateGenres($data['genres']) : null,
         );
         if ($override) {
-            $group->exchangeArrayNoEmpty($tunnelData);
+            $group = $this->getRepository('Video\Group')->exchangeArrayNoEmpty($tunnelData, $group);
         }
         $this->getEntityManager()->persist($group);
     }

@@ -17,6 +17,7 @@ class VideoMapper extends AbstractMapper{
 
     public function mapAllVideoData(Job $job)
     {
+        $this->clear();
         $this->loadGenres();
         $params = [
             'hydrate' => Query::HYDRATE_ARRAY
@@ -77,13 +78,11 @@ class VideoMapper extends AbstractMapper{
                     $override = false;
                 }
             }
-            $this->getEntityManager()->flush();
 
             $t2 = microtime(true);
             $t = $t2 - $t1;
             $this->getLogger()->info('map video data : ' . $name . '->' . $t . ' ms');
         }
-        $this->clear();
     }
 
 
@@ -92,7 +91,7 @@ class VideoMapper extends AbstractMapper{
         $images = array();
         if (array_key_exists('images', $data)) {
             foreach($data['images'] as $image) {
-                $images[] = $this->getEntityManager()->getReference('\MediaMine\CoreBundle\Entity\File\File', $image[0]);
+                $video->addImage($this->getEntityManager()->getReference('\MediaMine\CoreBundle\Entity\File\File', $image[0]));
             }
         }
 
@@ -102,20 +101,28 @@ class VideoMapper extends AbstractMapper{
             'summary'      => array_key_exists('summary', $data) ? $data['summary'] : null,
             'year'         => array_key_exists('year', $data) ? (int)$data['year'] : null,
             'episode'      => array_key_exists('episode', $data) ? (int)$data['episode'] : null,
-            'images'       => $images,
 //            'rating'        => $data->rating,
 //            'review'        => $data->review,
             'type'         => array_key_exists('type', $data) ? $data['type'] : null,
             'country'         => array_key_exists('country', $data) ? $this->getCreateCountry($data['country']) : null,
-            'genres'         => array_key_exists('genres', $data) ? $this->getCreateGenres($data['genres']) : null,
         );
 
+        $genres = array_key_exists('genres', $data) ? $this->getCreateGenres($data['genres']) : [];
+        foreach ($genres as $genre) {
+            $video->addGenre($genre);
+        }
+
         if (array_key_exists('group', $data)) {
+            /**
+             * @var $video Video
+             */
             $seasonDirectory = $video->files[0]->file->directory;
             $groupDirectory = $seasonDirectory->parentDirectory;
-            $tunnelData['group'] = $this->getCreateGroup($data['group'], $groupDirectory);
+            $group = $this->getCreateGroup($data['group'], $groupDirectory);
+            $video->setGroup($group);
             if (array_key_exists('season', $data)) {
-                $tunnelData['season'] = $this->getCreateSeason($tunnelData['group'], $data['season'], $seasonDirectory);
+                $season = $this->getCreateSeason($group, $data['season'], $seasonDirectory);
+                $video->setSeason($season);
             }
         }
 
@@ -164,11 +171,15 @@ class VideoMapper extends AbstractMapper{
                 && array_key_exists('role', $actor) && !empty($actor['role'])
                 && (!array_key_exists('actor', $staffs) || !array_key_exists($actor['name'], $staffs['actor']))
             ) {
-                $this->getCreateStaff($video, $persons[$actor['name']], $characters[$actor['role']], StaffRole::ACTOR);
+                $this->getCreateStaff($video, $persons[$actor['name']], StaffRole::ACTOR, $characters[$actor['role']]);
             }
         }
 
-        $video->exchangeArrayNoEmpty($tunnelData);
+        /**
+         * @var $video Video
+         */
+        $video = $this->getRepository('Video\Video')->exchangeArrayNoEmpty($tunnelData, $video);
         $this->getEntityManager()->persist($video);
+        $this->getEntityManager()->flush();
     }
 } 

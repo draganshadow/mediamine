@@ -4,6 +4,11 @@ namespace MediaMine\CoreBundle\Entity;
 abstract class AbstractEntity
 {
     /**
+     * @return mixed
+     */
+    abstract public function getId();
+
+    /**
      * Magic getter to expose protected properties.
      *
      * @param string $property
@@ -30,47 +35,23 @@ abstract class AbstractEntity
      *
      * @return array
      */
-    public function getArrayCopy()
+    public function getArrayCopy($maxDepth = 1)
     {
-        return get_object_vars($this);
-    }
-
-    /**
-     * @param $array
-     */
-    public function exchangeArray($array)
-    {
-        foreach($array as $key => $value)
-        {
-            if (property_exists($this,$key)) {
-                $this->{$key} = $value;
+        $array = [];
+        foreach ($this as $f => $v) {
+            if (is_scalar($v)) {
+                $array[$f] = $v;
+            }
+            elseif (($maxDepth > 0) && $v instanceof AbstractEntity) {
+                $array[$f] = $v->getArrayCopy($maxDepth - 1);
+            } elseif (is_array($v)) {
+                foreach ($v as $sf => $sv) {
+                    if (($maxDepth > 0) && $sv instanceof AbstractEntity) {
+                        $v[$sf] = $sv->getArrayCopy($maxDepth - 1);
+                    }
+                }
             }
         }
-    }
-
-    /**
-     * @param $array
-     */
-    public function exchangeArrayComplete($array)
-    {
-        foreach($array as $key => $value)
-        {
-            if (property_exists($this,$key) && empty($this->{$key})) {
-                $this->{$key} = $value;
-            }
-        }
-    }
-
-    /**
-     * @param $array
-     */
-    public function exchangeArrayNoEmpty($array)
-    {
-        foreach($array as $key => $value)
-        {
-            if (property_exists($this,$key) && !empty($value)) {
-                $this->{$key} = $value;
-            }
-        }
+        return $array;
     }
 }

@@ -3,9 +3,11 @@ namespace MediaMine\CoreBundle\Repository\File;
 
 use MediaMine\CoreBundle\Repository\AbstractRepository;
 use MediaMine\CoreBundle\Entity\File\File;
+use JMS\DiExtraBundle\Annotation as DI;
 
 class FileRepository extends AbstractRepository
 {
+
     /**
      * @param $name
      * @param null $parentDirectory
@@ -20,13 +22,12 @@ class FileRepository extends AbstractRepository
         $parentDirectory = $values['parentDirectory'];
         $path = $parentDirectory->path . '/' . $name;
         $pathinfo = pathinfo($path);
-
         $values['name'] = $pathinfo['filename'];
         $values['directory'] = $parentDirectory;
 
         if (!array_key_exists('modificationDate', $values)) {
             $dateModified =  new \DateTime();
-            $dateModified->setTimestamp(filemtime($values['path']));
+            $dateModified->setTimestamp(filemtime($path));
             $values['modificationDate'] = $dateModified;
         }
 

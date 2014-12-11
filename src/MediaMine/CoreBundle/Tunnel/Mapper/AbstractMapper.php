@@ -48,10 +48,13 @@ class AbstractMapper
 
     public function clear()
     {
-        unset($this->genres);
-        $this->genres = [];
-        unset($this->countries);
-        $this->countries = [];
+        $this->getRepository('Video\Genre')->clearCache(false, self::CACHE_CONTEXT);
+        $this->getRepository('Common\Country')->clearCache(false, self::CACHE_CONTEXT);
+        $this->getRepository('Video\Season')->clearCache(false, self::CACHE_CONTEXT);
+        $this->getRepository('Video\Group')->clearCache(false, self::CACHE_CONTEXT);
+        $this->getRepository('Common\Person')->clearCache(false, self::CACHE_CONTEXT);
+        $this->getRepository('Video\Character')->clearCache(false, self::CACHE_CONTEXT);
+        $this->getRepository('Video\Staff')->clearCache(false, self::CACHE_CONTEXT);
     }
 
     /**
@@ -122,7 +125,7 @@ class AbstractMapper
     protected function getCreateCountry($countryName)
     {
         $genre = $this->getRepository('Common\Country')
-            ->getCachedOrCreate(['name' => $countryName], ['name'], self::CACHE_CONTEXT);
+            ->getCachedOrCreate(['name' => $countryName, 'language' => $countryName], ['name'], self::CACHE_CONTEXT);
         return $genre;
     }
 
@@ -154,8 +157,8 @@ class AbstractMapper
          */
         $group = $this->getRepository('Video\Group')->getCachedOrCreate([
             'name'      => $groupName,
-            'directory' => $directory], ['name'], self::CACHE_CONTEXT);
-        if ($directory) {
+            'directory' => $directory], ['name'], self::CACHE_CONTEXT, $cached);
+        if ($directory && !$cached) {
             $files = $this->getRepository('File\File')->findFullBy(
                 array(
                     'name'      => 'folder',
@@ -173,16 +176,18 @@ class AbstractMapper
 
     protected function getCreateSeason(Group $group, $seasonNumber, $directory = null)
     {
-        /**
-         * @var $season Season
-         */
-        $season = $this->getRepository('Video\Season')->getCachedOrCreate([
+        $values = [
             'group'     => $group,
             'number'    => $seasonNumber,
             'name'      => 'Season ' . $seasonNumber,
             'summary'   => $group->summary,
-            'directory' => $directory], ['group', 'number'], self::CACHE_CONTEXT);
-        if ($directory) {
+            'directory' => $directory
+        ];
+        /**
+         * @var $season Season
+         */
+        $season = $this->getRepository('Video\Season')->getCachedOrCreate($values, ['group', 'number'], self::CACHE_CONTEXT, $cached);
+        if ($directory && !$cached) {
             $files = $this->getRepository('File\File')->findFullBy(
                 array(
                     'name'      => 'folder',
@@ -232,12 +237,16 @@ class AbstractMapper
 
     protected function getCreateStaff($video, $person, $role, $character = null)
     {
-        $staff = $this->getRepository('Video\Staff')->getCachedOrCreate([
+        $values = [
             'video'     => $video,
             'person'    => $person,
-            'character' => $character,
             'role'      => $role
-        ], ['video', 'person', 'character', 'role'], self::CACHE_CONTEXT);
+        ];
+        if ($character) {
+            $values['character'] = $character;
+        }
+        $staff = $this->getRepository('Video\Staff')->getCachedOrCreate($values
+            , ['video', 'person', 'character', 'role'], self::CACHE_CONTEXT);
 
         return $staff;
     }

@@ -2,7 +2,7 @@
 namespace MediaMine\CoreBundle\Repository;
 
 use Doctrine\ORM\Query;
-use JMS\DiExtraBundle\Annotation\Inject;
+use JMS\DiExtraBundle\Annotation as DI;
 use MediaMine\CoreBundle\Entity\AbstractEntity;
 
 abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
@@ -14,10 +14,21 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
     const DEFAULT_CACHE_TIME = 86400;
 
     /**
-     * @Inject("snc_redis.default")
+     * @DI\Inject("snc_redis.default", required=true)
      * @var \Redis
      */
     public $redis;
+
+    /**
+     * @DI\InjectParams({
+     *     "redis" = @DI\Inject("snc_redis.default"),
+     * })
+     */
+    public function setRedis($redis)
+    {
+        $this->redis = $redis;
+    }
+
 
     /**
      * @var string
@@ -46,7 +57,9 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
     public function getDiscriminatorValue($discriminator, $values) {
         $disValues = array_intersect_key($values, array_flip($discriminator));
         foreach ($disValues as $k => $dv) {
-            if (is_array($dv)) {
+            if ($dv instanceof AbstractEntity) {
+                $disValues[$k] = $dv->getId();
+            } elseif (is_array($dv)) {
                 if (array_key_exists('id', $dv)) {
                     $disValues[$k] = $dv['id'];
                 } else {
@@ -58,6 +71,7 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
     }
 
     public function getCacheKey($discriminator, $context = false) {
+        ksort($discriminator);
         return $this->getBaseCacheKey($context) . md5(serialize($discriminator));
     }
 
@@ -87,7 +101,7 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
         if ($fieldsOnly) {
             $values = $this->filterFields($values);
         }
-        $entity->exchangeArray($values);
+        $entity = $this->exchangeArray($values, $entity);
         $this->getEntityManager()->persist($entity);
         return $entity;
     }
@@ -100,45 +114,51 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
         /**
          * @var $entity AbstractEntity
          */
-        $entity = new $this->_entityName;
-        $entity->exchangeArray($values);
+        $entity = $this->exchangeArray($values);
         foreach($values as $key => $value)
         {
             if ($this->_class->hasAssociation($key) && is_scalar($value)) {
                 $entity->{$key} = $this->getEntityManager()->getReference($this->_class->associationMappings[$key]['targetEntity'], $value);
+            } else {
+                $entity->{$key} = $value;
             }
         }
         $this->getEntityManager()->persist($entity);
         if ($cache) {
+            $this->getEntityManager()->flush();
             $arrayCopy = $entity->getArrayCopy();
             if ($discriminator) {
                 $disValues = $this->getDiscriminatorValue($discriminator, $arrayCopy);
-                $this->redis->set($this->getCacheKey($disValues, $context), $arrayCopy, self::DEFAULT_CACHE_TIME);
+                $key = $this->getCacheKey($disValues, $context);
+                $this->redis->set($key, serialize($arrayCopy), self::DEFAULT_CACHE_TIME);
             } else {
                 foreach ($this->getDiscrimitators() as $discriminator) {
                     $disValues = $this->getDiscriminatorValue($discriminator, $arrayCopy);
-                    $this->redis->set($this->getCacheKey($disValues, $context), $arrayCopy, self::DEFAULT_CACHE_TIME);
+                    $this->redis->set($this->getCacheKey($disValues, $context), serialize($arrayCopy), self::DEFAULT_CACHE_TIME);
                 }
             }
         }
         return $entity;
     }
 
-    public function getCachedOrCreate($values, $discriminator = false, $context = false) {
+    public function getCachedOrCreate($values, $discriminator = false, $context = false, &$cached = false) {
         if (!$discriminator) {
             $discriminator = $this->getDiscrimitators()[0];
         }
         $disValues = $this->getDiscriminatorValue($discriminator, $values);
-        $cached = $this->redis->get($this->getCacheKey($disValues, $context));
+        $key = $this->getCacheKey($disValues, $context);
+        $cachedVal = $this->redis->get($key);
+
         /**
          * @var $entity AbstractEntity
          */
-        if ($cached) {
-            $entity = $this->getEntityManager()->getReference($this->_entityName, $cached['id']);
-            $entity->exchangeArray($cached);
+        if ($cachedVal) {
+            $cachedVal = unserialize($cachedVal);
+            $entity = $this->getEntityManager()->getReference($this->_entityName, $cachedVal['id']);
+            $entity = $this->exchangeArray($cachedVal, $entity);
+            $cached = true;
         } else {
             $entity = $this->create($values, true, $context, $discriminator);
-            $this->getEntityManager()->flush();
         }
         return $entity;
     }
@@ -274,5 +294,47 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
                 break;
         }
         return $result;
+    }
+
+    public function exchangeArray($array, $entity = null, $withAssociation = false)
+    {
+        if (!$entity) {
+            $entity = new $this->_entityName;
+        }
+        foreach($array as $key => $value)
+        {
+            if ($this->_class->hasField($key) || $withAssociation) {
+                $entity->{$key} = $value;
+            }
+        }
+        return $entity;
+    }
+
+    public function exchangeArrayComplete($array, $entity = null, $withAssociation = false)
+    {
+        if (!$entity) {
+            $entity = new $this->_entityName;
+        }
+        foreach($array as $key => $value)
+        {
+            if (($this->_class->hasField($key) || $withAssociation) && empty($entity->{$key})) {
+                $entity->{$key} = $value;
+            }
+        }
+        return $entity;
+    }
+
+    public function exchangeArrayNoEmpty($array, $entity = null, $withAssociation = false)
+    {
+        if (!$entity) {
+            $entity = new $this->_entityName;
+        }
+        foreach($array as $key => $value)
+        {
+            if (($this->_class->hasField($key) || $withAssociation) && !empty($value)) {
+                $entity->{$key} = $value;
+            }
+        }
+        return $entity;
     }
 }

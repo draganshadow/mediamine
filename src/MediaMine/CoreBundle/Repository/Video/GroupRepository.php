@@ -3,6 +3,7 @@ namespace MediaMine\CoreBundle\Repository\Video;
 
 use MediaMine\CoreBundle\Repository\AbstractRepository;
 use Doctrine\ORM\Query;
+use JMS\DiExtraBundle\Annotation as DI;
 
 class GroupRepository extends AbstractRepository
 {

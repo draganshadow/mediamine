@@ -29,6 +29,15 @@ class Extension extends AbstractEntity
     protected $type;
 
     /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->name;
+    }
+
+
+    /**
      * Set name
      *
      * @param string $name

@@ -29,13 +29,17 @@ RUN \
   rm -f elasticsearch-1.3.2.tar.gz && \
   mv /tmp/elasticsearch-1.3.2 /elasticsearch
 
-RUN cd /elasticsearch && ./bin/plugin -install mobz/elasticsearch-head && ./bin/plugin -install lukas-vlcek/bigdesk
 
 # Define mountable directories.
 VOLUME ["/data"]
 
 # Mount elasticsearch.yml config
 ADD config/elasticsearch.yml /elasticsearch/config/elasticsearch.yml
+
+
+RUN mkdir /etc/service/elasticsearch
+ADD scripts/elasticsearch.sh /etc/service/elasticsearch/run
+RUN chmod +x /etc/service/elasticsearch/run
 
 # Define working directory.
 WORKDIR /data

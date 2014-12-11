@@ -1,6 +1,7 @@
 <?php
 
 namespace MediaMine\CoreBundle\Tunnel\Mapper;
+use MediaMine\CoreBundle\Entity\Common\Person;
 
 /**
  * @Service("mediamine.mapper.person")
@@ -11,7 +12,7 @@ class PersonMapper extends AbstractMapper{
     public function processPersonDataMappingTask($id)
     {
         /**
-         * @var $task \MediaMine\Core\Entity\System\Task
+         * @var $task \MediaMine\CoreBundle\Entity\System\Task
          */
         $task = $this->getRepository('System\Task')->find($id);
         if ($task) {
@@ -21,7 +22,7 @@ class PersonMapper extends AbstractMapper{
                 ));
             if (count($persons)) {
                 /**
-                 * @var $person \MediaMine\Core\Entity\Common\Person
+                 * @var $person \MediaMine\CoreBundle\Entity\Common\Person
                  */
                 $person = $persons[0];
 
@@ -39,6 +40,7 @@ class PersonMapper extends AbstractMapper{
 
     public function mapAllPersonData()
     {
+        $this->clear();
         $tq = $this->getEntityManager()->createQueryBuilder();
         $nbtask = $tq->select('COUNT(Task)')
             ->from('MediaMine\Core\Entity\System\Task', 'Task')
@@ -85,7 +87,7 @@ class PersonMapper extends AbstractMapper{
         }
     }
 
-    protected function applyPersonTunnelData(\MediaMine\Core\Entity\Tunnel\Person $data, Person $person, $override = false)
+    protected function applyPersonTunnelData(\MediaMine\CoreBundle\Entity\Tunnel\Person $data, Person $person, $override = false)
     {
         $tunnelData = array(
             'name'      => $data->name,
@@ -98,7 +100,7 @@ class PersonMapper extends AbstractMapper{
             'deathDate' => $data->deathDate,
         );
         if ($override) {
-            $person->exchangeArrayUpdate($tunnelData);
+            $person = $this->getRepository('Common\Person')->exchangeArrayComplete($tunnelData, $person);
         }
         $this->getEntityManager()->persist($person);
     }

@@ -2,7 +2,7 @@
 namespace MediaMine\CoreBundle\Tunnel;
 
 use Doctrine\ORM\Query;
-use MediaMine\CoreBundle\Entity\System\Task;
+use MediaMine\CoreBundle\Message\System\Task;
 use MediaMine\CoreBundle\Service\AbstractService;
 use MediaMine\CoreBundle\Shared\MongoEntitityManagerAware;
 

@@ -55,10 +55,13 @@ class MovieParser
 
         $persons = array();
         foreach ($dom->getElementsByTagName('Person') as $tmp) {
+            /**
+             * @var $tmp \DOMElement
+             */
             $person = array (
                 'name' => $tmp->getElementsByTagName('Name')->item(0)->nodeValue,
                 'type' => $tmp->getElementsByTagName('Type')->item(0)->nodeValue,
-                'role' => $tmp->getElementsByTagName('Role')->item(0)->nodeValue,
+                'role' => $tmp->getElementsByTagName('Role')->length ? $tmp->getElementsByTagName('Role')->item(0)->nodeValue : ''
             );
             $persons[] = $person;
         }
