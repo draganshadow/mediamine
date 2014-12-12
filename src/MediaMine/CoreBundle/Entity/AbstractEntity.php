@@ -35,7 +35,7 @@ abstract class AbstractEntity
      *
      * @return array
      */
-    public function getArrayCopy($maxDepth = 1)
+    public function getArrayCopy($maxDepth = 1, $many = false)
     {
         $array = [];
         foreach ($this as $f => $v) {
@@ -44,10 +44,11 @@ abstract class AbstractEntity
             }
             elseif (($maxDepth > 0) && $v instanceof AbstractEntity) {
                 $array[$f] = $v->getArrayCopy($maxDepth - 1);
-            } elseif (is_array($v)) {
+            } elseif (is_array($v) || $v instanceof \Doctrine\ORM\PersistentCollection) {
+                $array[$f] = [];
                 foreach ($v as $sf => $sv) {
                     if (($maxDepth > 0) && $sv instanceof AbstractEntity) {
-                        $v[$sf] = $sv->getArrayCopy($maxDepth - 1);
+                        $array[$f][$sf] = $sv->getArrayCopy($maxDepth - 1);
                     }
                 }
             }

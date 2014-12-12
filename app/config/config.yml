@@ -183,10 +183,18 @@ fos_elastica:
         default: { host: elasticsearch, port: 9200 }
     indexes:
         search:
+            finder: ~
             types:
                 Video:
-                    serializer:
-                        groups: [elastica, Default]
+                    mappings:
+                        name: { boost: 10 }
+                        files:
+                            type: "nested"
+                            properties:
+                                file:
+                                    type: "nested"
+                                    properties:
+                                        name: { boost: 5 }
                     persistence:
                         driver: orm
                         model: \MediaMine\CoreBundle\Entity\Video\Video

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b1a50f17ae82c4603e83753e200a11a8",
+    "hash": "e409095070294760152efb6c7d6b6eab",
     "packages": [
         {
             "name": "alchemy/binary-driver",
@@ -597,12 +597,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "71140662c0a954602e81271667b6e03d9f53ea34"
+                "reference": "505fa3145f2a9e042ccd4744bfaa0ccaed8356de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/71140662c0a954602e81271667b6e03d9f53ea34",
-                "reference": "71140662c0a954602e81271667b6e03d9f53ea34",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/505fa3145f2a9e042ccd4744bfaa0ccaed8356de",
+                "reference": "505fa3145f2a9e042ccd4744bfaa0ccaed8356de",
                 "shasum": ""
             },
             "require": {
@@ -660,7 +660,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2014-12-04 21:57:15"
+            "time": "2014-12-12 15:20:03"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -957,12 +957,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "f976e5de371104877ebc89bd8fecb0019ed9c119"
+                "reference": "40efa2d8c9e2948b29fdf5d782babaacb08d0c86"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/f976e5de371104877ebc89bd8fecb0019ed9c119",
-                "reference": "f976e5de371104877ebc89bd8fecb0019ed9c119",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/40efa2d8c9e2948b29fdf5d782babaacb08d0c86",
+                "reference": "40efa2d8c9e2948b29fdf5d782babaacb08d0c86",
                 "shasum": ""
             },
             "require": {
@@ -973,7 +973,7 @@
                 "ext-pdo": "*",
                 "ext-phar": "*",
                 "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "2.0.*@ALPHA"
+                "squizlabs/php_codesniffer": "~2.0"
             },
             "type": "library",
             "extra": {
@@ -982,8 +982,8 @@
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Doctrine\\Instantiator\\": "src"
+                "psr-4": {
+                    "Doctrine\\Instantiator\\": "src/Doctrine/Instantiator/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1003,7 +1003,7 @@
                 "constructor",
                 "instantiate"
             ],
-            "time": "2014-10-13 12:58:55"
+            "time": "2014-12-12 16:47:07"
         },
         {
             "name": "doctrine/lexer",
@@ -2971,12 +2971,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/kriswallsmith/assetic.git",
-                "reference": "6ff16eba34f62a13b6b0116e866cadf43428ab09"
+                "reference": "af518b325b4d9865c275a5b6528e499444366754"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/6ff16eba34f62a13b6b0116e866cadf43428ab09",
-                "reference": "6ff16eba34f62a13b6b0116e866cadf43428ab09",
+                "url": "https://api.github.com/repos/kriswallsmith/assetic/zipball/af518b325b4d9865c275a5b6528e499444366754",
+                "reference": "af518b325b4d9865c275a5b6528e499444366754",
                 "shasum": ""
             },
             "require": {
@@ -3008,7 +3008,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.2-dev"
+                    "dev-master": "1.3-dev"
                 }
             },
             "autoload": {
@@ -3037,7 +3037,7 @@
                 "compression",
                 "minification"
             ],
-            "time": "2014-12-10 22:59:46"
+            "time": "2014-12-12 04:46:48"
         },
         {
             "name": "liip/monitor-bundle",
@@ -3401,6 +3401,73 @@
                 "rabbitmq"
             ],
             "time": "2014-12-04 12:34:37"
+        },
+        {
+            "name": "pagerfanta/pagerfanta",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/whiteoctober/Pagerfanta.git",
+                "reference": "0eec60b48d38132333369a681db2e32c42ad117d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/whiteoctober/Pagerfanta/zipball/0eec60b48d38132333369a681db2e32c42ad117d",
+                "reference": "0eec60b48d38132333369a681db2e32c42ad117d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "doctrine/orm": "~2.3",
+                "doctrine/phpcr-odm": "1.*",
+                "jackalope/jackalope-doctrine-dbal": "1.*",
+                "jmikola/geojson": "~1.0",
+                "mandango/mandango": "~1.0@dev",
+                "mandango/mondator": "~1.0@dev",
+                "phpunit/phpunit": "~4",
+                "propel/propel1": "~1.6",
+                "ruflin/elastica": "~1.3",
+                "solarium/solarium": "~3.1"
+            },
+            "suggest": {
+                "doctrine/mongodb-odm": "To use the DoctrineODMMongoDBAdapter.",
+                "doctrine/orm": "To use the DoctrineORMAdapter.",
+                "doctrine/phpcr-odm": "To use the DoctrineODMPhpcrAdapter. >= 1.1.0",
+                "mandango/mandango": "To use the MandangoAdapter.",
+                "propel/propel1": "To use the PropelAdapter",
+                "solarium/solarium": "To use the SolariumAdapter."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Pagerfanta\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Díez",
+                    "email": "pablodip@gmail.com"
+                }
+            ],
+            "description": "Pagination for PHP 5.3",
+            "keywords": [
+                "page",
+                "pagination",
+                "paginator",
+                "paging"
+            ],
+            "time": "2014-11-21 09:25:05"
         },
         {
             "name": "php-ffmpeg/php-ffmpeg",
@@ -5373,12 +5440,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "b1c4068cdfa6830f8fbd0f48725b0d09e293393a"
+                "reference": "7e33b32ccf4fc676670cdc3f74cf6c4794e0a319"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/b1c4068cdfa6830f8fbd0f48725b0d09e293393a",
-                "reference": "b1c4068cdfa6830f8fbd0f48725b0d09e293393a",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/7e33b32ccf4fc676670cdc3f74cf6c4794e0a319",
+                "reference": "7e33b32ccf4fc676670cdc3f74cf6c4794e0a319",
                 "shasum": ""
             },
             "require": {
@@ -5441,7 +5508,7 @@
                 "egulias/email-validator": "~1.2",
                 "ircmaxell/password-compat": "~1.0",
                 "monolog/monolog": "~1.11",
-                "ocramius/proxy-manager": ">=0.3.1,<0.6-dev",
+                "ocramius/proxy-manager": "~0.3.1",
                 "propel/propel1": "~1.6"
             },
             "type": "library",
@@ -5481,7 +5548,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2014-12-11 19:01:13"
+            "time": "2014-12-12 18:19:01"
         },
         {
             "name": "twig/extensions",
@@ -5645,6 +5712,59 @@
                 "rabbitmq"
             ],
             "time": "2014-11-27 15:11:55"
+        },
+        {
+            "name": "white-october/pagerfanta-bundle",
+            "version": "dev-master",
+            "target-dir": "WhiteOctober/PagerfantaBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/whiteoctober/WhiteOctoberPagerfantaBundle.git",
+                "reference": "81a939828228465e7a2bf38dbb1227640cfd5392"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/whiteoctober/WhiteOctoberPagerfantaBundle/zipball/81a939828228465e7a2bf38dbb1227640cfd5392",
+                "reference": "81a939828228465e7a2bf38dbb1227640cfd5392",
+                "shasum": ""
+            },
+            "require": {
+                "pagerfanta/pagerfanta": "1.0.*",
+                "symfony/framework-bundle": "~2.2",
+                "symfony/property-access": "~2.2",
+                "symfony/twig-bundle": "~2.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7",
+                "symfony/symfony": "~2.2"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "WhiteOctober\\PagerfantaBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pablo Díez",
+                    "email": "pablodip@gmail.com"
+                }
+            ],
+            "description": "Bundle to use Pagerfanta with Symfony2",
+            "keywords": [
+                "page",
+                "paging"
+            ],
+            "time": "2014-11-06 20:05:47"
         },
         {
             "name": "willdurand/jsonp-callback-validator",

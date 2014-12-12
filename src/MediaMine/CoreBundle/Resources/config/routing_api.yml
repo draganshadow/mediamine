@@ -25,6 +25,9 @@ media_mine_rest_season:
 media_mine_rest_setting:
     type:     rest
     resource: MediaMine\CoreBundle\Controller\Rest\SettingController
+media_mine_rest_search:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\SearchController
 media_mine_rest_tunnel:
     type:     rest
     resource: MediaMine\CoreBundle\Controller\Rest\TunnelController
