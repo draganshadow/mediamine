@@ -34,6 +34,10 @@ media_mine_core:
           service: mediamine.job.createdb
         install:
           service: mediamine.job.install
+        clearcache:
+          service: mediamine.job.clearcache
+        killencoding:
+          service: mediamine.job.killencoding
         filescan:
           service: mediamine.job.filescan
         searchxmlvideo:
