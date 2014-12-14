@@ -49,6 +49,7 @@ class SeasonController extends FOSRestController
         $options = $paramFetcher->all();
         $options['hydrate'] = Query::HYDRATE_ARRAY;
         $options['addImages'] = true;
+        $options['addGroup'] = true;
         return $this->getRepository('Video\Season')->findFullBy($options);
     }
 
@@ -76,6 +77,7 @@ class SeasonController extends FOSRestController
     {
         $options['id'] = $id;
         $options['hydrate'] = Query::HYDRATE_ARRAY;
+        $options['addGroup'] = true;
         return $this->getRepository('Video\Season')->findFullBy($options, true);
     }
 

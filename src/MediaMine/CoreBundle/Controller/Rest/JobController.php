@@ -35,7 +35,7 @@ class JobController extends FOSRestController
      * )
      *
      * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing jobs.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many jobs to return.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="20", description="How many jobs to return.")
      *
      * @Annotations\View()
      *
@@ -48,6 +48,8 @@ class JobController extends FOSRestController
     {
         $options = $paramFetcher->all();
         $options['hydrate'] = Query::HYDRATE_ARRAY;
+        $options['orderBy'] = 'id';
+        $options['order'] = 'DESC';
         return $this->getRepository('System\Job')->findFullBy($options);
     }
 

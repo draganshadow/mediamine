@@ -1,4 +1,9 @@
 services:
-#    media_mine_core.example:
-#        class: MediaMine\CoreBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    mediamine.elastica.hydrator.video:
+        class: MediaMine\CoreBundle\Elastica\Hydrator\ElasticaToVideoTransformer
+        arguments: [@doctrine, "\MediaMine\CoreBundle\Entity\Video\Video", {hydrate:false}]
+        calls:
+            - [ setEntityManager, [ @doctrine.orm.entity_manager ] ]
+            - [ setPropertyAccessor, [ @fos_elastica.property_accessor ] ]
+        tags:
+            - { name: fos_elastica.elastica_to_model_transformer, type: Video, index: search}

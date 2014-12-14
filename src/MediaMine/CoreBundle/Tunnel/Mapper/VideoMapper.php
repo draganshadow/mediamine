@@ -13,7 +13,7 @@ use MediaMine\CoreBundle\Entity\Video\Video;
  * @Service("mediamine.mapper.video")
  * @Tag("monolog.logger", attributes = {"channel" = "VideoMapper"})
  */
-class VideoMapper extends AbstractMapper{
+class VideoMapper extends AbstractMapper {
 
     public function mapAllVideoData(Job $job)
     {

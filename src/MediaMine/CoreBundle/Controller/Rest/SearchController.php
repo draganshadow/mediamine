@@ -59,14 +59,8 @@ class SearchController extends FOSRestController
         $paginator = $finder->findPaginated($text);
         $paginator->setMaxPerPage($limit);
         $paginator->setCurrentPage($page);
-        $result = [];
-        foreach ($paginator->getCurrentPageResults() as $e) {
-            /**
-             * @var $e AbstractEntity
-             */
-            $result[] = $e->getArrayCopy(1);
-        }
-        return $result;
+
+        return $paginator->getCurrentPageResults();
     }
 
     /**

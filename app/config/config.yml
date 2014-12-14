@@ -178,7 +178,7 @@ fos_rest:
 nelmio_api_doc: ~
 
 fos_elastica:
-    serializer: ~
+#    serializer: ~
     clients:
         default: { host: elasticsearch, port: 9200 }
     indexes:
@@ -198,6 +198,10 @@ fos_elastica:
                     persistence:
                         driver: orm
                         model: \MediaMine\CoreBundle\Entity\Video\Video
+                        model_to_elastica_transformer:
+                            service: mediamine.elastica.transformer.video
+                        elastica_to_model_transformer:
+                            service: mediamine.elastica.hydrator.video
                         provider: ~
                         listener:
                             immediate: ~
