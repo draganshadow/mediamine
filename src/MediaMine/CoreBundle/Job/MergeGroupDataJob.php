@@ -26,6 +26,7 @@ class MergeGroupDataJob extends BaseJob
     {
         $this->logger->debug('mediamine.job.mergegroup');
         $nbTask = $this->groupMapper->mapAllGroupData($job);
+
         if (!$nbTask) {
             $this->end($job->getId());
         }

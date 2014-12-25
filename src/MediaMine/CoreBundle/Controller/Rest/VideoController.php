@@ -100,6 +100,8 @@ class VideoController extends FOSRestController
         $options['hydrate'] = Query::HYDRATE_ARRAY;
         $options['addFile'] = true;
         $options['addImages'] = true;
+        $options['addSeason'] = true;
+        $options['addGroup'] = true;
         $options['addGenres'] = true;
         $options['addStaffs'] = true;
         return $this->getRepository('Video\Video')->findFullBy($options, true);

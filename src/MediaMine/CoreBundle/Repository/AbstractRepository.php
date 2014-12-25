@@ -1,6 +1,7 @@
 <?php
 namespace MediaMine\CoreBundle\Repository;
 
+use Doctrine\Common\Proxy\Proxy;
 use Doctrine\ORM\Query;
 use JMS\DiExtraBundle\Annotation as DI;
 use MediaMine\CoreBundle\Entity\AbstractEntity;
@@ -57,11 +58,11 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
     public function getDiscriminatorValue($discriminator, $values) {
         $disValues = array_intersect_key($values, array_flip($discriminator));
         foreach ($disValues as $k => $dv) {
-            if ($dv instanceof AbstractEntity) {
-                $disValues[$k] = $dv->getId();
+            if ($dv instanceof AbstractEntity || $dv instanceof Proxy) {
+                $disValues[$k] = (int) $dv->getId();
             } elseif (is_array($dv)) {
                 if (array_key_exists('id', $dv)) {
-                    $disValues[$k] = $dv['id'];
+                    $disValues[$k] = (int) $dv['id'];
                 } else {
                     unset($disValues[$k]);
                 }

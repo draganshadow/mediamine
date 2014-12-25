@@ -146,7 +146,7 @@ class AbstractMapper
 
     protected function loadSeasons()
     {
-        $seasons = $this->getRepository('Video\Season')->findFullBy(['hydrate' => Query::HYDRATE_ARRAY]);
+        $seasons = $this->getRepository('Video\Season')->findFullBy(['addGroup' => true, 'hydrate' => Query::HYDRATE_ARRAY]);
         $this->getRepository('Video\Season')->cacheAll($seasons, ['group', 'number'], self::CACHE_CONTEXT);
     }
 
@@ -178,7 +178,7 @@ class AbstractMapper
     {
         $values = [
             'group'     => $group,
-            'number'    => $seasonNumber,
+            'number'    => (int) $seasonNumber,
             'name'      => 'Season ' . $seasonNumber,
             'summary'   => $group->summary,
             'directory' => $directory

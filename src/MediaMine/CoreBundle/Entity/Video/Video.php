@@ -457,6 +457,28 @@ class Video extends AbstractEntity
      *
      * @return Video
      */
+    public function addImageUnique($image)
+    {
+        $found = false;
+        foreach ($this->images as $img) {
+            if ($img->id == $image->id) {
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) {
+            $this->images[] = $image;
+        }
+        return $this;
+    }
+
+    /**
+     * Add image
+     *
+     * @param \MediaMine\CoreBundle\Entity\File\File $image
+     *
+     * @return Video
+     */
     public function addImage(\MediaMine\CoreBundle\Entity\File\File $image)
     {
         $this->images[] = $image;
@@ -588,6 +610,28 @@ class Video extends AbstractEntity
     public function getReview()
     {
         return $this->review;
+    }
+
+    /**
+     * Add genre
+     *
+     * @param \MediaMine\CoreBundle\Entity\Video\Genre $genre
+     *
+     * @return Video
+     */
+    public function addGenreUnique($genre)
+    {
+        $found = false;
+        foreach ($this->genres as $g) {
+            if ($g->id == $genre->id) {
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) {
+            $this->genres[] = $genre;
+        }
+        return $this;
     }
 
     /**

@@ -24,6 +24,10 @@ class VideoMapper extends AbstractMapper {
         ];
         $iterableResult = $this->getRepository('Video\Video')->findFullBy($params, 2, false);
         $nbTasks = 0;
+        $this->loadGroups();
+        $this->loadSeasons();
+        $this->loadGenres();
+        $this->loadCountries();
         foreach ($iterableResult as $row) {
             $video = $row[0];
             $this->taskService->createTask($job, 'mediamine.mapper.video', 'mapVideoData', ['id' => $video['id']]);
@@ -42,6 +46,7 @@ class VideoMapper extends AbstractMapper {
             'addFile'      => true,
             'addDirectory' => true,
             'addStaffs' => true,
+            'addImages' => true,
 
 //            'hydrate' => Query::HYDRATE_ARRAY
         ], true);
@@ -91,9 +96,10 @@ class VideoMapper extends AbstractMapper {
         $images = array();
         if (array_key_exists('images', $data)) {
             foreach($data['images'] as $image) {
-                $video->addImage($this->getEntityManager()->getReference('\MediaMine\CoreBundle\Entity\File\File', $image[0]));
+                $video->addImageUnique($this->getEntityManager()->getReference('\MediaMine\CoreBundle\Entity\File\File', $image[0]));
             }
         }
+
 
         $tunnelData = array(
             'name'         => array_key_exists('name', $data) ? $data['name'] : null,
@@ -107,9 +113,10 @@ class VideoMapper extends AbstractMapper {
             'country'         => array_key_exists('country', $data) ? $this->getCreateCountry($data['country']) : null,
         );
 
+
         $genres = array_key_exists('genres', $data) ? $this->getCreateGenres($data['genres']) : [];
         foreach ($genres as $genre) {
-            $video->addGenre($genre);
+            $video->addGenreUnique($genre);
         }
 
         if (array_key_exists('group', $data)) {
