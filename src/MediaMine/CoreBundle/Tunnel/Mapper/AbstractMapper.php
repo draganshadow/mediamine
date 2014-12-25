@@ -205,8 +205,10 @@ class AbstractMapper
 
     protected function getCreatePerson($personName)
     {
-        $person = $this->getRepository('Common\Person')
-            ->getCachedOrCreate(['name' => $personName], ['name'], self::CACHE_CONTEXT);
+        $person = $this->getRepository('Common\Person')->getCached(['name' => $personName], ['name'], self::CACHE_CONTEXT);
+        if (false === $person) {
+            $person = $this->getRepository('Common\Person')->getOrCreate(['name' => $personName], ['name'], self::CACHE_CONTEXT);
+        }
         return $person;
     }
 

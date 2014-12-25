@@ -10,10 +10,10 @@ trait EntitityManagerAware {
     protected $baseNameSpace = 'MediaMine\\CoreBundle\\Entity\\';
 
     /**
-     * @var \Doctrine\ORM\EntityManagerInterface
-     * @Inject("doctrine.orm.entity_manager")
+     * @var \Doctrine\Common\Persistence\ManagerRegistry
+     * @Inject("doctrine")
      */
-    public $entityManager;
+    public $entityManagerRegistry;
 
     /**
      * @param $entity
@@ -22,7 +22,7 @@ trait EntitityManagerAware {
      */
     public function getRepository($entity, $fullName = false)
     {
-        return $this->entityManager->getRepository(($fullName ? '' : $this->getBaseNameSpace()) . $entity);
+        return $this->getEntityManager()->getRepository(($fullName ? '' : $this->getBaseNameSpace()) . $entity);
     }
 
     /**
@@ -38,14 +38,23 @@ trait EntitityManagerAware {
      */
     public function getEntityManager()
     {
-        return $this->entityManager;
+        return $this->entityManagerRegistry->getManager();
     }
 
     /**
-     * @param \Doctrine\ORM\EntityManagerInterface $entityManager
+     * @return \Doctrine\Common\Persistence\ManagerRegistry
      */
-    public function setEntityManager($entityManager)
+    public function getEntityManagerRegistry()
     {
-        $this->entityManager = $entityManager;
+        return $this->entityManagerRegistry;
     }
+
+    /**
+     * @param \Doctrine\Common\Persistence\ManagerRegistry $entityManagerRegistry
+     */
+    public function setEntityManagerRegistry($entityManagerRegistry)
+    {
+        $this->entityManagerRegistry = $entityManagerRegistry;
+    }
+
 }

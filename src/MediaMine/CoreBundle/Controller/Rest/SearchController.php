@@ -38,6 +38,7 @@ class SearchController extends FOSRestController
      * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing videos.")
      * @Annotations\QueryParam(name="limit", requirements="\d+", default="20", description="How many videos to return.")
      * @Annotations\QueryParam(name="text", requirements="\d+", default=" ", description="text to search")
+     * @Annotations\QueryParam(name="type", requirements="\d+", default="video", description="type to search (video, person, group)")
      *
      * @Annotations\View()
      *
@@ -51,11 +52,13 @@ class SearchController extends FOSRestController
         $text = $request->get('text', false);
         $limit = $request->get('limit', 20);
         $page = $request->get('page', 1);
+        $type = $request->get('type', 'video');
 
+        $service = 'fos_elastica.finder.search.' . $type;
         /**
          * @var $finder \FOS\ElasticaBundle\Finder\TransformedFinder
          */
-        $finder = $this->container->get('fos_elastica.finder.search');
+        $finder = $this->container->get($service);
         $paginator = $finder->findPaginated($text);
         $paginator->setMaxPerPage($limit);
         $paginator->setCurrentPage($page);

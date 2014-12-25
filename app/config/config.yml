@@ -46,21 +46,28 @@ assetic:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   "%database_driver%"
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
-        # if using pdo_sqlite as your database driver, add the path in parameters.yml
-        # e.g. database_path: "%kernel.root_dir%/data/data.db3"
-        # path:     "%database_path%"
+        default_connection: default
+        connections:
+            default:
+                driver:   %database_driver%
+                host:     %database_host%
+                port:     %database_port%
+                dbname:   %database_name%
+                user:     %database_user%
+                password: %database_password%
+                charset:  UTF8
         types:
-                  json: Sonata\Doctrine\Types\JsonType
+            json: Sonata\Doctrine\Types\JsonType
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: true
+#        auto_mapping: true
+        default_entity_manager: default
+        entity_managers:
+            default:
+                connection: default
+                mappings:
+                    MediaMineCoreBundle:  ~
+                    ApplicationSonataUserBundle:  ~
 
 stof_doctrine_extensions:
     default_locale: en_US
@@ -197,11 +204,39 @@ fos_elastica:
                                         name: { boost: 5 }
                     persistence:
                         driver: orm
-                        model: \MediaMine\CoreBundle\Entity\Video\Video
+                        model: MediaMine\CoreBundle\Entity\Video\Video
                         model_to_elastica_transformer:
                             service: mediamine.elastica.transformer.video
                         elastica_to_model_transformer:
                             service: mediamine.elastica.hydrator.video
+                        provider: ~
+                        listener:
+                            immediate: ~
+                        finder: ~
+                Group:
+                    mappings:
+                        name: { boost: 10 }
+                    persistence:
+                        driver: orm
+                        model: MediaMine\CoreBundle\Entity\Video\Group
+                        model_to_elastica_transformer:
+                            service: mediamine.elastica.transformer.group
+                        elastica_to_model_transformer:
+                            service: mediamine.elastica.hydrator.group
+                        provider: ~
+                        listener:
+                            immediate: ~
+                        finder: ~
+                Person:
+                    mappings:
+                        name: { boost: 10 }
+                    persistence:
+                        driver: orm
+                        model: MediaMine\CoreBundle\Entity\Common\Person
+                        model_to_elastica_transformer:
+                            service: mediamine.elastica.transformer.person
+                        elastica_to_model_transformer:
+                            service: mediamine.elastica.hydrator.person
                         provider: ~
                         listener:
                             immediate: ~

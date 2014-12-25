@@ -37,9 +37,17 @@ class VideoRepository extends AbstractRepository
             $qb->addSelect('Directory');
             unset($options['addDirectory']);
         }
+        if (array_key_exists('person', $options)) {
+            $qb->innerJoin('Video.staffs', 'Staffs');
+            $qb->innerJoin('Staffs.person', 'Person', 'WITH', 'Person.id = :person');
+            $params['person'] = $options['person'];
+            unset($options['person']);
+        }
         if (array_key_exists('addStaffs', $options)) {
-            $qb->leftJoin('Video.staffs', 'Staffs');
-            $qb->leftJoin('Staffs.person', 'Person');
+            if (!array_key_exists('person', $options)) {
+                $qb->leftJoin('Video.staffs', 'Staffs');
+                $qb->leftJoin('Staffs.person', 'Person');
+            }
             $qb->addSelect('Staffs');
             $qb->addSelect('Person');
             unset($options['addStaffs']);

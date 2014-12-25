@@ -5,7 +5,7 @@ namespace MediaMine\CoreBundle\Elastica\Transformer;
 use Elastica\Document;
 use FOS\ElasticaBundle\Transformer\ModelToElasticaTransformerInterface;
 use JMS\DiExtraBundle\Annotation\Service;
-use MediaMine\CoreBundle\Entity\Tunnel\Video;
+use MediaMine\CoreBundle\Entity\Video\Video;
 
 /**
  * @Service("mediamine.elastica.transformer.video")

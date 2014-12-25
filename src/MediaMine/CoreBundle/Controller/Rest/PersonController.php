@@ -48,7 +48,7 @@ class PersonController extends FOSRestController
     {
         $options = $paramFetcher->all();
         $options['hydrate'] = Query::HYDRATE_ARRAY;
-        return $this->getRepository('System\Person')->findFullBy($options);
+        return $this->getRepository('Common\Person')->findFullBy($options);
     }
 
     /**
@@ -69,13 +69,14 @@ class PersonController extends FOSRestController
      *
      * @return array
      *
+     * @Annotations\Get("/persons/{id}")
      * @throws NotFoundHttpException when person not exist
      */
     public function getPersonAction(Request $request, $id)
     {
         $options['id'] = $id;
         $options['hydrate'] = Query::HYDRATE_ARRAY;
-        return $this->getRepository('System\Person')->findFullBy($options, true);
+        return $this->getRepository('Common\Person')->findFullBy($options, true);
     }
 
     /**
@@ -94,12 +95,13 @@ class PersonController extends FOSRestController
      *
      * @param Request $request the request object
      *
+     * @Annotations\Post("/persons")
      * @return FormTypeInterface|RouteRedirectView
      */
     public function postPersonAction(Request $request)
     {
-        $entity = $this->getRepository('System\Person')->create($request->request->all());
-        $this->getRepository('System\Person')->flush();
+        $entity = $this->getRepository('Common\Person')->create($request->request->all());
+        $this->getRepository('Common\Person')->flush();
         return $entity->getArrayCopy();
     }
 
@@ -123,13 +125,14 @@ class PersonController extends FOSRestController
      *
      * @return FormTypeInterface|RouteRedirectView
      *
+     * @Annotations\Put("/persons/{id}")
      * @throws NotFoundHttpException when person not exist
      */
     public function putPersonAction(Request $request, $id)
     {
 
-        $entity = $this->getRepository('System\Person')->update($id, $request->request->all(), true);
-        $this->getRepository('System\Person')->flush();
+        $entity = $this->getRepository('Common\Person')->update($id, $request->request->all(), true);
+        $this->getRepository('Common\Person')->flush();
         return $entity->getArrayCopy();
     }
 
@@ -145,6 +148,7 @@ class PersonController extends FOSRestController
      *
      * @param Request $request the request object
      * @param int $id the person id
+     * @Annotations\Get("/persons/{id}/remove")
      *
      * @return RouteRedirectView
      */
@@ -166,6 +170,7 @@ class PersonController extends FOSRestController
      * @param Request $request the request object
      * @param int $id the person id
      *
+     * @Annotations\Delete("/persons/{id}")
      * @return RouteRedirectView
      */
     public function deletePersonAction(Request $request, $id)

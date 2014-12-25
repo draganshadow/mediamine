@@ -164,6 +164,52 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
         return $entity;
     }
 
+    public function getOrCreate($values, $discriminator = false, $context = false, &$found = false) {
+        if (!$discriminator) {
+            $discriminator = $this->getDiscrimitators()[0];
+        }
+        $disValues = $this->getDiscriminatorValue($discriminator, $values);
+        $key = $this->getCacheKey($disValues, $context);
+        $results = $this->findFullBy($disValues);
+        $entity = false;
+        if (count($results) > 0) {
+            $entity = $results[0];
+        }
+
+        /**
+         * @var $entity AbstractEntity
+         */
+        if ($entity instanceof AbstractEntity) {
+            $arrayCopy = $entity->getArrayCopy();
+            $this->redis->set($key, serialize($arrayCopy), self::DEFAULT_CACHE_TIME);
+            $found = true;
+        } else {
+            $entity = $this->create($values, true, $context, $discriminator);
+        }
+        return $entity;
+    }
+
+    public function getCached($values, $discriminator = false, $context = false) {
+        if (!$discriminator) {
+            $discriminator = $this->getDiscrimitators()[0];
+        }
+        $disValues = $this->getDiscriminatorValue($discriminator, $values);
+        $key = $this->getCacheKey($disValues, $context);
+        $cachedVal = $this->redis->get($key);
+
+        /**
+         * @var $entity AbstractEntity
+         */
+        if ($cachedVal) {
+            $cachedVal = unserialize($cachedVal);
+            $entity = $this->getEntityManager()->getReference($this->_entityName, $cachedVal['id']);
+            $entity = $this->exchangeArray($cachedVal, $entity);
+        } else {
+            $entity = false;
+        }
+        return $entity;
+    }
+
     public function getCachedOrFindFullBy($options = array(), $mode = false, $queryOnly = false, $qb = false, $params = array(), $context = false) {
         $options['hydrate'] = Query::HYDRATE_ARRAY;
         $cached = $this->redis->get($this->getCacheKey($options, $context));

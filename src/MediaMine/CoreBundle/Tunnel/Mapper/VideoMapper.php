@@ -54,7 +54,6 @@ class VideoMapper extends AbstractMapper {
          * @var $video \MediaMine\CoreBundle\Entity\Video\Video
          */
         $name = $video->name;
-        $this->loadCountries();
 
         $settings = $this->getSettingService()->getSetting('tunnel', 'video');
 
