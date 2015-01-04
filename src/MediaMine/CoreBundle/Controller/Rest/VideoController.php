@@ -60,6 +60,10 @@ class VideoController extends FOSRestController
         if ($season) {
             $options['season'] = [$season];
         }
+        $group = $request->get('group', false);
+        if ($group) {
+            $options['group'] = [$group];
+        }
         $person = $request->get('person', false);
         if ($person) {
             $options['person'] = $person;
