@@ -111,4 +111,9 @@ class ActionController extends FOSRestController
         }
         return [];
     }
+
+    public function optionsActionsAction()
+    {
+        return [];
+    }
 }

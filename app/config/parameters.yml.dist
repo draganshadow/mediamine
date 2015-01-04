@@ -6,6 +6,9 @@ parameters:
     database_user:     root
     database_password: ~
 
+    mongo_host: mongo
+    mongo_database: ~
+
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
     mailer_user:       ~

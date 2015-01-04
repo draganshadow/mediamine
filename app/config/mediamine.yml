@@ -18,6 +18,15 @@ media_mine_core:
           key : xml
           service : mediamine.tunnel.xmltunnel
           enabled : true
+      user_settings:
+        background:
+          type: [random]
+          content: [random]
+        playlist:
+          last: [0]
+        player:
+          last_video: [0]
+          last_time: [0]
       settings:
         tunnel:
           person : [xml-tunnel]

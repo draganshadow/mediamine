@@ -24,6 +24,8 @@ class InstallJob extends BaseJob {
     public $installService;
 
     public function execute(Job $job) {
+        $this->installService->createAdmin();
+
         $this->installService->coreInstall();
         $this->end($job->getId());
     }

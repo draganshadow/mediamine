@@ -1,0 +1,13 @@
+media_mine_oauth_authorize:
+    path:     /oauth/v2/auth
+    methods: [POST]
+    requirements:
+    defaults:
+      _controller: MediaMineCoreBundle:OAuth\Authorize:authorize
+
+media_mine_oauth_token:
+    path:     /oauth/v2/token
+    methods: [POST]
+    requirements:
+    defaults:
+      _controller: MediaMineCoreBundle:OAuth\Token:token

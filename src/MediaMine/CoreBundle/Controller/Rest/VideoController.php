@@ -72,6 +72,14 @@ class VideoController extends FOSRestController
         if ($page) {
             $options['page'] = $page - 1;
         }
+        $order = $request->get('order', 0);
+        if ($order) {
+            $options['order'] = $order;
+        }
+        $orderBy = $request->get('orderBy', 0);
+        if ($orderBy) {
+            $options['orderBy'] = $orderBy;
+        }
         $options['hydrate'] = Query::HYDRATE_ARRAY;
         $options['addFile'] = true;
         $options['addImages'] = true;

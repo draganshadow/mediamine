@@ -9,12 +9,12 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Setting Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\System\SettingRepository")
- * @ORM\Table(name="system_setting",uniqueConstraints={@ORM\UniqueConstraint(name="unique_setting_group_key", columns={"groupKey", "key"})})
+ * @ORM\Table(name="system_user_setting",uniqueConstraints={@ORM\UniqueConstraint(name="user_setting_unique_group_key", columns={"groupKey", "key"})})
  * @property int $id
  * @property string $key
  * @property string $reference
  */
-class Setting extends AbstractEntity
+class UserSetting extends AbstractEntity
 {
     /**
      * @ORM\Id
@@ -28,6 +28,12 @@ class Setting extends AbstractEntity
      * @ORM\JoinColumn(name="module_ref", referencedColumnName="id", onDelete="CASCADE")
      */
     protected $module;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_ref", referencedColumnName="id", onDelete="CASCADE")
+     */
+    protected $user;
 
     /**
      * @ORM\Column(type="string")

@@ -25,6 +25,12 @@ media_mine_rest_season:
 media_mine_rest_setting:
     type:     rest
     resource: MediaMine\CoreBundle\Controller\Rest\SettingController
+media_mine_rest_user:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\UserController
+media_mine_rest_user_setting:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\UserSettingController
 media_mine_rest_search:
     type:     rest
     resource: MediaMine\CoreBundle\Controller\Rest\SearchController

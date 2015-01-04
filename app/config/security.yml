@@ -12,12 +12,13 @@ security:
             - ROLE_SONATA_PAGE_ADMIN_PAGE_EDIT  # if you are using acl then this line must be commented
 
     providers:
-        fos_userbundle:
+        user_provider:
 
             #id: fos_user.user_provider.username TO REMOVE
             id: fos_user.user_manager
 
     firewalls:
+
         # Disabling the security for the web debug toolbar, the profiler and Assetic.
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
@@ -28,7 +29,7 @@ security:
             pattern:            /admin(.*)
             context:            user
             form_login:
-                provider:       fos_userbundle
+                provider:       user_provider
                 login_path:     /admin/login
                 use_forward:    false
                 check_path:     /admin/login_check
@@ -39,6 +40,31 @@ security:
 
         # -> end custom configuration
 
+
+        oauth_token:
+            pattern:    ^/oauth/v2/token
+            security:   false
+
+        oauth_authorize:
+            pattern:    ^/oauth/v2/auth
+            form_login:
+                provider: user_provider
+                check_path: _security_check
+                login_path: _demo_login
+            anonymous: true
+            context: test_connect
+
+        api_preinstall:
+            pattern:    ^/api/actions
+            security: false
+
+        api:
+            pattern:    ^/
+            fos_oauth:  true
+            stateless:  true
+#            anonymous:  false # Needed to allow access to oauth pages
+
+
         # default login area for standard users
 
         # This firewall is used to handle the public login area
@@ -47,7 +73,7 @@ security:
             pattern:             .*
             context:             user
             form_login:
-                provider:       fos_userbundle
+                provider:       user_provider
                 login_path:     /login
                 use_forward:    false
                 check_path:     /login_check
@@ -57,6 +83,8 @@ security:
             anonymous:          true
 
     access_control:
+            - { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ] }
+
             # URL of FOSUserBundle which need to be available to anonymous users
             - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
             - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }

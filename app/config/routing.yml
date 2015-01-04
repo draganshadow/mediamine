@@ -5,6 +5,8 @@ MediaMineCoreBundle:
 MediaMineCoreBundleApi:
     resource: "@MediaMineCoreBundle/Resources/config/routing_api.yml"
     prefix:   /api
+MediaMineCoreBundleOAuth:
+    resource: "@MediaMineCoreBundle/Resources/config/routing_oauth.yml"
 
 ################################# SONATA #################################
 admin:

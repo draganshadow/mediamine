@@ -272,7 +272,7 @@ class StreamController extends AbstractController
             $commands[] = 'cd %OUTPUT_PATH%';
             $commands[] = $this->getBinary() . ' -y -i "%INPUT_FILE%" -b:v %VIDEO_BITRATE%k -maxrate %VIDEO_BITRATE%k %SIZE% -ar 44100 -ac 2 -b:a %AUDIO_BITRATE%k -c:v %VIDEO_CODEC% -pix_fmt yuv420p -c:a %AUDIO_CODEC% -preset superfast -threads 0 %EXTRA% < /dev/null >> "%LOG_FILE%" 2>&1';
             $commands[] = 'mv "%OUTPUT_PATH_M3U8%/part.m3u8" "%OUTPUT_FILE%"';
-            $commands[] = 'sed -i "s/' . str_replace("/", "\/", $params['%OUTPUT_PATH_M3U8%']) . '/m3u8_%BITRATE%/g" "%OUTPUT_FILE%"';
+            $commands[] = 'sed -i "s/part/m3u8_%BITRATE%\/part/g" "%OUTPUT_FILE%"';
             $commands[] = 'php ' . $this->rootDir . '/console stream:end %PATH_KEY%';
 
             $params['%VIDEO_CODEC%'] = 'libx264';
@@ -282,6 +282,7 @@ class StreamController extends AbstractController
             $commands = str_replace(array_keys($params), array_values($params), $commands);
             if (!file_exists($params['%OUTPUT_TMP_FILE%']) && !file_exists($params['%OUTPUT_FILE%'])) {
                 $exec = '( ' . implode(' && ', $commands) . ' ) >> "' . $params['%LOG_FILE%'] . '" 2>&1 &';
+                file_put_contents($params['%LOG_FILE%'], $exec);
                 $this->getLogger()->debug($exec);
                 shell_exec($exec);
             }
