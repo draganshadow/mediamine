@@ -64,6 +64,7 @@ class TaskConsumer implements ConsumerInterface
             if ("The EntityManager is closed." == $e->getMessage()) {
                 throw $e;
             }
+
         } catch (\Exception $e) {
             $this->getLogger()->error($e->getMessage() . $e->getTraceAsString());
         }

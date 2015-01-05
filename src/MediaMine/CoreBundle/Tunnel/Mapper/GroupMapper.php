@@ -22,17 +22,28 @@ class GroupMapper extends AbstractMapper
         $this->clear();
 
         $this->loadGenres();
-        $params = [
-            'hydrate' => Query::HYDRATE_ARRAY
-        ];
-        $iterableResult = $this->getRepository('Video\Group')->findFullBy($params, 2, false);
+        $params = $job->getParams();
         $nbTasks = 0;
-        foreach ($iterableResult as $row) {
-            $group = $row[0];
-            $this->taskService->createTask($job, 'mediamine.mapper.group', 'mapGroupData', ['id' => $group['id']]);
-            $nbTasks++;
-            $this->taskService->createTask($job, 'mediamine.mapper.group', 'mapGroupDataEpisode', ['id' => $group['id']]);
-            $nbTasks++;
+
+        if (array_key_exists('groups', $params)) {
+            foreach ($params['groups'] as $groupId) {
+                $this->taskService->createTask($job, 'mediamine.mapper.group', 'mapGroupData', ['id' => $groupId]);
+                $nbTasks++;
+                $this->taskService->createTask($job, 'mediamine.mapper.group', 'mapGroupDataEpisode', ['id' => $groupId]);
+                $nbTasks++;
+            }
+        } else {
+            $params = [
+                'hydrate' => Query::HYDRATE_ARRAY
+            ];
+            $iterableResult = $this->getRepository('Video\Group')->findFullBy($params, 2, false);
+            foreach ($iterableResult as $row) {
+                $group = $row[0];
+                $this->taskService->createTask($job, 'mediamine.mapper.group', 'mapGroupData', ['id' => $group['id']]);
+                $nbTasks++;
+                $this->taskService->createTask($job, 'mediamine.mapper.group', 'mapGroupDataEpisode', ['id' => $group['id']]);
+                $nbTasks++;
+            }
         }
         return $nbTasks;
     }

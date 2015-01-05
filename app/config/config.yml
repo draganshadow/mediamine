@@ -291,19 +291,19 @@ old_sound_rabbit_mq:
     producers:
         task:
             connection:       default
-            exchange_options: {name: 'task', type: direct}
+            exchange_options: {name: 'task', type: fanout}
         job:
             connection:       default
-            exchange_options: {name: 'job', type: direct}
+            exchange_options: {name: 'job', type: fanout}
     consumers:
         task:
             connection:       default
-            exchange_options: {name: 'task', type: direct}
+            exchange_options: {name: 'task', type: fanout}
             queue_options:    {name: 'task'}
             callback:         mediamine.consumer.task
         job:
             connection:       default
-            exchange_options: {name: 'job', type: direct}
+            exchange_options: {name: 'job', type: fanout}
             queue_options:    {name: 'job'}
             callback:         mediamine.consumer.job
 

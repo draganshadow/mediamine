@@ -130,7 +130,7 @@ class FileService extends AbstractService
      * @param $path
      * @param \MediaMine\CoreBundle\Entity\File\Directory $parentDirectory
      */
-    protected function update(Directory $parentDirectory = null)
+    public function update(Directory $parentDirectory = null)
     {
         $path = $parentDirectory->path;
         $this->getLogger()->info('File::update: update(' . $path . ')');

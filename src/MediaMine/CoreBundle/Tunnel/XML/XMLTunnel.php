@@ -79,19 +79,28 @@ class XMLTunnel extends AbstractTunnel
     public function checkVideos(Job $job)
     {
         $this->loadOptions();
-        $params = [
-            'hydrate' => Query::HYDRATE_ARRAY
-        ];
-        $qb = $this->getRepository('Video\Video')->createBaseQueryBuilder();
-        if (!array_key_exists('override', $this->options)) {
-            $qb->where('Video.id NOT IN (:xmlTunnelVideos)');
-        }
-        $iterableResult = $this->getRepository('Video\Video')->findFullBy($params, 2, false, $qb, ['xmlTunnelVideos' => [0]]);
+        $params = $job->getParams();
         $nbTasks = 0;
-        foreach ($iterableResult as $row) {
-            $video = $row[0];
-            $this->taskService->createTask($job, 'mediamine.tunnel.xmltunnel', 'processVideo', ['id' => $video['id']]);
-            $nbTasks++;
+
+        if (array_key_exists('videos', $params)) {
+            foreach ($params['videos'] as $videoId) {
+                $this->taskService->createTask($job, 'mediamine.tunnel.xmltunnel', 'processVideo', ['id' => $videoId]);
+                $nbTasks++;
+            }
+        } else {
+            $params = [
+                'hydrate' => Query::HYDRATE_ARRAY
+            ];
+            $qb = $this->getRepository('Video\Video')->createBaseQueryBuilder();
+            if (!array_key_exists('override', $this->options)) {
+                $qb->where('Video.id NOT IN (:xmlTunnelVideos)');
+            }
+            $iterableResult = $this->getRepository('Video\Video')->findFullBy($params, 2, false, $qb, ['xmlTunnelVideos' => [0]]);
+            foreach ($iterableResult as $row) {
+                $video = $row[0];
+                $this->taskService->createTask($job, 'mediamine.tunnel.xmltunnel', 'processVideo', ['id' => $video['id']]);
+                $nbTasks++;
+            }
         }
         return $nbTasks;
     }
@@ -104,19 +113,28 @@ class XMLTunnel extends AbstractTunnel
     public function checkGroups(Job $job)
     {
         $this->loadOptions();
-        $params = [
-            'hydrate' => Query::HYDRATE_ARRAY
-        ];
-        $qb = $this->getRepository('Video\Group')->createBaseQueryBuilder();
-        if (!array_key_exists('override', $this->options)) {
-            $qb->where('VGroup.id NOT IN (:xmlTunnelGroups)');
-        }
-        $iterableResult = $this->getRepository('Video\Group')->findFullBy($params, 2, false, $qb, ['xmlTunnelGroups' => [0]]);
+        $params = $job->getParams();
         $nbTasks = 0;
-        foreach ($iterableResult as $row) {
-            $group = $row[0];
-            $this->taskService->createTask($job, 'mediamine.tunnel.xmltunnel', 'processGroup', ['id' => $group['id']]);
-            $nbTasks++;
+
+        if (array_key_exists('groups', $params)) {
+            foreach ($params['groups'] as $groupId) {
+                $this->taskService->createTask($job, 'mediamine.tunnel.xmltunnel', 'processGroup', ['id' => $groupId]);
+                $nbTasks++;
+            }
+        } else {
+            $params = [
+                'hydrate' => Query::HYDRATE_ARRAY
+            ];
+            $qb = $this->getRepository('Video\Group')->createBaseQueryBuilder();
+            if (!array_key_exists('override', $this->options)) {
+                $qb->where('VGroup.id NOT IN (:xmlTunnelGroups)');
+            }
+            $iterableResult = $this->getRepository('Video\Group')->findFullBy($params, 2, false, $qb, ['xmlTunnelGroups' => [0]]);
+            foreach ($iterableResult as $row) {
+                $group = $row[0];
+                $this->taskService->createTask($job, 'mediamine.tunnel.xmltunnel', 'processGroup', ['id' => $group['id']]);
+                $nbTasks++;
+            }
         }
         return $nbTasks;
     }

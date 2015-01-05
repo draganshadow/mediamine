@@ -18,20 +18,27 @@ class VideoMapper extends AbstractMapper {
     public function mapAllVideoData(Job $job)
     {
         $this->clear();
-        $this->loadGenres();
-        $params = [
-            'hydrate' => Query::HYDRATE_ARRAY
-        ];
-        $iterableResult = $this->getRepository('Video\Video')->findFullBy($params, 2, false);
-        $nbTasks = 0;
         $this->loadGroups();
         $this->loadSeasons();
         $this->loadGenres();
         $this->loadCountries();
-        foreach ($iterableResult as $row) {
-            $video = $row[0];
-            $this->taskService->createTask($job, 'mediamine.mapper.video', 'mapVideoData', ['id' => $video['id']]);
-            $nbTasks++;
+        $params = $job->getParams();
+        $nbTasks = 0;
+        if (array_key_exists('videos', $params)) {
+            foreach ($params['videos'] as $videoId) {
+                $this->taskService->createTask($job, 'mediamine.mapper.video', 'mapVideoData', ['id' => $videoId]);
+                $nbTasks++;
+            }
+        } else {
+            $params = [
+                'hydrate' => Query::HYDRATE_ARRAY
+            ];
+            $iterableResult = $this->getRepository('Video\Video')->findFullBy($params, 2, false);
+            foreach ($iterableResult as $row) {
+                $video = $row[0];
+                $this->taskService->createTask($job, 'mediamine.mapper.video', 'mapVideoData', ['id' => $video['id']]);
+                $nbTasks++;
+            }
         }
         return $nbTasks;
     }

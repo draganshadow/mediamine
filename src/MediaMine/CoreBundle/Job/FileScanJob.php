@@ -5,6 +5,7 @@ use Doctrine\ORM\Query;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\Service;
 use JMS\DiExtraBundle\Annotation\Tag;
+use MediaMine\CoreBundle\Entity\File\File;
 use MediaMine\CoreBundle\Entity\System\Job;
 use MediaMine\CoreBundle\Service\FileService;
 use MediaMine\CoreBundle\Shared\ContainerAware;
@@ -23,7 +24,20 @@ class FileScanJob extends BaseJob {
     public $fileService;
 
     public function execute(Job $job) {
-        $this->fileService->scan($job->getParams());
+        $params = $job->getParams();
+        if (array_key_exists('files', $params)) {
+            $files = $this->getRepository('File\File')->findFullBy([
+                'id' => $params['files'],
+                'addDirectory' => true,
+            ]);
+            foreach ($files as $file) {
+                /**
+                 * @var $file File
+                 */
+                $this->fileService->update($file->directory);
+            }
+        }
+        $this->fileService->scan([]);
         $this->end($job->getId());
     }
 

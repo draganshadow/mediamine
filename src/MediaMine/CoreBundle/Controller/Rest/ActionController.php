@@ -83,6 +83,7 @@ class ActionController extends FOSRestController
      * )
      *
      * @Annotations\RequestParam(name="action", nullable=false, description="Action to execute")
+     * @Annotations\RequestParam(name="params", nullable=true, description="Action parameters")
      *
      * @Annotations\View()
      * @Post("/actions/execute")
@@ -92,7 +93,8 @@ class ActionController extends FOSRestController
      */
     public function postExecuteAction(Request $request, ParamFetcherInterface $paramFetcher)
     {
-        $a = $paramFetcher->get('action');
+        $a = $request->request->get('action');
+        $params = $request->request->get('params');
         if ($a && array_key_exists($a, $this->mediamine['actions'])) {
             $action = $this->mediamine['actions'][$a];
             if ( 'check' == $a) {
@@ -104,10 +106,10 @@ class ActionController extends FOSRestController
                 $job->service = $action['service'];
                 $job->groupKey = 'admin';
                 $job->key = $a;
-                $job->parameters = [];
+                $job->parameters = is_array($params) ? $params : [];
                 $this->jobProducer->publish($job->serialize());
             }
-            return ['name' => $a];
+            return ['name' => $a, 'params' => $params];
         }
         return [];
     }
