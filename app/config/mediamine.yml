@@ -59,6 +59,8 @@ media_mine_core:
           service: mediamine.job.mergevideo
         mergeperson:
           service: mediamine.job.mergeperson
+        deduplicatevideo:
+          service: mediamine.job.deduplicatevideo
         scan:
           service: mediamine.job.scan
       filetypes:

@@ -19,6 +19,10 @@ gulp.task('watch', [], function () {
         gulp.src('').pipe(shell('sudo docker-enter mediamine-nginx-container pkill -9 -f "consumer"'));
     });
 });
+gulp.task('consumers', [], function () {
+    console.log('Reload PHP workers');
+    gulp.src('').pipe(shell('sudo docker-enter mediamine-nginx-container pkill -9 -f "consumer"'));
+});
 
 gulp.task('default', [], function () {
 });

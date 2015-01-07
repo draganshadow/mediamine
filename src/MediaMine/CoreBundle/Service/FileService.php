@@ -54,6 +54,7 @@ class FileService extends AbstractService
                 $this->batch(1);
             }
         }
+        $this->getEntityManager()->flush();
     }
 
     /**
@@ -147,9 +148,8 @@ class FileService extends AbstractService
                 $this->add($directoryPath, $parentDirectory);
             } else {
                 $this->getLogger()->info('File::update:update ' . $directoryPath);
-//                $this->update($dBContent['directories'][$directoryPath]);
+                $this->update($dBContent['directories'][$directoryPath]);
                 unset($dBContent['directories'][$directoryPath]);
-                $this->getLogger()->info('File::update:isset ' . (array_key_exists($directoryPath,$dBContent['directories']) ? 'yes' : 'no'));
             }
         }
         foreach ($dBContent['directories'] as $k => $d) {

@@ -126,16 +126,18 @@ class VideoMapper extends AbstractMapper {
         }
 
         if (array_key_exists('group', $data)) {
-            /**
-             * @var $video Video
-             */
-            $seasonDirectory = $video->files[0]->file->directory;
-            $groupDirectory = $seasonDirectory->parentDirectory;
-            $group = $this->getCreateGroup($data['group'], $groupDirectory);
-            $video->setGroup($group);
-            if (array_key_exists('season', $data)) {
-                $season = $this->getCreateSeason($group, $data['season'], $seasonDirectory);
-                $video->setSeason($season);
+            if (count($video->files)) {
+                /**
+                 * @var $video Video
+                 */
+                $seasonDirectory = $video->files[0]->file->directory;
+                $groupDirectory = $seasonDirectory->parentDirectory;
+                $group = $this->getCreateGroup($data['group'], $groupDirectory);
+                $video->setGroup($group);
+                if (array_key_exists('season', $data)) {
+                    $season = $this->getCreateSeason($group, $data['season'], $seasonDirectory);
+                    $video->setSeason($season);
+                }
             }
         }
 

@@ -108,6 +108,13 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
+     * @param $entity
+     */
+    public function remove($entity) {
+        $this->getEntityManager()->remove($entity);
+    }
+
+    /**
      * @param $fields
      * @return AbstractEntity
      */
