@@ -1,0 +1,36 @@
+<div class="col-md-12 column">
+<panel ng-cloak>
+    <panel-heading><h1>{{ 'ADMIN_TASKS_TITLE' | translate }}</h1></panel-heading>
+    <tabset>
+        <tab heading="{{ 'ADMIN_TASKS_RUNNING' | translate }}"></tab>
+    </tabset>
+    <p class="pull-right">
+        <button type="button" class="btn btn-primary btn-xs margin-top-xs" ng-click="refreshList()">{{ 'ADMIN_TASKS_REFRESH' | translate }}</button>
+        <button type="button" class="btn btn-danger btn-xs margin-top-xs" ng-click="clear()">{{ 'ADMIN_TASKS_CLEAR' | translate }}</button>
+    </p>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>{{ 'ADMIN_TASKS_GROUP' | translate }}</th>
+            <th>{{ 'ADMIN_TASKS_KEY' | translate }}</th>
+            <th>{{ 'ADMIN_TASKS_PROGRESS' | translate }}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="job in jobs">
+            <td>{{job.groupKey}}</td>
+            <td>{{job.key}}</td>
+            <td>{{job.barLabel}}</td>
+            <td>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="{{job.percent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{job.percent}}%;">
+                        {{job.percent}}%
+                    </div>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</panel>
+</div>

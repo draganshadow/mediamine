@@ -1,0 +1,30 @@
+<div class="col-md-12 column">
+<panel ng-cloak>
+    <panel-heading><h1>{{ 'ADMIN_USER_TITLE' | translate }}</h1></panel-heading>
+    <p class="pull-right">
+        <button type="button" class="btn btn-primary btn-xs margin-top-xs" ng-click="create()">{{ 'ADMIN_USER_CREATE' | translate }}</button>
+    </p>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>{{ 'ADMIN_USER_USERNAME' | translate }}</th>
+            <th>{{ 'ADMIN_USER_EMAIL' | translate }}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="user in users">
+            <td>{{user.id}}</td>
+            <td>{{user.username}}</td>
+            <td>{{user.email}}</td>
+            <td>
+                <div ng-if="user.username != $root.user.username">
+                    <button type="button" class="btn btn-primary btn-xs" ng-click="delete(user)">{{ 'ADMIN_USER_ACTION_DELETE' | translate }}</button>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</panel>
+</div>

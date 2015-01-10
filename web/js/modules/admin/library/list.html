@@ -1,0 +1,20 @@
+<div class="col-md-12 column">
+<panel ng-cloak>
+    <panel-heading><h1>{{ 'ADMIN_LIBRARY_TITLE' | translate }}</h1></panel-heading>
+    <tabset>
+        <tab heading="{{ 'ADMIN_MAINTENANCE_FILTER_' + filter | translate }}" ng-repeat="filter in filters" ng-click="execute(action)"></tab>
+    </tabset>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th><th>{{ 'ADMIN_MAINTENANCE_NAME' | translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="item in items">
+                <td>{{item.id}}</td><td>{{item.files[0].file.directory.path}}/<strong>{{item.files[0].file.name}}.{{item.files[0].file.extension}}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</panel>
+</div>

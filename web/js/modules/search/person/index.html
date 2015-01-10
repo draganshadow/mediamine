@@ -1,0 +1,16 @@
+<panel heading="{{ 'SEARCH' | translate }} {{ 'PERSONS' | translate }}">
+    <div ng-include="'js/modules/search/widget/search.html'"></div>
+</panel>
+<div ng-switch on="videos.length">
+    <div ng-switch-when="0">
+    </div>
+    <div ng-switch-default>
+        <div class="h100 oScrollY">
+            <div class="col-xs-{{$root.viewSize(2, 2)}} col-sm-{{$root.viewSize(2, 2)}} col-md-2 mbm" ng-repeat="person in persons">
+                <tile image="{{person.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'portrait' : 'hrbox_ffffff'}}" image-height="xl" title="{{person.name}}" index="$index">
+                    <h4 class="space-nowrap overflow-hidden"><a ui-sref="mediamine.videolib.person({id: person.id})">{{person.name}}</a></h4>
+                </tile>
+            </div>
+        </div>
+    </div>
+</div>

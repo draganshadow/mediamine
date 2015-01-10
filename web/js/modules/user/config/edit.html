@@ -1,0 +1,13 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{ 'ADMIN_SETTING_EDIT_TITLE' | translate }}</h3>
+</div>
+<div class="modal-body">
+    <div class="form-group">
+        <label for="value">{{setting.groupKey}}/{{setting.key}}</label>
+        <input type="text" class="form-control" id="value" placeholder="Enter value" ng-model="setting.value">
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">{{ 'ADMIN_SETTING_EDIT_SAVE' | translate }}</button>
+    <button class="btn btn-warning" ng-click="cancel()">{{ 'ADMIN_SETTING_EDIT_CANCEL' | translate }}</button>
+</div>

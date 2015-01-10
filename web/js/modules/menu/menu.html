@@ -1,37 +1,43 @@
 <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
-        <a class="navbar-brand" href="#">MediaMine</a>
+        <a class="navbar-brand" ui-sref="mediamine.home">MediaMine</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse navbar-ex1-collapse">
-        <ul class="nav navbar-nav navbar-right">
-            <li><a></a></li>
-        </ul>
-        <div ng-repeat="item in menuItems">
-            <div ng-if="item.type == 'link'">
-                <ul class="nav navbar-nav {{item.class}}">
-                    <li active-link="active">
-                        <a ng-if="item.sref" ui-sref="{{item.sref}}">{{ item.label | translate }}</a>
-                        <a ng-if="!item.sref" href="{{item.href}}">{{ item.label | translate }}</a>
-                    </li>
-                </ul>
+        <div class="container-fluid">
+        <div ng-repeat="item in menuItems | orderBy:'order'">
+            <div ng-if="!item.condition || item.condition($root)">
+                <div ng-if="item.type == 'link'">
+                    <ul class="nav navbar-nav {{item.class}}">
+                        <li active-link="active">
+                            <a ng-if="item.sref" ui-sref="{{item.sref}}">{{ item.label | translate }}</a>
+                            <a ng-if="!item.sref" href="{{item.href}}">{{ item.label | translate }}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div ng-if="item.type == 'partial'" class="{{item.class}}" ng-include="item.templateUrl"></div>
+                <div ng-if="item.type == 'dropdown'">
+                    <ul class="nav navbar-nav {{item.class}}">
+                        <li class="dropdown">
+                            <a class="dropdown-toggle">
+                                <i ng-if="item.preIcon" ng-class="item.preIcon" title="{{ item.preIconTitle | translate }}"></i>
+                                <span ng-if="item.labelExpr">{{$root.$eval(item.labelExpr)}}</span>
+                                <span ng-if="item.label">{{ item.label | translate }}</span>
+                                <i ng-if="item.icon" ng-class="item.icon"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="subItem in item.subItems">
+                                    <a ng-if="subItem.sref" ui-sref="{{subItem.sref}}">{{ subItem.label | translate }}</a>
+                                    <a ng-if="!subItem.sref" href="{{subItem.href}}">{{ subItem.label | translate }}</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div ng-if="item.type == 'partial'" ng-include="item.templateUrl"></div>
-            <div ng-if="item.type == 'dropdown'">
-                <ul class="nav navbar-nav {{item.class}}">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle"> {{ item.label | translate }} <i class="caret"></i></a>
-                        <ul class="dropdown-menu">
-                            <li ng-repeat="subItem in item.subItems">
-                                <a ng-if="subItem.sref" ui-sref="{{subItem.sref}}">{{ subItem.label | translate }}</a>
-                                <a ng-if="!subItem.sref" href="{{subItem.href}}">{{ subItem.label | translate }}</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
+        </div>
         </div>
     </div><!-- /.navbar-collapse -->
 </nav>

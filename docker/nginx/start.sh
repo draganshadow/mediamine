@@ -9,7 +9,7 @@ docker run --name mediamine-nginx-container -d \
     --link mediamine-rabbitmq-container:rabbitmq \
     --link mediamine-redis-container:redis \
     --link mediamine-elasticsearch-container:elasticsearch \
-    -v /home/draganshadow/MEDIAMINE/WS/master/mediamine/docker/nginx/config:/app/config \
-    -v /home/draganshadow/MEDIAMINE/WS/master/mediamine:/app/src \
+    -v /mediamine/docker/nginx/config:/app/config \
+    -v /mediamine:/app/src \
     -v ~/Vidéos:/app/media/video \
     mediamine/nginx

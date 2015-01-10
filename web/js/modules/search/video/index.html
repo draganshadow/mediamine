@@ -1,0 +1,10 @@
+<panel heading="{{ 'SEARCH' | translate }} {{ 'VIDEOS' | translate }}">
+    <div ng-include="'js/modules/search/widget/search.html'"></div>
+</panel>
+<div ng-switch on="videos.length">
+    <div ng-switch-when="0">
+    </div>
+    <div ng-switch-default>
+        <list-videos videos="videos" details="true"></list-videos>
+    </div>
+</div>

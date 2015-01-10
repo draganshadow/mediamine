@@ -22,8 +22,9 @@ RUN apt-get update && apt-get -y install dialog net-tools lynx nano wget curl ht
 # Install RabbitMQ
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F7B8CEA6056E8E56 && \
     echo "deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list && \
-    apt-get update && \
-    apt-get install -y rabbitmq-server && \
+    apt-get update
+
+RUN apt-get install -y rabbitmq-server && \
     rabbitmq-plugins enable rabbitmq_management
 
 ADD scripts/00_init.sh /etc/my_init.d/00_init.sh

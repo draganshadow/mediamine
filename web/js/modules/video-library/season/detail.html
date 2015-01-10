@@ -1,5 +1,8 @@
 <panel ng-show="season" ng-cloak>
     <panel-heading><h1><a ui-sref="mediamine.videolib.serie({id: season.group.id})">{{season.group.name}}</a> - {{season.name}}</h1></panel-heading>
     <p>{{season.summary}}</p>
+    <p>
+        <a class="btn btn-primary" ng-click="$root.$emit('playlist.addAll', videos);$root.$emit('player.play');"><span class="glyphicon glyphicon-play"></span> {{ 'VIDEO_PLAY' | translate }}</a>
+    </p>
 </panel>
 <list-videos videos="videos"></list-videos>

@@ -1,0 +1,14 @@
+<div class="col-md-12 column">
+<panel ng-cloak>
+    <panel-heading><h1>{{ 'ADMIN_MAINTENANCE_TITLE' | translate }}</h1></panel-heading>
+</panel>
+<panel title="System Actions" ng-cloak>
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button ng-repeat="action in actions" ng-click="execute(action.name)" class="btn btn-default">{{action.name}}</button>
+            </div>
+        </div>
+    </form>
+</panel>
+</div>

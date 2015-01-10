@@ -1,3 +1,4 @@
+<div class="col-md-12 column">
 <panel ng-cloak>
     <panel-heading><h1>{{ 'ADMIN_FILES_TITLE' | translate }}</h1></panel-heading>
     <form class="form-horizontal" role="form">
@@ -11,17 +12,9 @@
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button ng-click="save()" class="btn btn-primary btn-lg">{{ 'ADMIN_FILES_SAVE' | translate }}</button>
-                <button ng-click="execute('scanFiles')" class="btn btn-lg">{{ 'ADMIN_FILES_SCAN' | translate }}</button>
+                <button ng-click="execute('scan')" class="btn btn-lg">{{ 'ADMIN_FILES_SCAN' | translate }}</button>
             </div>
         </div>
     </form>
 </panel>
-<panel title="System Actions" ng-cloak>
-    <form class="form-horizontal" role="form">
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button ng-repeat="action in actions" ng-click="execute(action.name)" class="btn btn-default">{{action.name}}</button>
-            </div>
-        </div>
-    </form>
-</panel>
+</div>

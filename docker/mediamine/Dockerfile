@@ -16,10 +16,12 @@ RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 CMD ["/sbin/my_init"]
 
 # ...put your own build instructions here...
+
 RUN add-apt-repository ppa:webupd8team/java && apt-get update
+RUN apt-get -y install dialog net-tools lynx nano wget curl htop
+
 RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
 RUN apt-get install -y oracle-java8-set-default
-RUN apt-get -y install dialog net-tools lynx nano wget curl htop
 
 # Install ElasticSearch.
 RUN \
@@ -91,19 +93,6 @@ RUN mkdir /etc/service/redis
 ADD scripts/redis.sh /etc/service/redis/run
 RUN chmod +x /etc/service/redis/run
 
-EXPOSE 6379
-
-# For RabbitMQ
-EXPOSE 5672
-
-# For erlang
-EXPOSE 4369
-
-# For RabbitMQ Admin
-EXPOSE 15672
-
-# Expose the PostgreSQL port
-EXPOSE 5432
 
 RUN mkdir /app
 WORKDIR /app
@@ -138,10 +127,6 @@ RUN mkdir /etc/service/task
 ADD scripts/task.sh /etc/service/task/run
 RUN chmod +x /etc/service/task/run
 
-EXPOSE 80 443 8080
-
-# Expose port 27017 from the container to the host
-EXPOSE 27017
 
 # Define mountable directories.
 VOLUME ["/data"]
@@ -157,6 +142,14 @@ RUN chmod +x /etc/service/elasticsearch/run
 # Define working directory.
 WORKDIR /data
 
+
+EXPOSE 6379
+EXPOSE 5672
+EXPOSE 4369
+EXPOSE 15672
+EXPOSE 5432
+EXPOSE 80 443 8080
+EXPOSE 27017
 EXPOSE 9200
 EXPOSE 9300
 

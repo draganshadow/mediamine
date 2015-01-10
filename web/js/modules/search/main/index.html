@@ -1,1 +1,61 @@
-<list-videos videos="videos"></list-videos>
+<panel heading="{{ 'SEARCH' | translate }}">
+    <div ng-include="'js/modules/search/widget/search.html'"></div>
+</panel>
+<div ng-switch on="videos.length">
+    <div ng-switch-when="0">
+    </div>
+    <div ng-switch-default>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ 'VIDEO' | translate }} <a ui-sref="mediamine.searchVideo({'text': text, 'param': 'p'})">{{ 'MORE' | translate }}</a>
+            </div>
+            <div class="panel-body scroll-x">
+                <table><tr>
+                    <td class="valign-top" ng-repeat="video in videos">
+                        <tile-video tile-class="width-xl margin-right-xs" video="video" details="true"></tile-video>
+                    </td>
+                </tr></table>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-switch on="series.length">
+    <div ng-switch-when="0">
+    </div>
+    <div ng-switch-default>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ 'SERIES' | translate }} <a ui-sref="mediamine.searchSeries({'text': text, 'param': 'p'})">{{ 'MORE' | translate }}</a>
+            </div>
+            <div class="panel-body scroll-x">
+                <table><tr>
+                    <td class="valign-top" ng-repeat="serie in series">
+                        <tile tile-class="width-xl margin-right-xs" image="{{serie.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'placeholder': 'hrbox_ffffff'}}" title="{{serie.name}}" index="$index">
+                            <h4 class="space-nowrap overflow-hidden"><a ui-sref="mediamine.videolib.serie({id: serie.id})">{{serie.name}}</a></h4>
+                        </tile>
+                    </td>
+                </tr></table>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-switch on="persons.length">
+    <div ng-switch-when="0">
+    </div>
+    <div ng-switch-default>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ 'PERSONS' | translate }} <a ui-sref="mediamine.searchPerson({'text': text, 'param': 'p'})">{{ 'MORE' | translate }}</a>
+            </div>
+            <div class="panel-body scroll-x">
+                <table><tr>
+                    <td class="valign-top" ng-repeat="person in persons">
+                        <tile tile-class="width-xl margin-right-xs" image="{{person.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'portrait' : 'hrbox_ffffff'}}" image-height="xl" title="{{person.name}}" index="$index">
+                            <h4 class="space-nowrap overflow-hidden"><a ui-sref="mediamine.videolib.person({id: person.id})">{{person.name}}</a></h4>
+                        </tile>
+                    </td>
+                </tr></table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,4 @@
+<ul class="nav navbar-nav navbar-right" ng-controller="RightPanelController">
+    <li ng-if="$root.showRightViews"><a ng-click="hide()" title="{{ 'PLAYLIST_HIDE' | translate }}"><span class="glyphicon glyphicon-chevron-up"></span></a></li>
+    <li ng-if="!$root.showRightViews"><a ng-click="show()" title="{{ 'PLAYLIST_HIDE' | translate }}"><span class="glyphicon glyphicon-chevron-down"></span></a></li>
+</ul>

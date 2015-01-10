@@ -17,5 +17,6 @@
             <label ng-repeat="br in bitrates" class="btn btn-xs btn-default" ng-model="bitrate.value" btn-radio="br">{{br}}</label>
         </div>
         <a ng-click="$root.$emit('playlist.clear')" class="pull-right" title="{{ 'PLAYER_CLEAR_LIST' | translate }}"><span class="glyphicon glyphicon-trash"></span> </a>
+        <a ng-click="killEncoding()" class="pull-right" title="{{ 'STOP_KILL_ENCODING' | translate }}"><span class="glyphicon glyphicon-stop"></span> </a>
     </div>
 </div>
