@@ -19,7 +19,7 @@ class EncodingFinishedCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('stream:end')
+            ->setName('mediamine:stream:end')
             ->setDescription('Ack the end of a file encoding')
             ->addArgument('key', InputArgument::REQUIRED, 'The pathKey')
         ;

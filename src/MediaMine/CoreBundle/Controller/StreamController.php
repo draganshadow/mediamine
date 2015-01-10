@@ -145,7 +145,7 @@ class StreamController extends AbstractController
         $commands = array();
         $commands[] = $this->getBinary() . ' -ss 0 -y -i "%INPUT_FILE%" -async 1 -b:v %VIDEO_BITRATE%k %SIZE% -ar 44100 -ac 2 -b:a %AUDIO_BITRATE%k %FORMAT_OPT% -c:v %VIDEO_CODEC% -c:a %AUDIO_CODEC% -preset superfast -threads 0 %EXTRA% "%OUTPUT_TMP_FILE%" </dev/null >>"%LOG_FILE%" 2>&1';
         $commands[] = 'ln -s "%OUTPUT_TMP_FILE%" "%OUTPUT_FILE%"';
-        $commands[] = 'php ' . $this->rootDir . '/console stream:end %PATH_KEY%';
+        $commands[] = 'php ' . $this->rootDir . '/console mediamine:stream:end %PATH_KEY%';
         $params['%FORMAT_OPT%'] = '-f flv';
         $params['%VIDEO_CODEC%'] = 'libx264';
         $params['%AUDIO_CODEC%'] = 'libmp3lame';
@@ -206,7 +206,7 @@ class StreamController extends AbstractController
         $commands = array();
         $commands[] = $this->getBinary() . ' -y -i "%INPUT_FILE%" -b:v %VIDEO_BITRATE%k %SIZE% -ar 44100 -ac 2 -b:a %AUDIO_BITRATE%k %FORMAT_OPT% -c:v %VIDEO_CODEC% -c:a %AUDIO_CODEC% -preset superfast -threads 0 %EXTRA% "%OUTPUT_TMP_FILE%" </dev/null >>"%LOG_FILE%" 2>&1';
         $commands[] = 'cp "%OUTPUT_TMP_FILE%" "%OUTPUT_FILE%"';
-        $commands[] = 'php ' . $this->rootDir . '/console stream:end %PATH_KEY%';
+        $commands[] = 'php ' . $this->rootDir . '/console mediamine:stream:end %PATH_KEY%';
         $params['%FORMAT_OPT%'] = '-f mp4';
         $params['%VIDEO_CODEC%'] = 'libx264';
         $params['%AUDIO_CODEC%'] = 'aac';
@@ -232,7 +232,7 @@ class StreamController extends AbstractController
         $commands = array();
         $commands[] = $this->getBinary() . ' -y -i "%INPUT_FILE%" -b:v %VIDEO_BITRATE%k %SIZE% %FORMAT_OPT% -c:v %VIDEO_CODEC% -c:a %AUDIO_CODEC% -b:a %AUDIO_BITRATE%k -ar 44100 -ac 2 -threads 0 %EXTRA% "%OUTPUT_TMP_FILE%" </dev/null >>"%LOG_FILE%" 2>&1';
         $commands[] = 'cp "%OUTPUT_TMP_FILE%" "%OUTPUT_FILE%"';
-        $commands[] = 'php ' . $this->rootDir . '/console stream:end %PATH_KEY%';
+        $commands[] = 'php ' . $this->rootDir . '/console mediamine:stream:end %PATH_KEY%';
         $params['%FORMAT_OPT%'] = '-f webm';
         $params['%VIDEO_CODEC%'] = 'libvpx';
         $params['%AUDIO_CODEC%'] = 'libvorbis';
@@ -273,7 +273,7 @@ class StreamController extends AbstractController
             $commands[] = $this->getBinary() . ' -y -i "%INPUT_FILE%" -b:v %VIDEO_BITRATE%k -maxrate %VIDEO_BITRATE%k %SIZE% -ar 44100 -ac 2 -b:a %AUDIO_BITRATE%k -c:v %VIDEO_CODEC% -pix_fmt yuv420p -c:a %AUDIO_CODEC% -preset superfast -threads 0 %EXTRA% < /dev/null >> "%LOG_FILE%" 2>&1';
             $commands[] = 'mv "%OUTPUT_PATH_M3U8%/part.m3u8" "%OUTPUT_FILE%"';
             $commands[] = 'sed -i "s/part/m3u8_%BITRATE%\/part/g" "%OUTPUT_FILE%"';
-            $commands[] = 'php ' . $this->rootDir . '/console stream:end %PATH_KEY%';
+            $commands[] = 'php ' . $this->rootDir . '/console mediamine:stream:end %PATH_KEY%';
 
             $params['%VIDEO_CODEC%'] = 'libx264';
             $params['%AUDIO_CODEC%'] = 'aac';

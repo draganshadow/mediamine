@@ -1,0 +1,2 @@
+
+*/5 * * * * php /app/src/app/console cron:run

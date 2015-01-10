@@ -10,12 +10,12 @@ use MediaMine\CoreBundle\Service\FileService;
 use MediaMine\CoreBundle\Service\InstallService;
 use MediaMine\CoreBundle\Shared\ContainerAware;
 use MediaMine\CoreBundle\Shared\EntitityManagerAware;
-
 /**
  * @Service("mediamine.job.scan")
  * @Tag("monolog.logger", attributes = {"channel" = "ScanJob"})
  */
 class ScanJob extends BaseJob {
+
 
     public function execute(Job $job) {
         $fileIdList = [];
