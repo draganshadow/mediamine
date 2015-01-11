@@ -13,3 +13,5 @@ chmod +x /app/config/pgsql/configure.sh
 exec /app/config/pgsql/configure.sh
 
 cp -f /app/config/rabbitmq/rabbitmq.config /etc/rabbitmq/rabbitmq.config
+
+cp -f /app/config/elasticsearch/elasticsearch.yml /elasticsearch/config/elasticsearch.yml

@@ -1,3 +1,2 @@
 #!/bin/sh
-
-docker buld mediamine/mediamine .
+sudo docker build -t="draganshadow/mediamine" .

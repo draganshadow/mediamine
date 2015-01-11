@@ -15,10 +15,19 @@ RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
 # Use baseimage-docker's init system.
 CMD ["/sbin/my_init"]
 
-# ...put your own build instructions here...
+#######################################################################
+#
+#                       MEDIAMINE INSTALL
+#
+#######################################################################
+
+
+RUN apt-get update && apt-get -y install dialog net-tools lynx nano wget curl htop
+
+
+####################### ELASTIC SEARCH ################################
 
 RUN add-apt-repository ppa:webupd8team/java && apt-get update
-RUN apt-get -y install dialog net-tools lynx nano wget curl htop
 
 RUN echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
 RUN apt-get install -y oracle-java8-set-default
@@ -31,6 +40,15 @@ RUN \
   rm -f elasticsearch-1.3.2.tar.gz && \
   mv /tmp/elasticsearch-1.3.2 /elasticsearch
 
+RUN mkdir /etc/service/elasticsearch
+ADD scripts/elasticsearch.sh /etc/service/elasticsearch/run
+RUN chmod +x /etc/service/elasticsearch/run
+
+EXPOSE 9200
+EXPOSE 9300
+
+############################# MONGO DB ################################
+
 # Import MongoDB public GPG key AND create a MongoDB list file
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
 RUN echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | tee /etc/apt/sources.list.d/10gen.list
@@ -38,12 +56,15 @@ RUN echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen
 # Update apt-get sources AND install MongoDB
 RUN apt-get update && apt-get install -y mongodb-org
 
-# Create the MongoDB data directory
-RUN mkdir -p /data/db
-
 RUN mkdir /etc/service/mongo
 ADD scripts/mongo.sh /etc/service/mongo/run
 RUN chmod +x /etc/service/mongo/run
+
+EXPOSE 27017
+
+
+############################# NGINX ################################
+
 RUN apt-get -y install libav-tools
 RUN apt-get -y install python-software-properties
 RUN add-apt-repository -y ppa:nginx/stable
@@ -56,6 +77,29 @@ RUN echo "extension=mongo.so" >> /etc/php5/cli/conf.d/20-mongo.ini
 RUN echo "extension=mongo.so" >> /etc/php5/fpm/conf.d/20-mongo.ini
 
 RUN apt-get -y install php5-redis
+
+RUN mkdir -p /var/run/php5-fpm/
+
+RUN mkdir /etc/service/fpm
+ADD scripts/fpm.sh /etc/service/fpm/run
+RUN chmod +x /etc/service/fpm/run
+
+RUN mkdir /etc/service/nginx
+ADD scripts/nginx.sh /etc/service/nginx/run
+RUN chmod +x /etc/service/nginx/run
+
+RUN mkdir /etc/service/log_err
+ADD scripts/log_err.sh /etc/service/log_err/run
+RUN chmod +x /etc/service/log_err/run
+
+RUN mkdir /etc/service/log
+ADD scripts/log.sh /etc/service/log/run
+RUN chmod +x /etc/service/log/run
+
+EXPOSE 80 443 8080
+
+
+############################# POSTGRES ################################
 
 # Add the PostgreSQL PGP key to verify their Debian packages.
 # It should be the same key as https://www.postgresql.org/media/keys/ACCC4CF8.asc
@@ -71,11 +115,18 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main" > /etc
 RUN apt-get update && apt-get install -y python-software-properties software-properties-common postgresql-9.3 postgresql-client-9.3
 RUN apt-get update && apt-get install -y postgresql-contrib
 
-USER root
-
 RUN mkdir /etc/service/pgsql
 ADD scripts/pgsql.sh /etc/service/pgsql/run
 RUN chmod +x /etc/service/pgsql/run
+
+# Expose the PostgreSQL port
+EXPOSE 5432
+
+
+############################# RABBITMQ ################################
+
+USER root
+
 # Install RabbitMQ
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F7B8CEA6056E8E56 && \
     echo "deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list && \
@@ -86,6 +137,16 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F7B8CEA6056E8E56 &&
 RUN mkdir /etc/service/rabbitmq
 ADD scripts/rabbitmq.sh /etc/service/rabbitmq/run
 RUN chmod +x /etc/service/rabbitmq/run
+
+# For RabbitMQ
+EXPOSE 5672
+# For erlang
+EXPOSE 4369
+# For RabbitMQ Admin
+EXPOSE 15672
+
+############################# REDIS ####################################
+
 # Install Redis
 RUN apt-get install -y redis-server
 
@@ -93,31 +154,30 @@ RUN mkdir /etc/service/redis
 ADD scripts/redis.sh /etc/service/redis/run
 RUN chmod +x /etc/service/redis/run
 
+EXPOSE 6379
+
+
+############################# MEDIAMINE ################################
+
+# Install git
+RUN apt-get install -y git
 
 RUN mkdir /app
+RUN mkdir /app
 WORKDIR /app
-ADD . /app
 
-RUN mkdir -p /var/run/php5-fpm/
+RUN curl -sS https://getcomposer.org/installer | php
+RUN mv composer.phar /usr/local/bin/composer
+
+RUN git clone  --depth=1 https://github.com/draganshadow/mediamine.git src
+find src -name \.git -type d -exec rm -rf {} \;
+
+WORKDIR /app/src
+
+RUN composer install
 
 ADD scripts/00_init.sh /etc/my_init.d/00_init.sh
 RUN chmod +x /etc/my_init.d/00_init.sh
-
-RUN mkdir /etc/service/log_err
-ADD scripts/log_err.sh /etc/service/log_err/run
-RUN chmod +x /etc/service/log_err/run
-
-RUN mkdir /etc/service/log
-ADD scripts/log.sh /etc/service/log/run
-RUN chmod +x /etc/service/log/run
-
-RUN mkdir /etc/service/fpm
-ADD scripts/fpm.sh /etc/service/fpm/run
-RUN chmod +x /etc/service/fpm/run
-
-RUN mkdir /etc/service/nginx
-ADD scripts/nginx.sh /etc/service/nginx/run
-RUN chmod +x /etc/service/nginx/run
 
 RUN mkdir /etc/service/job
 ADD scripts/job.sh /etc/service/job/run
@@ -128,30 +188,7 @@ ADD scripts/task.sh /etc/service/task/run
 RUN chmod +x /etc/service/task/run
 
 
-# Define mountable directories.
-VOLUME ["/data"]
-
-# Mount elasticsearch.yml config
-ADD config/elasticsearch.yml /elasticsearch/config/elasticsearch.yml
-
-
-RUN mkdir /etc/service/elasticsearch
-ADD scripts/elasticsearch.sh /etc/service/elasticsearch/run
-RUN chmod +x /etc/service/elasticsearch/run
-
-# Define working directory.
-WORKDIR /data
-
-
-EXPOSE 6379
-EXPOSE 5672
-EXPOSE 4369
-EXPOSE 15672
-EXPOSE 5432
-EXPOSE 80 443 8080
-EXPOSE 27017
-EXPOSE 9200
-EXPOSE 9300
-
-# Clean up APT when done.
+#######################################################################
+#                       POST INSTALL CLEANUP
+#######################################################################
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
