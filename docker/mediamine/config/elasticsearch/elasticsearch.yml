@@ -1,5 +1,5 @@
 path:
-  data: /data/data
-  logs: /data/log
-  plugins: /data/plugins
-  work: /data/work
+  data: /app/db/elasticsearch
+  logs: /var/log/elasticsearch
+  plugins: /elasticsearch/plugins
+  work: /elasticsearch/work

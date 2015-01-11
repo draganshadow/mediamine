@@ -9,6 +9,8 @@ exec /app/config/nginx/configure.sh
 
 cp -f /app/config/pgsql/pg_hba.conf /etc/postgresql/9.3/main/pg_hba.conf
 cp -f /app/config/pgsql/postgresql.conf /etc/postgresql/9.3/main/postgresql.conf
+cp -f /app/config/pgsql/pg_hba.conf /etc/postgresql/9.4/main/pg_hba.conf
+cp -f /app/config/pgsql/postgresql.conf /etc/postgresql/9.4/main/postgresql.conf
 chmod +x /app/config/pgsql/configure.sh
 exec /app/config/pgsql/configure.sh
 

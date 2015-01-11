@@ -169,12 +169,13 @@ WORKDIR /app
 RUN curl -sS https://getcomposer.org/installer | php
 RUN mv composer.phar /usr/local/bin/composer
 
-RUN git clone  --depth=1 https://github.com/draganshadow/mediamine.git src
-find src -name \.git -type d -exec rm -rf {} \;
+RUN git clone  --depth=1 --branch master https://github.com/draganshadow/mediamine.git src
 
 WORKDIR /app/src
 
-RUN composer install
+RUN composer install --no-scripts --optimize-autoloader
+
+RUN find src -name \.git -type d -exec rm -rf {} \;
 
 ADD scripts/00_init.sh /etc/my_init.d/00_init.sh
 RUN chmod +x /etc/my_init.d/00_init.sh
