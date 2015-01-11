@@ -21,7 +21,9 @@ CMD ["/sbin/my_init"]
 #
 #######################################################################
 
-
+RUN mkdir /app
+RUN mkdir /app/db
+RUN mkdir /app/config
 RUN apt-get update && apt-get -y install dialog net-tools lynx nano wget curl htop
 
 
@@ -162,8 +164,6 @@ EXPOSE 6379
 # Install git
 RUN apt-get install -y git
 
-RUN mkdir /app
-RUN mkdir /app
 WORKDIR /app
 
 RUN curl -sS https://getcomposer.org/installer | php

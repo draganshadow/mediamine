@@ -7,7 +7,12 @@ parameters:
     database_password: mediamine
 
     mongo_host: mongo
-    mongo_database: ~
+    mongo_database: 127.0.0.1
+
+
+    rabbitmq_host: 127.0.0.1
+    elastic_host: 127.0.0.1
+    redis_host: 127.0.0.1
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1

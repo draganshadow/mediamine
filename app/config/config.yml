@@ -223,7 +223,7 @@ nelmio_api_doc: ~
 fos_elastica:
 #    serializer: ~
     clients:
-        default: { host: elasticsearch, port: 9200 }
+        default: { host: %elastic_host%, port: 9200 }
     indexes:
         search:
             finder: ~
@@ -284,7 +284,7 @@ sonata_user:
 old_sound_rabbit_mq:
     connections:
         default:
-            host:     'rabbitmq'
+            host:     '%rabbitmq_host%'
             port:     5672
             user:     'guest'
             password: 'guest'
@@ -314,4 +314,4 @@ snc_redis:
         default:
             type: phpredis
             alias: default
-            dsn: redis://redis
+            dsn: redis://%redis_host%
