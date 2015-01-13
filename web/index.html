@@ -39,7 +39,7 @@
     var MEDIAMINE_URL_ARG_P = '?' + MEDIAMINE_URL_ARG;
 
 
-    var url = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
+    var MEDIAMINE_URL = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
 
 
     // obtain requirejs config
@@ -51,9 +51,9 @@
         // update global require config
         window.require.config(config);
         window.mediamine = {
-            serverUrl: url,
-            apiUrl: url + '/api',
-            client: url + '/client.json'
+            serverUrl: MEDIAMINE_URL + '/',
+            apiUrl: MEDIAMINE_URL + '/api',
+            client: MEDIAMINE_URL + '/client.json'
         };
         // load app
         require(['./js/main.js']);
