@@ -6,8 +6,8 @@ parameters:
     database_user:     mediamine
     database_password: mediamine
 
-    mongo_host: mongo
-    mongo_database: 127.0.0.1
+    mongo_host: 127.0.0.1
+    mongo_database: ~
 
 
     rabbitmq_host: 127.0.0.1
