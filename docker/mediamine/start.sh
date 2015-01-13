@@ -9,4 +9,7 @@ docker run --name mediamine \
     -v /tmp/mediamine/stream:/app/src/web/stream \
     -v /tmp/mediamine/resized:/app/src/web/images/resized \
     -d -p 80:80 \
-    dragansadow/mediamine
+    dragansadow/mediamine /sbin/my_init -- /app/config/init.sh
+
+docker rm mediamine
+docker start mediamine

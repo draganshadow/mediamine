@@ -9,7 +9,7 @@ docker run --name mediamine-nginx-container -d \
     --link mediamine-rabbitmq-container:rabbitmq \
     --link mediamine-redis-container:redis \
     --link mediamine-elasticsearch-container:elasticsearch \
-    -v /mediamine/docker/nginx/config:/app/config \
-    -v /mediamine:/app/src \
+    -v $MEDIAMINE_HOME_DEV/docker/nginx/config:/app/config \
+    -v $MEDIAMINE_HOME_DEV:/app/src \
     -v ~/Vidéos:/app/media/video \
     mediamine/nginx
