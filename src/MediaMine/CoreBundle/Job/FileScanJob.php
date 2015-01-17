@@ -36,8 +36,9 @@ class FileScanJob extends BaseJob {
                  */
                 $this->fileService->update($file->directory);
             }
+        } else {
+            $this->fileService->scan([]);
         }
-        $this->fileService->scan([]);
         $this->end($job->getId());
     }
 
