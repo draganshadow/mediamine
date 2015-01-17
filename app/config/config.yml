@@ -248,6 +248,9 @@ fos_elastica:
                         provider: ~
                         listener:
                             immediate: ~
+                            insert: true
+                            update: false
+                            delete: true
                         finder: ~
                 Group:
                     mappings:
@@ -302,11 +305,13 @@ old_sound_rabbit_mq:
             connection:       default
             exchange_options: {name: 'task', type: fanout}
             queue_options:    {name: 'task'}
+            qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
             callback:         mediamine.consumer.task
         job:
             connection:       default
             exchange_options: {name: 'job', type: fanout}
             queue_options:    {name: 'job'}
+            qos_options:      {prefetch_size: 0, prefetch_count: 1, global: false}
             callback:         mediamine.consumer.job
 
 snc_redis:

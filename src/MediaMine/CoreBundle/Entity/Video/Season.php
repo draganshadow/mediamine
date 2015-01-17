@@ -29,8 +29,8 @@ class Season extends AbstractEntity
     protected $id;
 
     /**
-     * @Gedmo\Slug(fields={"number", "name"})
-     * @ORM\Column(length=128, unique=true)
+     * @Gedmo\Slug(fields={"number", "name"}, updatable=false, unique=false)
+     * @ORM\Column(length=128)
      */
     private $slug;
 

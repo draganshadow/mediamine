@@ -28,8 +28,8 @@ class Type extends AbstractEntity
     protected $id;
 
     /**
-     * @Gedmo\Slug(fields={"name"})
-     * @ORM\Column(length=128, unique=true)
+     * @Gedmo\Slug(fields={"name"}, updatable=false, unique=false)
+     * @ORM\Column(length=128)
      */
     private $slug;
 
