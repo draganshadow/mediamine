@@ -82,6 +82,9 @@ class ImageController extends AbstractController
             case 'hrbox' :
                 if ($width && $height) {
                     $size = $image->getSize()->widen($width);
+                    if ($size->getHeight() < $height) {
+                        $size = $image->getSize()->heighten($height);
+                    }
                     $image = $image->copy()->resize($size);
                     $origin = ($size->getHeight() - $height) / 2;
                     $box = new \Imagine\Image\Box($width, $height);
@@ -101,6 +104,9 @@ class ImageController extends AbstractController
             case 'vrbox' :
                 if ($width && $height) {
                     $size = $image->getSize()->heighten($height);
+                    if ($size->getWidth() < $width) {
+                        $size = $image->getSize()->widen($width);
+                    }
                     $image = $image->copy()->resize($size);
                     $origin = ($size->getWidth() - $width) / 2;
                     $box = new \Imagine\Image\Box($width, $height);

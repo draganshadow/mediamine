@@ -34,9 +34,11 @@ class VideoController extends FOSRestController
      * }
      * )
      *
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing videos.")
+     * @Annotations\QueryParam(name="page", requirements="\d+", default="1", description="Offset from which to start listing videos.")
      * @Annotations\QueryParam(name="limit", requirements="\d+", default="20", description="How many videos to return.")
-     * @Annotations\QueryParam(name="type", requirements="\d+", default="20", description="videos type to return.")
+     * @Annotations\QueryParam(name="type", requirements="\d+", default="movie", description="videos type to return.")
+     * @Annotations\QueryParam(name="order", requirements="\d+", default="ASC", description="Order of results")
+     * @Annotations\QueryParam(name="orderBy", requirements="\d+", default="name", description="Order field")
      *
      * @Annotations\View()
      *
@@ -76,11 +78,11 @@ class VideoController extends FOSRestController
         if ($page) {
             $options['page'] = $page - 1;
         }
-        $order = $request->get('order', 0);
+        $order = $request->get('order', 'asc');
         if ($order) {
             $options['order'] = $order;
         }
-        $orderBy = $request->get('orderBy', 0);
+        $orderBy = $request->get('orderBy', 'name');
         if ($orderBy) {
             $options['orderBy'] = $orderBy;
         }

@@ -34,8 +34,10 @@ class GroupController extends FOSRestController
      * }
      * )
      *
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing groups.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many groups to return.")
+     * @Annotations\QueryParam(name="page", requirements="\d+", default="1", description="Offset from which to start listing groups.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="20", description="How many groups to return.")
+     * @Annotations\QueryParam(name="order", requirements="\d+", default="ASC", description="Order of results")
+     * @Annotations\QueryParam(name="orderBy", requirements="\d+", default="name", description="Order field")
      *
      * @Annotations\View()
      *
@@ -46,7 +48,23 @@ class GroupController extends FOSRestController
      */
     public function getGroupsAction(Request $request, ParamFetcherInterface $paramFetcher)
     {
-        $options = $paramFetcher->all();
+        $options = [];
+        $page = $request->get('page', 0);
+        if ($page) {
+            $options['page'] = $page - 1;
+        }
+        $limit = $request->get('limit', 20);
+        if ($limit) {
+            $options['limit'] = $limit;
+        }
+        $order = $request->get('order', 'asc');
+        if ($order) {
+            $options['order'] = $order;
+        }
+        $orderBy = $request->get('orderBy', 'name');
+        if ($orderBy) {
+            $options['orderBy'] = $orderBy;
+        }
         $options['hydrate'] = Query::HYDRATE_ARRAY;
         $options['addImages'] = true;
         return $this->getRepository('Video\Group')->findFullBy($options);

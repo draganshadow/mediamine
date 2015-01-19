@@ -34,7 +34,7 @@ class SeasonController extends FOSRestController
      * }
      * )
      *
-     * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing seasons.")
+     * @Annotations\QueryParam(name="group", requirements="\d+", default="1", description="Offset from which to start listing seasons.")
      * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many seasons to return.")
      *
      * @Annotations\View()
@@ -46,10 +46,21 @@ class SeasonController extends FOSRestController
      */
     public function getSeasonsAction(Request $request, ParamFetcherInterface $paramFetcher)
     {
-        $options = $paramFetcher->all();
+        $options = [];
+        $group = $request->get('serie', false);
+        if ($group) {
+            $options['group'] = [$group];
+        }
+        $order = $request->get('order', 'asc');
+        if ($order) {
+            $options['order'] = $order;
+        }
+        $orderBy = $request->get('orderBy', 'name');
+        if ($orderBy) {
+            $options['orderBy'] = $orderBy;
+        }
         $options['hydrate'] = Query::HYDRATE_ARRAY;
         $options['addImages'] = true;
-        $options['addGroup'] = true;
         return $this->getRepository('Video\Season')->findFullBy($options);
     }
 
