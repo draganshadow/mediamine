@@ -15,6 +15,10 @@ doctrine:
               query_cache_driver: apc
               result_cache_driver: apc
 
+doctrine_mongodb:
+    document_managers:
+        default:
+            metadata_cache_driver: apc
 monolog:
     handlers:
         main:

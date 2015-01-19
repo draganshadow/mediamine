@@ -124,9 +124,12 @@ class AbstractMapper
 
     protected function getCreateCountry($countryName)
     {
-        $genre = $this->getRepository('Common\Country')
+        if (!$countryName) {
+            return null;
+        }
+        $country = $this->getRepository('Common\Country')
             ->getCachedOrCreate(['name' => $countryName, 'language' => $countryName], ['name'], self::CACHE_CONTEXT);
-        return $genre;
+        return $country;
     }
 
     protected function getCreateCountries($countryNames)

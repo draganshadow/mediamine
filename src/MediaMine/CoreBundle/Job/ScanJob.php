@@ -59,6 +59,8 @@ class ScanJob extends BaseJob {
         $searchXMLGroupJob = $this->createSubJob($job, 'searchxmlgroup', 'mediamine.job.searchxmlgroup', $subParams, $mergeVideoJob);
         $mergeGroupJob = $this->createSubJob($job, 'mergegroup', 'mediamine.job.mergegroup', $subParams, $searchXMLGroupJob);
         $deduplicatevideoJob = $this->createSubJob($job, 'deduplicatevideo', 'mediamine.job.deduplicatevideo', $subParams, $mergeGroupJob);
+        $deduplicategroupJob = $this->createSubJob($job, 'deduplicategroup', 'mediamine.job.deduplicategroup', $subParams, $deduplicatevideoJob);
+        $deduplicateseasonJob = $this->createSubJob($job, 'deduplicateseason', 'mediamine.job.deduplicateseason', $subParams, $deduplicategroupJob);
     }
 
     public function getServiceName() {

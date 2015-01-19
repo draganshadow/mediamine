@@ -8,9 +8,9 @@ use MediaMine\CoreBundle\Entity\System\Job;
 use MediaMine\CoreBundle\Service\Library\VideoLibraryService;
 
 /**
- * @Service("mediamine.job.deduplicatevideo")
+ * @Service("mediamine.job.deduplicategroup")
  */
-class DeDuplicateVideoJob extends BaseJob
+class DeDuplicateGroupJob extends BaseJob
 {
     /**
      * @Inject("mediamine.service.library.video")
@@ -20,8 +20,8 @@ class DeDuplicateVideoJob extends BaseJob
 
     public function execute(Job $job)
     {
-        $this->logger->debug('mediamine.job.deduplicatevideo');
-        $nbTask = $this->videoLibraryService->removeDuplicatesVideosJob($job);
+        $this->logger->debug('mediamine.job.deduplicategroup');
+        $nbTask = $this->videoLibraryService->removeDuplicatesGroupsJob($job);
         if (!$nbTask) {
             $this->end($job->getId());
         }
@@ -29,6 +29,6 @@ class DeDuplicateVideoJob extends BaseJob
 
     public function getServiceName()
     {
-        return 'mediamine.job.deduplicatevideo';
+        return 'mediamine.job.deduplicategroup';
     }
 }
