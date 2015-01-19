@@ -6,7 +6,7 @@
     </div>
     <div ng-switch-default>
         <div class="h100 oScrollY">
-            <div class="col-xs-{{$root.viewSize(2, 2)}} col-sm-{{$root.viewSize(2, 2)}} col-md-2 mbm" ng-repeat="serie in series | filter:serieFilter">
+            <div class="col-xs-{{$root.viewSize(2, 2)}} col-sm-{{$root.viewSize(2, 2)}} col-md-2 mbm" ng-repeat="serie in series">
                 <tile image="{{serie.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'placeholder': 'hrbox_ffffff'}}" title="{{serie.name}}" index="$index">
                     <h4 class="space-nowrap overflow-hidden"><a ui-sref="mediamine.videolib.serie({id: serie.id})">{{serie.name}}</a></h4>
                 </tile>
