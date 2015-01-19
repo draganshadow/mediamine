@@ -10,6 +10,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Group Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Tunnel\GroupRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="tunnel_group")
  * @property int $id
  * @property string $name

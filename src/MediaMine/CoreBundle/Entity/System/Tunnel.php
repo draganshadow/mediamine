@@ -8,6 +8,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Tunnel Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\System\TunnelRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="system_tunnel")
  * @property int $id
  * @property string $key

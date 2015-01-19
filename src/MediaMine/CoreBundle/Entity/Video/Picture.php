@@ -8,6 +8,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Picture Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Video\PictureRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="video_picture")
  * @property int $id
  * @property string $name

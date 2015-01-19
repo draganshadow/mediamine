@@ -9,6 +9,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Module Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\System\ModuleRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="system_module")
  * @property int $id
  * @property string $key

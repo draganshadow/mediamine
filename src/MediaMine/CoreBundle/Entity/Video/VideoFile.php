@@ -9,6 +9,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * VideoFile Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Video\VideoFileRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="video_video_file",indexes={@ORM\Index(name="video_video_file_video_idx", columns={"video_ref"})})
  * @property int $id
  * @property \MediaMine\CoreBundle\Entity\Video\Video $video

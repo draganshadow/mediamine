@@ -9,6 +9,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Stat Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Video\StatRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="video_stat")
  * @property int $id
  * @property int $nbView

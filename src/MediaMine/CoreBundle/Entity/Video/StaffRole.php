@@ -8,6 +8,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * StaffRole Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Video\StaffRoleRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="video_staff_role")
  * @property int $id
  * @property string $name

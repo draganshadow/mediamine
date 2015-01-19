@@ -9,6 +9,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Review Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Video\ReviewRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="video_review")
  * @property int $id
  * @property string $review

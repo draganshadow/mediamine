@@ -9,6 +9,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Genre Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Video\GenreRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="video_genre")
  * @property int $id
  * @property string $name

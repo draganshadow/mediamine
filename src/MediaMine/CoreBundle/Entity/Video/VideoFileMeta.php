@@ -9,6 +9,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * VideoFileMeta Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Video\VideoFileMetaRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="video_video_file_meta")
  * @property int $id
  * @property \MediaMine\CoreBundle\Entity\File\File $file

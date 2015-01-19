@@ -8,6 +8,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Group Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Common\CountryRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="common_country",indexes={@ORM\Index(name="common_country_name_idx", columns={"name"})})
  * @property int $id
  * @property string $name

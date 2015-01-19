@@ -9,6 +9,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Setting Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\System\SettingRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="system_user_setting",uniqueConstraints={@ORM\UniqueConstraint(name="user_setting_unique_group_key", columns={"groupKey", "key"})})
  * @property int $id
  * @property string $key

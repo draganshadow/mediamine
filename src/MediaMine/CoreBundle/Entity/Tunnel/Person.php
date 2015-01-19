@@ -11,6 +11,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * @package MediaMine\CoreBundle\Entity\Tunnel
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Tunnel\PersonRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="tunnel_person")
  * @ORM\Table(name="tunnel_person",uniqueConstraints={@ORM\UniqueConstraint(name="unique_tunnel_person_ref", columns={"tunnel_ref", "person_ref"})})
  * @property int $id

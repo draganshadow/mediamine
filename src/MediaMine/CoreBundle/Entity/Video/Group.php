@@ -10,6 +10,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Group Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Video\GroupRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="video_group",indexes={@ORM\Index(name="video_group_name_idx", columns={"name"})})
  * @property int $id
  * @property string $name

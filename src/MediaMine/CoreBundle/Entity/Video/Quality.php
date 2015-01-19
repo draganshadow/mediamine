@@ -8,6 +8,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Quality Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Video\QualityRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="video_quality")
  * @property int $id
  * @property string $name

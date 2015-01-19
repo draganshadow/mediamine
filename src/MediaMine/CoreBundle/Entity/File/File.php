@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
  * File Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\File\FileRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="file_file",indexes={@ORM\Index(name="file_file_extension_idx", columns={"extension"}), @ORM\Index(name="file_file_directory_idx", columns={"directory_ref"})})
  * @property int $id
  * @property string $name

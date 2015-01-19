@@ -10,6 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * Video Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Video\VideoRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="video_video",indexes={@ORM\Index(name="video_video_name_idx", columns={"name"})})
  * @property int $id
  * @property string $name

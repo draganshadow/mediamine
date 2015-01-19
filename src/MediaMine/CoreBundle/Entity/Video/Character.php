@@ -9,6 +9,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Character Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Video\CharacterRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="video_character",indexes={@ORM\Index(name="video_character_name_idx", columns={"name"}), @ORM\Index(name="video_character_video_idx", columns={"video_ref"})})
  * @property int $id
  * @property string $name

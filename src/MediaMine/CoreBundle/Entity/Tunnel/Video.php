@@ -10,6 +10,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Video Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Tunnel\VideoRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="tunnel_video",
  *      uniqueConstraints={@ORM\UniqueConstraint(name="unique_tunnel_video_ref", columns={"tunnel_ref", "video_ref"})},
  *      indexes={@ORM\Index(name="tunnel_video_name_idx", columns={"name"}),@ORM\Index(name="tunnel_video_video_idx", columns={"video_ref"})}

@@ -9,6 +9,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Directory Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\File\DirectoryRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="file_directory",indexes={@ORM\Index(name="file_directory_parent_directory_idx", columns={"parent_directory_ref"})})
  * @property int $id
  * @property string $name

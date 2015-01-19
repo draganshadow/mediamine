@@ -10,6 +10,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Season Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Video\SeasonRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="video_season",indexes={@ORM\Index(name="video_season_name_idx", columns={"name"})})
  * @property int $id
  * @property int $number

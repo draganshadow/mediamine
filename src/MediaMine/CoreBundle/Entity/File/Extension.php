@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
  * File Entity.
  *
  * @ORM\Entity
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="file_extension")
  * @property string $name
  * @property string $type

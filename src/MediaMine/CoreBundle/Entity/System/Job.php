@@ -9,6 +9,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Job Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\System\JobRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="system_job")
  */
 class Job extends AbstractEntity

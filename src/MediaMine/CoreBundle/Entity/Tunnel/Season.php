@@ -10,6 +10,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Season Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Tunnel\SeasonRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="tunnel_season")
  * @property int $id
  * @property int $number

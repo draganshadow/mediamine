@@ -9,6 +9,7 @@ use MediaMine\CoreBundle\Entity\AbstractEntity;
  * Staff Entity.
  *
  * @ORM\Entity(repositoryClass="MediaMine\CoreBundle\Repository\Video\StaffRepository")
+ * @ORM\ChangeTrackingPolicy("DEFERRED_EXPLICIT")
  * @ORM\Table(name="video_staff",indexes={@ORM\Index(name="video_staff_video_idx", columns={"video_ref"})})
  * @property int $id
  * @property \MediaMine\CoreBundle\Entity\Video\Video $video
