@@ -59,7 +59,7 @@ class VideoLibraryService extends AbstractService
             $params = [
                 'hydrate' => Query::HYDRATE_ARRAY
             ];
-            $iterableResult = $this->getRepository('Video\Group')->findFullBy($params, 2, false);
+            $iterableResult = $this->getRepository('Video\Season')->findFullBy($params, 2, false);
             foreach ($iterableResult as $row) {
                 $season = $row[0];
                 $this->taskService->createTask($job, 'mediamine.service.library.video', 'removeDuplicatesSeasonsTask', ['id' => $season['id']]);
