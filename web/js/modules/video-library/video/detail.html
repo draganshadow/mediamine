@@ -26,17 +26,17 @@
                     </a>
 
                     <div ng-if="video.files[0]" class="btn-group" dropdown>
-                        <a class="btn btn-default" type="button" href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/300-' + video.files[0].file.pathKey + '.mp4'}}" download><span class="glyphicon glyphicon-download"></span> {{ 'VIDEO_DOWNLOAD' | translate }}</a>
+                        <a class="btn btn-default" type="button" href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/300-' + video.files[0].file.pathKey + '.mp4?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}" target="_blank"><span class="glyphicon glyphicon-download"></span> {{ 'VIDEO_DOWNLOAD' | translate }}</a>
                         <button type="button" class="btn btn-default dropdown-toggle">
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/150-' + video.files[0].file.pathKey + '.mp4'}}" download>mp4 (150)</a></li>
-                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/300-' + video.files[0].file.pathKey + '.mp4'}}" download>mp4 (300)</a></li>
-                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/600-' + video.files[0].file.pathKey + '.mp4'}}" download>mp4 (600)</a></li>
-                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/150-' + video.files[0].file.pathKey + '.flv'}}" download>flv (150)</a></li>
-                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/300-' + video.files[0].file.pathKey + '.flv'}}" download>flv (300)</a></li>
-                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/600-' + video.files[0].file.pathKey + '.flv'}}" download>flv (600)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/150-' + video.files[0].file.pathKey + '.mp4?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}" target="_blank">mp4 (150)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/300-' + video.files[0].file.pathKey + '.mp4?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}" target="_blank">mp4 (300)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/600-' + video.files[0].file.pathKey + '.mp4?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}" target="_blank">mp4 (600)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/150-' + video.files[0].file.pathKey + '.flv?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}" target="_blank">flv (150)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/300-' + video.files[0].file.pathKey + '.flv?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}" target="_blank">flv (300)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/600-' + video.files[0].file.pathKey + '.flv?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}" target="_blank">flv (600)</a></li>
                         </ul>
                     </div>
                     <button type="button" class="btn btn-default" ng-click="scan()">{{ 'RESCAN_ITEM' | translate }}</button>

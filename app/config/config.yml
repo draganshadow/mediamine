@@ -165,6 +165,9 @@ fos_oauth_server:
         user_provider: fos_user.user_manager
         options:
             supported_scopes: read
+            access_token_lifetime: 3600
+            refresh_token_lifetime: 1209600
+            auth_code_lifetime: 30
 
 sonata_admin:
     title: MediaMine Admin

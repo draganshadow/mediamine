@@ -25,6 +25,10 @@ media_mine_core:
         playlist:
           last: [0]
         player:
+          desktop_bitrate: 300
+          desktop_format: hls
+          mobile_bitrate: 150
+          mobile_format: flv
           last_video: [0]
           last_time: [0]
       settings:
