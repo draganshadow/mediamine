@@ -1,14 +1,18 @@
 <div class="col-md-12 column">
 <panel ng-cloak>
     <panel-heading><h1>{{ 'ADMIN_LIBRARY_TITLE' | translate }}</h1></panel-heading>
-    <tabset>
-        <tab heading="{{ 'ADMIN_MAINTENANCE_FILTER_' + filter | translate }}" ng-repeat="filter in filters" ng-click="execute(action)"></tab>
-    </tabset>
     <div class="row">
         <div class="col-md-offset-3 col-md-6 column">
             <canvas id="pie" class="chart chart-pie" data="data" labels="labels" legend="true"></canvas>
         </div>
     </div>
+    <tabset>
+        <tab heading="{{ 'ADMIN_MAINTENANCE_FILTER_' + filter | translate }}" ng-repeat="filter in filters" ng-click="execute(action)"></tab>
+    </tabset>
+    <p class="pull-right">
+        <button type="button" class="btn btn-primary btn-xs margin-top-xs" ng-click="prev()" ng-disabled="!allowPrev">{{ 'PREV' | translate }}</button>
+        <button type="button" class="btn btn-primary btn-xs margin-top-xs" ng-click="next()" ng-disabled="!allowNext">{{ 'NEXT' | translate }}</button>
+    </p>
     <table class="table table-striped">
         <thead>
             <tr>
