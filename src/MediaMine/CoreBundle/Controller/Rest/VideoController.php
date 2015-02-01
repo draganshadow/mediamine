@@ -86,6 +86,14 @@ class VideoController extends FOSRestController
         if ($orderBy) {
             $options['orderBy'] = $orderBy;
         }
+        $full = $request->get('full');
+        if ($full) {
+            $options['addDirectory'] = true;
+        }
+        $count = $request->get('count');
+        if ($count) {
+            $options['count'] = $count;
+        }
         $options['hydrate'] = Query::HYDRATE_ARRAY;
         $options['addFile'] = true;
         $options['addImages'] = true;

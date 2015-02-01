@@ -265,6 +265,11 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
         if (!$qb) {
             $qb = $this->createBaseQueryBuilder();
         }
+        $count = false;
+        if (array_key_exists('count', $options)) {
+            $count = true;
+            $qb->select('COUNT(' . $this->getAlias() . '.id' . ')');
+        }
         foreach ($options as $k => $o) {
             if (!array_key_exists($k, $params)) {
                 if ($this->_class->hasField($k)) {
@@ -297,27 +302,31 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
                     $f = lcfirst(substr($k, 3));
                     $joinAlias = 'J' . strtoupper($f);
                     $qb->leftJoin($this->getField($f), $joinAlias);
-                    $qb->addSelect($joinAlias);
+                    if (!$count) {
+                        $qb->addSelect($joinAlias);
+                    }
                 }
             }
         }
 
-        if (array_key_exists('limit', $options)) {
-            $page = array_key_exists('page', $options) ? $options['page'] : 0;
-            $qb->setFirstResult($page * $options['limit'])->setMaxResults($options['limit']);
-        }
-
-        $order = 'ASC';
-        if (array_key_exists('order', $options)) {
-            if ($options['order'] == 'DESC') {
-                $order = $options['order'];
+        if (!$count) {
+            if (array_key_exists('limit', $options)) {
+                $page = array_key_exists('page', $options) ? $options['page'] : 0;
+                $qb->setFirstResult($page * $options['limit'])->setMaxResults($options['limit']);
             }
+
+            $order = 'ASC';
+            if (array_key_exists('order', $options)) {
+                if ($options['order'] == 'DESC') {
+                    $order = $options['order'];
+                }
+            }
+            $orderBy = 'id';
+            if (array_key_exists('orderBy', $options)) {
+                $orderBy = $options['orderBy'];
+            }
+            $qb->orderBy($this->getField($orderBy), $order);
         }
-        $orderBy = 'id';
-        if (array_key_exists('orderBy', $options)) {
-            $orderBy = $options['orderBy'];
-        }
-        $qb->orderBy($this->getField($orderBy), $order);
         $hydrate = array_key_exists('hydrate', $options) ? $options['hydrate'] : Query::HYDRATE_OBJECT;
         $qb->setParameters($params);
         $q = $qb->getQuery();
@@ -336,16 +345,20 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
         if ($mode === false) {
             $mode = self::QUERY_MULTIPLE_RESULT;
         }
-        switch ($mode) {
-            case self::QUERY_MULTIPLE_RESULT :
-                $result = $q->getResult($hydrate);
-                break;
-            case self::QUERY_SINGLE_RESULT :
-                $result = $q->getSingleResult($hydrate);
-                break;
-            case self::QUERY_ITERABLE_RESULT :
-                $result = $q->iterate($params, $hydrate);
-                break;
+        if ($count) {
+            $result = $q->getSingleScalarResult($hydrate);
+        } else {
+            switch ($mode) {
+                case self::QUERY_MULTIPLE_RESULT :
+                    $result = $q->getResult($hydrate);
+                    break;
+                case self::QUERY_SINGLE_RESULT :
+                    $result = $q->getSingleResult($hydrate);
+                    break;
+                case self::QUERY_ITERABLE_RESULT :
+                    $result = $q->iterate($params, $hydrate);
+                    break;
+            }
         }
         return $result;
     }

@@ -1,14 +1,21 @@
 <div class="col-md-12 column">
-<panel ng-cloak>
-    <panel-heading><h1>{{ 'ADMIN_MAINTENANCE_TITLE' | translate }}</h1></panel-heading>
-</panel>
-<panel title="System Actions" ng-cloak>
-    <form class="form-horizontal" role="form">
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button ng-repeat="action in actions" ng-click="execute(action.name)" class="btn btn-default">{{action.name}}</button>
-            </div>
-        </div>
-    </form>
-</panel>
+    <panel ng-cloak>
+        <panel-heading><h1>{{ 'ADMIN_MAINTENANCE_TITLE' | translate }}</h1></panel-heading>
+        <panel title="System Actions" ng-cloak>
+            <panel-heading><h4>{{ 'ADMIN_ACTIONS' | translate }}</h4></panel-heading>
+            <span ng-repeat="action in actions"><button ng-click="execute(action.name)" class="btn btn-default">{{action.name}}</button> </span>
+        </panel>
+        <panel ng-cloak>
+            <panel-heading><h4>{{ 'ADMIN_LOGS' | translate }}</h4></panel-heading>
+            <table class="table table-striped">
+                <thead>
+                </thead>
+                <tbody>
+                <tr ng-repeat="log in logs track by $index">
+                    <td>{{log}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </panel>
+    </panel>
 </div>

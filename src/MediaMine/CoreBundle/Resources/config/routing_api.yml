@@ -1,6 +1,9 @@
 media_mine_rest_action:
     type:     rest
     resource: MediaMine\CoreBundle\Controller\Rest\ActionController
+media_mine_rest_maintenance:
+    type:     rest
+    resource: MediaMine\CoreBundle\Controller\Rest\MaintenanceController
 media_mine_rest_directory:
     type:     rest
     resource: MediaMine\CoreBundle\Controller\Rest\DirectoryController
