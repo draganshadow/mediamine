@@ -31,12 +31,14 @@
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/150-' + video.files[0].file.pathKey + '.mp4?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}" target="_blank">mp4 (150)</a></li>
-                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/300-' + video.files[0].file.pathKey + '.mp4?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}" target="_blank">mp4 (300)</a></li>
-                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/600-' + video.files[0].file.pathKey + '.mp4?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}" target="_blank">mp4 (600)</a></li>
-                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/150-' + video.files[0].file.pathKey + '.flv?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}" target="_blank">flv (150)</a></li>
-                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/300-' + video.files[0].file.pathKey + '.flv?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}" target="_blank">flv (300)</a></li>
-                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/600-' + video.files[0].file.pathKey + '.flv?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}" target="_blank">flv (600)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'file/' + video.files[0].file.pathKey + '?access_token=' + $root.oauth_token.access_token}}" download="{{video.files[0].file.name}}.{{video.files[0].file.extension}}" target="_blank">original</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'zip/' + video.files[0].file.directory.id + '.zip?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}.zip" target="_blank">zip</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/150-' + video.files[0].file.pathKey + '.mp4?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}.mp4" target="_blank">mp4 (150)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/300-' + video.files[0].file.pathKey + '.mp4?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}.mp4" target="_blank">mp4 (300)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/600-' + video.files[0].file.pathKey + '.mp4?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}.mp4" target="_blank">mp4 (600)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/150-' + video.files[0].file.pathKey + '.flv?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}.flv" target="_blank">flv (150)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/300-' + video.files[0].file.pathKey + '.flv?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}.flv" target="_blank">flv (300)</a></li>
+                            <li><a href="{{$root.config.serverUrl + 'stream/' + video.files[0].file.pathKey + '/600-' + video.files[0].file.pathKey + '.flv?access_token=' + $root.oauth_token.access_token}}" download="{{video.name}}.flv" target="_blank">flv (600)</a></li>
                         </ul>
                     </div>
                     <button type="button" class="btn btn-default" ng-click="scan()">{{ 'RESCAN_ITEM' | translate }}</button>

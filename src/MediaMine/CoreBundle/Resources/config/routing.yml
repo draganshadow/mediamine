@@ -83,3 +83,17 @@ media_mine_stream_default:
       width: 0
       height: 0
       format: flv
+
+media_mine_download_default:
+    path:     /file/{pathKey}
+    requirements:
+      pathKey: "[a-zA-Z0-9]+"
+    defaults:
+      _controller: MediaMineCoreBundle:Download:index
+
+media_mine_download_zip:
+    path:     /zip/{id}.zip
+    requirements:
+      id: "[a-zA-Z0-9]+"
+    defaults:
+      _controller: MediaMineCoreBundle:Download:zip

@@ -7,6 +7,7 @@ use JMS\DiExtraBundle\Annotation\Inject;
 use MediaMine\CoreBundle\Shared\EntitityManagerAware;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class StreamController extends AbstractController
@@ -138,7 +139,7 @@ class StreamController extends AbstractController
 
     protected function encodeFlv($params)
     {
-        $response = new Response();
+        $response = new StreamedResponse();
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', $this->mimeTypes[self::FORMAT_FLV]);
         $response->headers->set('Content-Transfer-Encoding', 'binary');
@@ -158,7 +159,10 @@ class StreamController extends AbstractController
         }
         flush();
         sleep(5);
-        $this->readOnTheFly($params['%OUTPUT_TMP_FILE%']);
+        $self = $this;
+        $response->setCallback(function () use ($self, $params) {
+            $self->readOnTheFly($params['%OUTPUT_TMP_FILE%']);
+        });
         return $response;
     }
 
@@ -198,7 +202,7 @@ class StreamController extends AbstractController
 
     protected function encodeMp4($params)
     {
-        $response = new Response();
+        $response = new StreamedResponse();
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', $this->mimeTypes[self::FORMAT_MP4]);
         $response->headers->set('Content-Transfer-Encoding', 'binary');
@@ -219,13 +223,16 @@ class StreamController extends AbstractController
         }
         flush();
         sleep(5);
-        $this->readOnTheFly($params['%OUTPUT_TMP_FILE%']);
+        $self = $this;
+        $response->setCallback(function () use ($self, $params) {
+            $self->readOnTheFly($params['%OUTPUT_TMP_FILE%']);
+        });
         return $response;
     }
 
     protected function encodeWebm($params)
     {
-        $response = new Response();
+        $response = new StreamedResponse();
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', $this->mimeTypes[self::FORMAT_WEBM]);
         $response->headers->set('Content-Transfer-Encoding', 'binary');
@@ -245,8 +252,10 @@ class StreamController extends AbstractController
         }
         flush();
         sleep(5);
-        $this->readOnTheFly($params['%OUTPUT_TMP_FILE%']);
-        die;
+        $self = $this;
+        $response->setCallback(function () use ($self, $params) {
+            $self->readOnTheFly($params['%OUTPUT_TMP_FILE%']);
+        });
         return $response;
     }
 

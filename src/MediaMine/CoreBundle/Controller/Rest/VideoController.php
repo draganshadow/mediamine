@@ -130,6 +130,7 @@ class VideoController extends FOSRestController
         $options['addGroup'] = true;
         $options['addGenres'] = true;
         $options['addStaffs'] = true;
+        $options['addDirectory'] = true;
         return $this->getRepository('Video\Video')->findFullBy($options, true);
     }
 

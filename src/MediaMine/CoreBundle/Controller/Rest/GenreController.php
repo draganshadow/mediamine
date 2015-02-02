@@ -35,7 +35,7 @@ class GenreController extends FOSRestController
      * )
      *
      * @Annotations\QueryParam(name="offset", requirements="\d+", nullable=true, description="Offset from which to start listing genres.")
-     * @Annotations\QueryParam(name="limit", requirements="\d+", default="5", description="How many genres to return.")
+     * @Annotations\QueryParam(name="limit", requirements="\d+", default="20", description="How many genres to return.")
      *
      * @Annotations\View()
      *
