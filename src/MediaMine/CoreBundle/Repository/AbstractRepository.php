@@ -261,6 +261,19 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
         return $this->createQueryBuilder($this->getAlias());
     }
 
+    public function enumerateValues($field = 'id', $hydrate = Query::HYDRATE_ARRAY) {
+        $qb = $this->createBaseQueryBuilder();
+        $qb->select($this->getField($field));
+        $qb->where($this->getField($field) . ' IS NOT NULL');
+        $qb->groupBy($this->getField($field));
+        $qb->orderBy($this->getField($field), 'ASC');
+        $q = $qb->getQuery();
+        $result = $q->getResult($hydrate);
+        return array_filter($result, function ($v) {
+            return count($v) > 0;
+        });
+    }
+
     public function findFullBy($options = array(), $mode = false, $queryOnly = false, $qb = false, $params = array()) {
         if (!$qb) {
             $qb = $this->createBaseQueryBuilder();

@@ -7,6 +7,7 @@ use Doctrine\ORM\Query;
 
 class VideoRepository extends AbstractRepository
 {
+
     public function findFullBy($options = array(), $singleResult = false, $queryOnly = false, $qb = false, $params = array()) {
         if (!$qb) {
             $qb = $this->createBaseQueryBuilder();

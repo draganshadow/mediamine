@@ -8,6 +8,8 @@
         <div class="clearfix"><a class="pull-right" ng-click="resetGenre()">{{ 'RESET' | translate }}</a></div>
     </accordion-group>
     <accordion-group heading="{{ 'FILTER_YEAR' | translate }}">
+        <span ng-repeat="year in years"><span class="btn btn-primary btn-sm margin-bottom-xxs" ng-click="selectYear(year)">{{year.year}}</span>{{$last ? '' : ' '}}</span>
+        <div class="clearfix"><a class="pull-right" ng-click="resetYear()">{{ 'RESET' | translate }}</a></div>
     </accordion-group>
     <accordion-group heading="{{ 'FILTER_RATING' | translate }}">
     </accordion-group>

@@ -62,6 +62,10 @@ class VideoController extends FOSRestController
         if ($season) {
             $options['season'] = [$season];
         }
+        $year = $request->get('year', false);
+        if ($year) {
+            $options['year'] = [$year];
+        }
         $group = $request->get('group', false);
         if ($group) {
             $options['group'] = [$group];
@@ -98,6 +102,35 @@ class VideoController extends FOSRestController
         $options['addFile'] = true;
         $options['addImages'] = true;
         return $this->getRepository('Video\Video')->findFullBy($options);
+    }
+
+
+    /**
+     * enumerate video field values
+     *
+     * @ApiDoc(
+     * output = "Acme\DemoBundle\Model\Video",
+     * statusCodes = {
+     * 200 = "Returned when successful",
+     * 404 = "Returned when the video is not found"
+     * }
+     * )
+     *
+     * @Annotations\QueryParam(name="field", requirements="\d+", default="year", description="Field to enumerate")
+     *
+     * @Annotations\View(templateVar="video")
+     *
+     * @Annotations\Get("/videos/enumerate")
+     * @param Request $request the request object
+     * @param int $id the video id
+     *
+     * @return array
+     *
+     * @throws NotFoundHttpException when video not exist
+     */
+    public function enumerateAction(Request $request) {
+        $field = $request->get('field');
+        return $this->getRepository('Video\Video')->enumerateValues($field);
     }
 
     /**
