@@ -1,5 +1,5 @@
 <div class="{{tileClass}}" ng-drag="allowDrag" ng-drag-data="video" ng-drag-resize="4">
-    <tile image="{{video.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'video': 'hrbox_ffffff'}}" title="{{video.name}}" index="$index">
+    <tile image="{{video.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'video': 'hrbox_ffffff'}}" title="{{video.name}}" index="$index" image-link="{{imageLink}}">
         <div class="btn-group btn-group-xs tile-control" ng-prevent-drag>
             <a class="btn btn-xs btn-primary" ng-click="$root.$emit('playlist.play', video)"><span class="glyphicon glyphicon-play"></span></a>
             <a class="btn btn-xs btn-primary" ng-click="$root.$emit('playlist.add', video)"><span class="glyphicon glyphicon-plus"></span></a>

@@ -63,6 +63,7 @@ class GroupMapper extends AbstractMapper
          */
         $name = $group->name;
         $this->loadCountries();
+        $this->loadGenres();
 
         $settings = $this->getSettingService()->getSetting('tunnel', 'group');
 
@@ -116,9 +117,12 @@ class GroupMapper extends AbstractMapper
             'summary'      => array_key_exists('summary', $data) ? $data['summary'] : null,
             'images'       => $images,
             'type'         => array_key_exists('type', $data) ? $data['type'] : null,
-            'genres'       => array_key_exists('genres', $data) ? $this->getCreateGenres($data['genres']) : null,
         );
 
+        $genres = array_key_exists('genres', $data) ? $this->getCreateGenres($data['genres']) : [];
+        foreach ($genres as $genre) {
+            $group->addGenreUnique($genre);
+        }
         $personNames = array_unique(
             array_filter(array_merge(
                 array_key_exists('directors', $data['staffs']) ? $data['staffs']['directors'] : [],
@@ -154,6 +158,7 @@ class GroupMapper extends AbstractMapper
          */
         $name = $group->name;
         $this->loadCountries();
+        $this->loadGenres();
 
         $settings = $this->getSettingService()->getSetting('tunnel', 'group');
 
@@ -202,7 +207,7 @@ class GroupMapper extends AbstractMapper
 
         $genres = array_key_exists('genres', $data) ? $this->getCreateGenres($data['genres']) : [];
         foreach ($genres as $genre) {
-            $video->addGenre($genre);
+            $video->addGenreUnique($genre);
         }
 
         $personNames = array_unique(

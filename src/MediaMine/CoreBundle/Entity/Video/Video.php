@@ -128,8 +128,8 @@ class Video extends AbstractEntity
     /**
      * @ORM\ManyToMany(targetEntity="MediaMine\CoreBundle\Entity\Video\Genre")
      * @ORM\JoinTable(name="video_video_genre",
-     *      joinColumns={@ORM\JoinColumn(name="video_ref", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="genre_ref", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="video_ref", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="genre_ref", referencedColumnName="id", onDelete="CASCADE")}
      *      )
      */
     protected $genres;

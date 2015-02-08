@@ -1,4 +1,15 @@
 <accordion close-others="{{false}}">
+    <accordion-group heading="{{ 'RESULT' | translate }} ({{ pagination.count }})">
+        <pagination total-items="pagination.count"
+                    items-per-page="pagination.limit"
+                    ng-model="pagination.page"
+                    max-size="pagination.maxSize"
+                    class="pagination-sm"
+                    direction-links="false"
+                    boundary-links="true"
+                    rotate="false"
+                    previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+    </accordion-group>
     <accordion-group heading="{{ 'FILTER_TYPE' | translate }}">
         <span ng-repeat="type in types track by $index"><span class="btn btn-primary btn-sm margin-bottom-xxs" ng-click="selectType(type)">{{type.name}}</span>{{$last ? '' : ' '}}</span>
         <div class="clearfix"><a class="pull-right" ng-click="resetType()">{{ 'RESET' | translate }}</a></div>
@@ -8,8 +19,14 @@
         <div class="clearfix"><a class="pull-right" ng-click="resetGenre()">{{ 'RESET' | translate }}</a></div>
     </accordion-group>
     <accordion-group heading="{{ 'FILTER_YEAR' | translate }}">
-        <span ng-repeat="year in years"><span class="btn btn-primary btn-sm margin-bottom-xxs" ng-click="selectYear(year)">{{year.year}}</span>{{$last ? '' : ' '}}</span>
-        <div class="clearfix"><a class="pull-right" ng-click="resetYear()">{{ 'RESET' | translate }}</a></div>
+        <p>
+            <span>{{sliderYear[0]}}</span><span class="pull-right">{{sliderYear[1]}}</span>
+        </p>
+        <slider ng-model="sliderYear" tooltip="hide" range="slider.range" min="slider.min" step="slider.step" max="slider.max" value="slider.value"></slider>
+        <div class="clearfix pull-right">
+            <a class="btn btn-primary btn-xs" ng-click="filterYear(sliderYear)">{{ 'OK' | translate }}</a>
+            <a ng-click="resetYear()">{{ 'RESET' | translate }}</a>
+        </div>
     </accordion-group>
     <accordion-group heading="{{ 'FILTER_RATING' | translate }}">
     </accordion-group>

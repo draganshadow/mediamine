@@ -155,6 +155,7 @@ abstract class AbstractRepository extends \Doctrine\ORM\EntityRepository
         }
         $disValues = $this->getDiscriminatorValue($discriminator, $values);
         $key = $this->getCacheKey($disValues, $context);
+
         $cachedVal = $this->redis->get($key);
 
         /**

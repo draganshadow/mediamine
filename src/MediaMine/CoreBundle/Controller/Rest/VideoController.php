@@ -66,6 +66,14 @@ class VideoController extends FOSRestController
         if ($year) {
             $options['year'] = [$year];
         }
+        $minYear = $request->get('minYear', false);
+        if ($minYear) {
+            $options['minYear'] = [$minYear];
+        }
+        $maxYear = $request->get('maxYear', false);
+        if ($maxYear) {
+            $options['maxYear'] = [$maxYear];
+        }
         $group = $request->get('group', false);
         if ($group) {
             $options['group'] = [$group];

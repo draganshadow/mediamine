@@ -69,6 +69,8 @@ media_mine_core:
           service: mediamine.job.deduplicateseason
         deduplicategroup:
           service: mediamine.job.deduplicategroup
+        deduplicategenre:
+          service: mediamine.job.deduplicategenre
         scan:
           service: mediamine.job.scan
       filetypes:

@@ -28,7 +28,7 @@ class Genre extends AbstractEntity
      * @Gedmo\Slug(fields={"name"}, updatable=false, unique=false)
      * @ORM\Column(length=128)
      */
-    private $slug;
+    protected $slug;
 
 
     /**

@@ -54,6 +54,10 @@ security:
             anonymous: true
             context: test_connect
 
+        api_doc:
+            pattern:    ^/api/doc
+            security: false
+
         api_preinstall:
             pattern:    ^/api/actions
             security: false
@@ -83,6 +87,7 @@ security:
             anonymous:          true
 
     access_control:
+            - { path: ^/api/doc, roles: [ IS_AUTHENTICATED_ANONYMOUSLY ] }
             - { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ] }
 
             # URL of FOSUserBundle which need to be available to anonymous users

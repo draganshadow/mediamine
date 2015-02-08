@@ -5,6 +5,7 @@ use Doctrine\ORM\Query;
 use JMS\DiExtraBundle\Annotation\Inject;
 use JMS\DiExtraBundle\Annotation\Service;
 use MediaMine\CoreBundle\Entity\System\Job;
+use MediaMine\CoreBundle\Entity\Video\Genre;
 use MediaMine\CoreBundle\Entity\Video\Group;
 use MediaMine\CoreBundle\Entity\Video\Season;
 use MediaMine\CoreBundle\Entity\Video\Video;
@@ -40,6 +41,30 @@ class VideoLibraryService extends AbstractService
             foreach ($iterableResult as $row) {
                 $video = $row[0];
                 $this->taskService->createTask($job, 'mediamine.service.library.video', 'removeDuplicatesVideosTask', ['id' => $video['id']]);
+                $nbTasks++;
+            }
+        }
+        return $nbTasks;
+    }
+
+    public function removeDuplicatesGenresJob(Job $job)
+    {
+
+        $params = $job->getParams();
+        $nbTasks = 0;
+        if (array_key_exists('genres', $params)) {
+            foreach ($params['genres'] as $seasonId) {
+                $this->taskService->createTask($job, 'mediamine.service.library.video', 'removeDuplicatesGenresTask', ['id' => $seasonId]);
+                $nbTasks++;
+            }
+        } else {
+            $params = [
+                'hydrate' => Query::HYDRATE_ARRAY
+            ];
+            $iterableResult = $this->getRepository('Video\Genre')->findFullBy($params, 2, false);
+            foreach ($iterableResult as $row) {
+                $genre = $row[0];
+                $this->taskService->createTask($job, 'mediamine.service.library.video', 'removeDuplicatesGenresTask', ['id' => $genre['id']]);
                 $nbTasks++;
             }
         }
@@ -136,6 +161,52 @@ class VideoLibraryService extends AbstractService
             }
         }
         $this->getRepository('Video\Video')->flush();
+    }
+
+    public function removeDuplicatesGenresTask($param)
+    {
+        $id = $param['id'];
+        /**
+         * @var $genre Genre
+         */
+        $genre = $this->getRepository('Video\Genre')->findFullBy([
+            'id'        => $id
+        ], true);
+
+        /**
+         * @var $similarGenres Genre[]
+         */
+        $similarGenres = $this->getRepository('Video\Genre')->findFullBy([
+            'slug' => $genre->slug
+        ]);
+
+        foreach ($similarGenres as $sg) {
+            if ($sg->id != $genre->id) {
+                /**
+                 * @var $videos Video[]
+                 */
+                $videos = $this->getRepository('Video\Video')->findFullBy([
+                    'genres' => [$sg->id]
+                ]);
+                foreach ($videos as $v) {
+                    $v->addGenreUnique($genre);
+                    $this->getEntityManager()->persist($v);
+                }
+                /**
+                 * @var $groups Group[]
+                 */
+                $groups = $this->getRepository('Video\Group')->findFullBy([
+                    'genres' => [$sg->id]
+                ]);
+                foreach ($groups as $g) {
+                    $g->addGenreUnique($genre);
+                    $this->getEntityManager()->persist($g);
+                }
+                $this->getEntityManager()->persist($genre);
+                $this->getRepository('Video\Genre')->remove($sg);
+            }
+        }
+        $this->getRepository('Video\Genre')->flush();
     }
 
     public function removeDuplicatesSeasonsTask($param)

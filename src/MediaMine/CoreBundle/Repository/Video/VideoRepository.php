@@ -19,6 +19,19 @@ class VideoRepository extends AbstractRepository
             $params['file'] = $options['file'];
             unset($options['file']);
         }
+
+        if (array_key_exists('minYear', $options)) {
+            $qb->andWhere($this->getField('year') . ' >= :minYear');
+            $params['minYear'] = $options['minYear'];
+            unset($options['minYear']);
+        }
+
+        if (array_key_exists('maxYear', $options)) {
+            $qb->andWhere($this->getField('year') . ' <= :maxYear');
+            $params['maxYear'] = $options['maxYear'];
+            unset($options['maxYear']);
+        }
+
         if (array_key_exists('genres', $options)) {
             $qb->innerJoin('Video.genres', 'Genre', 'WITH', 'Genre.id IN (:genres)');
             $params['genres'] = $options['genres'];

@@ -65,6 +65,10 @@ class GroupController extends FOSRestController
         if ($orderBy) {
             $options['orderBy'] = $orderBy;
         }
+        $count = $request->get('count');
+        if ($count) {
+            $options['count'] = $count;
+        }
         $options['hydrate'] = Query::HYDRATE_ARRAY;
         $options['addImages'] = true;
         return $this->getRepository('Video\Group')->findFullBy($options);

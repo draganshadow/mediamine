@@ -1,6 +1,13 @@
 <div class="{{tileClass}} thumbnail fade">
     <div class="height-{{imageHeight}} overflow-hidden text-center">
-        <img class="width-100" ng-src="{{image}}" alt="{{video.name}}">
+        <span ng-if="withLink">
+            <a ui-sref="{{imageLink}}">
+                <img class="width-100" ng-src="{{image}}" alt="{{title}}">
+            </a>
+        </span>
+        <span ng-if="!withLink">
+            <img class="width-100" ng-src="{{image}}" alt="{{title}}">
+        </span>
     </div>
     <div class="caption" ng-transclude>
     </div>

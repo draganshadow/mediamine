@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="col-md-{{$root.viewSize(12, -2)}} main-frame">
-            <div class="col-md-12 frame-content" when-scrolled="$root.$emit('main.frame.scroll')">
+            <div id="main-frame" class="col-md-12 frame-content" when-scrolled="$root.$emit('main.frame.scroll')">
                 <div ui-view></div>
             </div>
         </div>
@@ -40,6 +40,8 @@
 
 
     var MEDIAMINE_URL = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
+//    MEDIAMINE_URL = 'http://localhost:8080';
+
 
     // obtain requirejs config
     require(['require', './js/config-require.js' + MEDIAMINE_URL_ARG_P], function (require, config) {

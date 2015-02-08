@@ -29,6 +29,8 @@ class DownloadController extends AbstractController
 
     public function indexAction(Request $request, $pathKey)
     {
+        ini_set('memory_limit', '2000M');
+        set_time_limit(0);
         $response = new StreamedResponse();
         $response->setStatusCode(200);
         if (!$pathKey) {
@@ -61,6 +63,8 @@ class DownloadController extends AbstractController
 
     public function zipAction(Request $request, $id)
     {
+        ini_set('memory_limit', '2000M');
+        set_time_limit(0);
         $response = new StreamedResponse();
         $response->setStatusCode(200);
         if (!$id) {

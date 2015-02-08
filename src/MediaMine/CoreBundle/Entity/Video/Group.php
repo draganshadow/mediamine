@@ -68,8 +68,8 @@ class Group extends AbstractEntity
     /**
      * @ORM\ManyToMany(targetEntity="MediaMine\CoreBundle\Entity\Video\Genre", fetch="EAGER")
      * @ORM\JoinTable(name="video_group_genre",
-     *      joinColumns={@ORM\JoinColumn(name="group_ref", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="genre_ref", referencedColumnName="id")}
+     *      joinColumns={@ORM\JoinColumn(name="group_ref", referencedColumnName="id", onDelete="CASCADE")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="genre_ref", referencedColumnName="id", onDelete="CASCADE")}
      *      )
      */
     protected $genres;
@@ -316,12 +316,35 @@ class Group extends AbstractEntity
         return $this->images;
     }
 
+
     /**
      * Add genre
      *
      * @param \MediaMine\CoreBundle\Entity\Video\Genre $genre
      *
-     * @return Group
+     * @return Video
+     */
+    public function addGenreUnique($genre)
+    {
+        $found = false;
+        foreach ($this->genres as $g) {
+            if ($g->id == $genre->id) {
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) {
+            $this->genres[] = $genre;
+        }
+        return $this;
+    }
+
+    /**
+     * Add genre
+     *
+     * @param \MediaMine\CoreBundle\Entity\Video\Genre $genre
+     *
+     * @return Video
      */
     public function addGenre(\MediaMine\CoreBundle\Entity\Video\Genre $genre)
     {
