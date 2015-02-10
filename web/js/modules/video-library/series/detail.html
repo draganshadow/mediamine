@@ -6,7 +6,7 @@
     </p>
 </panel>
 <div class="col-sm-4 col-md-2" ng-repeat="season in seasons">
-    <tile image="{{season.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'placeholder': 'hrbox_ffffff'}}" title="{{season.name}}" index="$index">
+    <tile image="{{season.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'placeholder': 'hrbox_ffffff'}}" title="{{season.name}}" index="$index" image-link="mediamine.videolib.season({id: {{season.id}}})">
         <h4 class="space-nowrap overflow-hidden"><a ui-sref="mediamine.videolib.season({id: season.id})">{{season.name}}</a></h4>
     </tile>
 </div>

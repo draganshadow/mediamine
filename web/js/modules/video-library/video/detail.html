@@ -61,7 +61,7 @@
         <div class="panel-body scroll-x">
             <table><tr>
                 <td class="valign-top" ng-repeat="staff in video.staffs | filter:{role:'actor'}">
-                    <tile tile-class="width-xl margin-right-xs" image="{{person.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'portrait' : 'hrbox_ffffff'}}" image-height="xl" title="{{staff.person.name}}" index="$index">
+                    <tile tile-class="width-xl margin-right-xs" image="{{person.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'portrait' : 'hrbox_ffffff'}}" image-height="xl" title="{{staff.person.name}}" index="$index" image-link="mediamine.videolib.person({id: {{staff.person.id}}})">
                         <h4 class="space-nowrap overflow-hidden"><a ui-sref="mediamine.videolib.person({id: staff.person.id})">{{staff.person.name}}</a></h4>
                         <h5 class="space-nowrap overflow-hidden">{{staff.character.name || '-'}}</h5>
                     </tile>

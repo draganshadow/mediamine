@@ -1,5 +1,5 @@
 <div class="col-xs-{{$root.viewSize(2, 2)}} col-sm-{{$root.viewSize(2, 2)}} col-md-2 mbm" ng-repeat="serie in series">
-    <tile image="{{serie.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'placeholder': 'hrbox_ffffff'}}" title="{{serie.name}}" index="$index">
+    <tile image="{{serie.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'placeholder': 'hrbox_ffffff'}}" title="{{serie.name}}" index="$index" image-link="mediamine.videolib.serie({id: {{serie.id}}})">
         <h4 class="space-nowrap overflow-hidden"><a ui-sref="mediamine.videolib.serie({id: serie.id})">{{serie.name}}</a></h4>
     </tile>
 </div>

@@ -34,11 +34,10 @@
 <script src="vendor/requirejs/require.js"></script>
 <script>
     var MEDIAMINE_ENV = 'prod';
-    var MEDIAMINE_VERSION = '0.4.2' + (('dev' === MEDIAMINE_ENV) ? '.' + (new Date()).getTime() : '');
+    var MEDIAMINE_VERSION = '0.4.4' + (('dev' === MEDIAMINE_ENV) ? '.' + (new Date()).getTime() : '');
     var MEDIAMINE_URL_ARG = 'bust=v' + MEDIAMINE_VERSION;
     var MEDIAMINE_URL_ARG_P = '?' + MEDIAMINE_URL_ARG;
-
-
+    
     var MEDIAMINE_URL = location.protocol+'//'+location.hostname+(location.port ? ':'+location.port: '');
 
     // obtain requirejs config

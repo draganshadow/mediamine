@@ -1,13 +1,13 @@
-<div class="{{tileClass}}" ng-drag="allowDrag" ng-drag-data="video" ng-drag-resize="4">
+<div class="{{tileClass}}">
     <tile image="{{video.images[0].pathKey | imagePath : 300 : 400 : 'jpg' : 'hrbox' : 'video': 'hrbox_ffffff'}}" title="{{video.name}}" index="$index" image-link="{{imageLink}}">
-        <div class="btn-group btn-group-xs tile-control" ng-prevent-drag>
+        <div class="btn-group btn-group-xs tile-control">
             <a class="btn btn-xs btn-primary" ng-click="$root.$emit('playlist.play', video)"><span class="glyphicon glyphicon-play"></span></a>
             <a class="btn btn-xs btn-primary" ng-click="$root.$emit('playlist.add', video)"><span class="glyphicon glyphicon-plus"></span></a>
         </div>
-        <h6 class="space-nowrap overflow-hidden" ng-prevent-drag>
+        <h6 class="space-nowrap overflow-hidden">
             <span ng-if="details"><span ng-if="video.group"><a ui-sref="mediamine.videolib.serie({id: video.group.id})">{{video.group.name}}</a></span></span>
         </h6>
-        <h4 class="space-nowrap overflow-hidden" ng-prevent-drag>
+        <h4 class="space-nowrap overflow-hidden">
             <span ng-if="video.season"><a ui-sref="mediamine.videolib.season({id: video.season.id})">S{{video.season.number}}</a> - </span>
             <span ng-if="video.episode">{{video.episode}} - </span>
             <a ui-sref="mediamine.videolib.video({id: video.id})">{{video.name}}</a>
