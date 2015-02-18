@@ -46,7 +46,12 @@ class DirectoryController extends FOSRestController
      */
     public function getDirectoriesAction(Request $request, ParamFetcherInterface $paramFetcher)
     {
-        $options = $paramFetcher->all();
+        $options = [];
+        $orderBy = $request->get('orderBy', 'name');
+        if ($orderBy) {
+            $options['orderBy'] = $orderBy;
+        }
+        $options['parentDirectory'] = $request->get('parent', null);
         $options['hydrate'] = Query::HYDRATE_ARRAY;
         return $this->getRepository('File\Directory')->findFullBy($options);
     }
@@ -75,6 +80,7 @@ class DirectoryController extends FOSRestController
     {
         $options['id'] = $id;
         $options['hydrate'] = Query::HYDRATE_ARRAY;
+        $options['addParentDirectory'] = true;
         return $this->getRepository('File\Directory')->findFullBy($options, true);
     }
 

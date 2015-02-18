@@ -62,6 +62,10 @@ class VideoController extends FOSRestController
         if ($season) {
             $options['season'] = [$season];
         }
+        $file = $request->get('file', false);
+        if ($file) {
+            $options['file'] = $file;
+        }
         $year = $request->get('year', false);
         if ($year) {
             $options['year'] = [$year];

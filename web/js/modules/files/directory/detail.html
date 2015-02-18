@@ -1,0 +1,29 @@
+<div class="col-md-{{$root.viewSize(8, 2)}} col-md-offset-{{$root.viewSize(2, -2, 0)}} column">
+<panel ng-show="directory" ng-cloak>
+    <panel-heading><h1>{{directory.path}}</h1></panel-heading>
+    <div class="row clearfix">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            </tr>
+            </thead>
+            <tbody>
+            <tr><td><a ui-sref="mediamine.files.directory({id: directory.parentDirectory.id})">..</a></td></tr>
+            <tr ng-repeat="d in directories">
+                <td><a ui-sref="mediamine.files.directory({id: d.id})">{{d.name}}</a></td>
+            </tr>
+            <tr ng-repeat="f in files">
+                <td ng-if="f.type != 'video'">
+                    {{f.name}}
+                </td>
+                <td ng-if="f.type == 'video'">
+                    {{f.name}}
+                    <a ng-click="clickVideo(f.id)"><span class="glyphicon glyphicon-film"></span></a>
+                    <a ng-click="clickVideoPlay(f.id)"><span class="glyphicon glyphicon-play"></span></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</panel>
+</div>

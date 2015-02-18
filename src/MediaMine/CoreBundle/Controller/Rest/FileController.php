@@ -25,6 +25,11 @@ class FileController extends FOSRestController
     use LoggerAware;
 
     /**
+     * @Inject("%mediamine%")
+     */
+    public $config;
+
+    /**
      * List all directories.
      *
      * @ApiDoc(
@@ -46,9 +51,21 @@ class FileController extends FOSRestController
      */
     public function getFilesAction(Request $request, ParamFetcherInterface $paramFetcher)
     {
-        $options = $paramFetcher->all();
+        $options['directory'] = $request->get('directory', null);
+        $orderBy = $request->get('orderBy', 'name');
+        if ($orderBy) {
+            $options['orderBy'] = $orderBy;
+        }
         $options['hydrate'] = Query::HYDRATE_ARRAY;
-        return $this->getRepository('File\File')->findFullBy($options);
+        $results = $this->getRepository('File\File')->findFullBy($options);
+        foreach ($results as &$r) {
+            foreach ($this->config['filetypes'] as $t => $extensions) {
+                if (in_array($r['extension'], $extensions)) {
+                    $r['type'] = $t;
+                }
+            }
+        }
+        return $results;
     }
 
     /**

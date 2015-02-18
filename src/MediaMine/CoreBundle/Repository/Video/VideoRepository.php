@@ -13,7 +13,7 @@ class VideoRepository extends AbstractRepository
             $qb = $this->createBaseQueryBuilder();
         }
 
-        if (array_key_exists('file', $options)) {
+        if (array_key_exists('file', $options) && !array_key_exists('addFile', $options)) {
             $qb->innerJoin('Video.files', 'VideoFile');
             $qb->innerJoin('VideoFile.file', 'File', 'WITH', 'File.id = :file');
             $params['file'] = $options['file'];
@@ -41,6 +41,11 @@ class VideoRepository extends AbstractRepository
             if (!array_key_exists('file', $options)) {
                 $qb->leftJoin('Video.files', 'VideoFile');
                 $qb->leftJoin('VideoFile.file', 'File');
+            } else {
+                $qb->innerJoin('Video.files', 'VideoFile');
+                $qb->innerJoin('VideoFile.file', 'File', 'WITH', 'File.id = :file');
+                $params['file'] = $options['file'];
+                unset($options['file']);
             }
             $qb->addSelect('VideoFile');
             $qb->addSelect('File');
